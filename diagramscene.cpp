@@ -109,10 +109,6 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
     if(this->sceneMode == this->DrawObject){
-
-        itemToDraw->prepareGeometryChange();
-        qDebug() << itemToDraw->boundingRect().height();
-        qDebug() << itemToDraw->boundingRect().width();
         if(itemToDraw->boundingRect().height() <= 50){
             double heightDiff = 50 - itemToDraw->boundingRect().height();
             itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft() - QPointF(0, heightDiff), itemToDraw->boundingRect().bottomRight());
@@ -120,11 +116,9 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         if(itemToDraw->boundingRect().width() <= 100){
             double widthDiff = 100 - itemToDraw->boundingRect().width();
             itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft() - QPointF(widthDiff, 0), itemToDraw->boundingRect().bottomRight());
+
         }
-        itemToDraw->update();
         this->update();
-
-
         this->setMode(this->NoMode);
         // To avoid a dangling pointer:
         itemToDraw = nullptr;
@@ -144,11 +138,7 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     //adding a new diagram item
     if(this->sceneMode == this->DrawObject){
 
-
         itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
-        //itemToDraw->setPos(QPointF(event->pos().x(), event->pos().y()));
-        itemToDraw->prepareGeometryChange();
-        itemToDraw->update();
         this->update();
 
     }

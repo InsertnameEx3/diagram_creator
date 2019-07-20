@@ -18,6 +18,8 @@ Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType
 //        case eightHandles:
 //        {
 
+
+
 //            this->append(new Handle(QPointF(
 //                                    p->boundingRect().topLeft()),
 //                                    QPointF(
@@ -62,7 +64,7 @@ Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType
 
 
 
-
+    changed = false;
 
 }
 Handles::~Handles(){
