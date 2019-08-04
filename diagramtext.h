@@ -6,6 +6,8 @@
 class DiagramText : public QTextItem
 {
 public:
+    //text for each element and line
+
     DiagramText();
 };
 

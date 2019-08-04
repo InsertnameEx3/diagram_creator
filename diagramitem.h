@@ -14,6 +14,8 @@ public:
     void mouseDoublePressEvent();
     QRectF boundingRect() const;
     QRectF boundingRect(QPointF topLeft, QPointF bottomRight) const;
+    void PrepareGeometryChange();
+
 
     // overriding paint()
     void paint(QPainter * painter,

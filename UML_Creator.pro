@@ -54,7 +54,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    1.png \
     images/1.png \
     images/10.png \
     images/2.png \
@@ -66,5 +65,4 @@ DISTFILES += \
     images/8.png \
     images/9.png
 
-RESOURCES += \
-    application.qrc
+RESOURCES +=

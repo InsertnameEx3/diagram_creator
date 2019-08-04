@@ -2,6 +2,8 @@
 #include <QPen>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+
+
 DiagramItem::DiagramItem()
 {
 
@@ -9,9 +11,12 @@ DiagramItem::DiagramItem()
 DiagramItem::~DiagramItem(){
 
 }
+QRectF DiagramItem::boundingRect() const{
 
-QRectF DiagramItem::boundingRect(QPointF topLeft, QPointF bottomRight) const{
+}
 
+QRectF DiagramItem::boundingRect(QPointF topLeft, QPointF bottomRight) const
+{
     return QRectF(topLeft, bottomRight);
 }
 
@@ -22,17 +27,17 @@ void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * opt
     QPointF br(0,0);
     QRectF rect = boundingRect(tl,br);
     if(Pressed)
-        {
-            QPen pen(Qt::red, 3);
-            painter->setPen(pen);
-            painter->drawEllipse(rect);
-        }
-        else
-        {
-            QPen pen(Qt::black, 3);
-            painter->setPen(pen);
-            painter->drawRect(rect);
-        }
+    {
+        QPen pen(Qt::red, 3);
+        painter->setPen(pen);
+        painter->drawEllipse(rect);
+    }
+    else
+    {
+        QPen pen(Qt::black, 3);
+        painter->setPen(pen);
+        painter->drawRect(rect);
+    }
 }
 
 
@@ -44,7 +49,7 @@ void DiagramItem::mouseDoublePressEvent(){
 void DiagramItem::mousePressEvent(QGraphicsSceneMouseEvent* event){
     Pressed = true;
     //check if it touches any of the resize points if so, change mode to resize, else select
-    if()
+    //if()
     event->pos().x();
     event->pos().y();
 
@@ -57,4 +62,7 @@ void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 }
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     Pressed = false;
+}
+void DiagramItem::PrepareGeometryChange(){
+    this->prepareGeometryChange();
 }

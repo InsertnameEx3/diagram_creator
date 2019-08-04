@@ -14,7 +14,7 @@ public:
     DiagramView();
 
 private:
-    //DiagramScene* scene;
+
 
 public slots:
     void resize();

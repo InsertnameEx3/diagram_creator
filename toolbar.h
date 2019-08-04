@@ -10,8 +10,8 @@ class Toolbar : public QWidget, public QVBoxLayout
 {
 public:
     enum SelectedItem{ Table, OneToMany, OneToOne, ManyToMany};
-    void CreateItems();
-    void CreateActions();
+    void CreateCategories();
+    void CreateTools();
     Toolbar();
 private:
     QSplitter* splitter = new QSplitter;

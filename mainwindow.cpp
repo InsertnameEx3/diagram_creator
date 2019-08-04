@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
 
         //this->setStyleSheet("background-image:url(:/1.png)");
-        view->show();
+        //view->show();
         //Toolbar* toolbar = new Toolbar();
         //Properties* properties = new Properties();
 
@@ -43,8 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         //actionGroup->addAction(selectAction);
         //QToolBar* drawingToolBar = new QToolBar;
 
-        drawingToolBar->addAction(lineAction);
-        drawingToolBar->addAction(selectAction);
+
+
 
         QHBoxLayout* layout = new QHBoxLayout;
         layout->setContentsMargins(0,0,0,0);
@@ -53,15 +53,16 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
         QSplitter *splitter = new QSplitter(parent);
 
-        layout->addWidget(splitter);
+        layout->addWidget(view);
+        //layout->addWidget(splitter);
         //splitter->addWidget(drawingToolBar);
         //splitter->addWidget(toolbar);
-        splitter->addWidget(view);
+        //splitter->addWidget(view);
         //splitter->addWidget(properties);
         //splitter->setCursor(QCursor(Qt::SizeHorCursor));
 
         //layout->addItem(toolbar);
-        layout->addWidget(view);
+        //layout->addWidget(view);
         //layout->addItem(properties);
         //
         widget->setLayout(layout);
