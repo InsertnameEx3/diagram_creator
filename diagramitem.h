@@ -24,6 +24,7 @@ public:
 
     // item state
     bool Pressed;
+    bool Overlappable;
 
 protected: //overriden methods
     void mousePressEvent(QGraphicsSceneMouseEvent* event);  //Select or see options (left or right mouse)

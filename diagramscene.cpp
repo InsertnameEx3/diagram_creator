@@ -10,6 +10,9 @@
 #include <QPointF>
 #include <QPolygonF>
 #include <QVector>
+
+#include <QDebug>
+
 DiagramScene::DiagramScene(QObject* parent)
 {
     auto bpoint1 = QPointF(150 , 150);
@@ -50,8 +53,11 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     if(!itemToDraw){
         itemToDraw = new DiagramItem();
         //itemToDraw->setPen(QPen(Qt::black, 3, Qt::SolidLine));
+
+
         itemToDraw->setPos(origPoint);
         itemToDraw->PrepareGeometryChange();
+
     }
 
     if(sceneMode == DrawObject){
@@ -60,17 +66,26 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
         double tlX {origPoint.x()};
         double tlY{origPoint.y()};
 
+        // This is for certain shapes that can
         //if current scene position is more left on the screen than the original point
-        if(origPoint.x() > event->scenePos().x()){
-            double swap = brX;
-            brX = tlX;
-            tlX = swap;
-        }
-        if(origPoint.y() > event->scenePos().y()){
-            double swap = brY;
-            brY = tlY;
-            tlY = swap;
-        }
+//        itemToDraw->Overlappable = false;
+
+//        if(itemToDraw->Overlappable){
+//            if(origPoint.x() > event->scenePos().x()){
+//                double swap = brX;
+//                brX = tlX;
+//                tlX = swap;
+//            }
+//            if(origPoint.y() > event->scenePos().y()){
+//                double swap = brY;
+//                brY = tlY;
+//                tlY = swap;
+//            }
+//        } else {
+            // No overlap
+            brX = (brX <= tlX + 20)? tlX + 20 : brX;
+            brY = (brY <= tlY + 20)? tlY + 20 : brY;
+//        }
 
         if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier) == true){
             double samePoint = event->scenePos().x() > event->scenePos().y()? event->scenePos().x() : event->scenePos().y();

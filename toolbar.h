@@ -6,7 +6,8 @@
 #include <QVector>
 #include "diagramitem.h"
 #include <QSplitter>
-class Toolbar : public QWidget, public QVBoxLayout
+#include <QTreeView>
+class Toolbar : public QTreeView
 {
 public:
     enum SelectedItem{ Table, OneToMany, OneToOne, ManyToMany};

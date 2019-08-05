@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QContextMenuEvent>
 #include <QLabel>
+#include <QToolBar>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
@@ -10,6 +11,8 @@
 #include <QSplitter>
 #include <QPushButton>
 #include <diagramscene.h>
+#include <QComboBox>
+
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -34,7 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
         //this->setStyleSheet("background-image:url(:/1.png)");
         //view->show();
-        //Toolbar* toolbar = new Toolbar();
+
+
+
         //Properties* properties = new Properties();
 
         //QAction* lineAction = new QAction;
@@ -43,8 +48,19 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         //actionGroup->addAction(selectAction);
         //QToolBar* drawingToolBar = new QToolBar;
 
+        Toolbar* toolbar = new Toolbar();
+        toolbar->setOrientation(Qt::Vertical);
+        QAction *action = new QAction("bla", this);
+        QAction *action2 = new QAction("blab", this);
+        QAction *action3 = new QAction("blaasdasd", this);
+        toolbar->addAction(action);
+        toolbar->addAction(action2);
+        toolbar->addAction(action3);
 
-
+        QComboBox *iconComboBox = new QComboBox;
+        iconComboBox->addItem(QIcon(":/images/bad.svg"), tr("Bad"));
+        iconComboBox->addItem(QIcon(":/images/heart.svg"), tr("Heart"));
+        iconComboBox->addItem(QIcon(":/images/trash.svg"), tr("Trash"));
 
         QHBoxLayout* layout = new QHBoxLayout;
         layout->setContentsMargins(0,0,0,0);
@@ -54,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         QSplitter *splitter = new QSplitter(parent);
 
         layout->addWidget(view);
+        layout->addWidget(iconComboBox);
+
         //layout->addWidget(splitter);
         //splitter->addWidget(drawingToolBar);
         //splitter->addWidget(toolbar);
