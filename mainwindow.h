@@ -27,12 +27,13 @@ public:
     enum Key{Ctrl, Shift, Alt};
     void actionGroupClicked(QAction*);
     explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
     Toolbar* toolbar;
 private:
     void createActions();
     void createMenus();
     Ui::MainWindow *ui;
-    QGridLayout* layout = new QGridLayout;
+    QHBoxLayout* layout;
     //The widget for showing the diagram scene
     DiagramView *view;
     //
@@ -52,6 +53,8 @@ private:
     QAction* selectAction;
     QActionGroup *actionGroup;
     QToolBar* drawingToolBar;
+    QSplitter *splitter;
+    QWidget* widget;
 
 private slots:
     void newFile();

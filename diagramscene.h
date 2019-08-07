@@ -15,6 +15,7 @@ class DiagramScene : public QGraphicsScene
 public:
     enum Mode {NoMode, SelectObject, DrawObject, MoveObject, ResizeObject};
     DiagramScene(QObject* parent = nullptr);
+    ~DiagramScene();
 
     void setMode(Mode mode);
     Mode sceneMode;
@@ -28,7 +29,7 @@ protected:
     void getScene();
 
 private:
-
+    QVector<DiagramItem*> items;
     QPointF origPoint;
     DiagramItem* itemToDraw;
     static void makeItemsControllable(bool areControllable);

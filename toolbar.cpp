@@ -14,30 +14,12 @@ Toolbar::Toolbar()
 {
 
 
-    QList<QStandardItem *>  items,items2;
 
-        auto model_drzewa= new QStandardItemModel;
-
-
-        QStandardItem *z1 = new QStandardItem(  "Shapes" );
-        QStandardItem *z1_1 = new QStandardItem(  "Rectangle" );
-        QStandardItem *z1_2 = new QStandardItem(  "Ellipse" );
-        QStandardItem *z1_3 = new QStandardItem(  "Line" );
-        QStandardItem *z1_4 = new QStandardItem(  "Polygon" );
-
-        model_drzewa->invisibleRootItem()->appendRow(z1);
-        z1->appendRow(z1_1);
-        z1->appendRow(z1_2);
-        z1->appendRow(z1_3);
-        z1->appendRow(z1_4);
-
-        model_drzewa->setHeaderData(0, Qt::Horizontal, "");
-        this->setModel(model_drzewa);
+    //items = QVector<QStandardItem*>({shapes, rectangle, ellipse, line});
 
 
-        this->expandAll();
-
-
+        this->CreateCategories();
+        //this->CreateTools();
 
         QFile styleSheet("/home/marten/projects/diagram-creator/toolbar.qss");
         if(!styleSheet.open(QFile::ReadOnly))
@@ -48,7 +30,8 @@ Toolbar::Toolbar()
         this->setStyleSheet(StyleSheet);
 
 }
-
+Toolbar::~Toolbar(){
+}
 
 /* (Tree) For example:
  *
@@ -58,10 +41,29 @@ Toolbar::Toolbar()
  *  One to many
  *  One to one
  *  Many to many
+ * Shapes:
+ *  Ellipse
+ *  Rectangle
 */
 void Toolbar::CreateCategories(){
 
+    QStandardItemModel* model_drzewa = new QStandardItemModel;
 
+
+    QStandardItem* shapes = new QStandardItem("Shapes");
+    QStandardItem* rectangle = new QStandardItem("Rectangle");
+    QStandardItem* ellipse = new QStandardItem("Ellipse");
+    QStandardItem* line = new QStandardItem("Line");
+
+    model_drzewa->appendRow(shapes);
+    shapes->appendRow(rectangle);
+    shapes->appendRow(ellipse);
+    shapes->appendRow(line);
+
+
+    model_drzewa->setHeaderData(0, Qt::Horizontal, "asd");
+    this->setModel(model_drzewa);
+    //this->expandAll();
 
 }
 void Toolbar::CreateTools(){
@@ -72,9 +74,6 @@ void Toolbar::CreateTools(){
 
 
 void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &previous){
-
-    //DiagramScene::setMode(DiagramScene::DrawObject);
-    //change selection
 
     diagramScene->setMode(diagramScene->DrawObject);
     switch(current.row()){

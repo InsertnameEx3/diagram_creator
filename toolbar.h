@@ -8,10 +8,12 @@
 #include <QSplitter>
 #include <QTreeView>
 #include "diagramview.h"
+#include <QStandardItem>
 class Toolbar : public QTreeView
 {
 public:
     Toolbar();
+    ~Toolbar();
 
     enum SelectedItem{Rectangle, Ellipse, Line, Polygon};
     void CreateCategories();
@@ -23,9 +25,9 @@ public:
     void setDiagramScene(DiagramScene* scene);
 
 private:
+    QVector<QStandardItem*> items;
     DiagramScene* diagramScene;
     QSplitter* splitter = new QSplitter;
-    //QVector<DiagramItem> items;
 };
 
 #endif // TOOLBAR_H

@@ -10,7 +10,6 @@ QTreeView::branch {
     color: #fff;
 }
 QHeaderView {
-        display: none;
 }
 
 QTreeView::item:selected{
@@ -30,7 +29,6 @@ QTreeView::branch:closed:has-children:has-siblings {
         border-image: none;
 
 }
-
 QTreeView::branch:open:has-children:!has-siblings,
 QTreeView::branch:open:has-children:has-siblings  {
         border-image: none;

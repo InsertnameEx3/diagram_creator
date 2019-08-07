@@ -34,6 +34,13 @@ DiagramScene::DiagramScene(QObject* parent)
 
 }
 
+DiagramScene::~DiagramScene(){
+    //delete[] items;
+    //delete origPoint;
+    //delete itemToDraw;
+}
+
+
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if(sceneMode == DrawObject)
         origPoint = event->scenePos();
@@ -41,21 +48,20 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+
     if(this->sceneMode == this->DrawObject){
         this->setMode(this->NoMode);
-        QGraphicsRectItem* rectangle = this->addRect((QRectF(origPoint.x(),origPoint.y(), event->scenePos().x() - origPoint.x(), event->scenePos().y() - origPoint.y())));
-        //rectangle->setFlag(QGraphicsItem::ItemIsMovable);
     }
-
     QGraphicsScene::mouseReleaseEvent(event);
-
-
+    items.append(itemToDraw);
+    // To avoid a dangling pointer:
+    itemToDraw = nullptr;
 }
 
 void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
     this->clear();
-
+    //itemToDraw->PrepareGeometryChange();
     if(!itemToDraw){
         itemToDraw = new DiagramItem();
         //itemToDraw->setPen(QPen(Qt::black, 3, Qt::SolidLine));
@@ -72,29 +78,13 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
         double tlX {origPoint.x()};
         double tlY{origPoint.y()};
 
-        // This is for certain shapes that can
-        //if current scene position is more left on the screen than the original point
-        //itemToDraw->Overlappable = false;
 
-        //if(itemToDraw->Overlappable){
-            if(origPoint.x() > event->scenePos().x()){
-                double swap = brX;
-                brX = tlX;
-                tlX = swap;
-            }
-            if(origPoint.y() > event->scenePos().y()){
-                double swap = brY;
-                brY = tlY;
-                tlY = swap;
-            }
-        //} else {
-            // No overlap
-            //brX = (brX <= tlX + 20)? tlX + 20 : brX;
-            //brY = (brY <= tlY + 20)? tlY + 20 : brY;
-//        }
+
 
         if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier) == true){
             double samePoint = event->scenePos().x() > event->scenePos().y()? event->scenePos().x() : event->scenePos().y();
+            brX = samePoint;
+            brY = samePoint;
 
         }
         // Draw the same amount in all angles
@@ -105,15 +95,28 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
         }
 
+        if(origPoint.x() > event->scenePos().x()){
+            double swap = brX;
+            brX = tlX;
+            tlX = swap;
+        }
+        if(origPoint.y() > event->scenePos().y()){
+            double swap = brY;
+            brY = tlY;
+            tlY = swap;
+        }
+
+
+
 
         QPointF tl(tlX, tlY);
         QPointF br(brX, brY);
         QRectF rect = itemToDraw->boundingRect(tl,br);
 
 
-
         if(Toolbar::selection == Toolbar::SelectedItem::Ellipse)
             this->addEllipse(rect);
+
         if(Toolbar::selection == Toolbar::SelectedItem::Rectangle)
             this->addRect(rect);
         if(Toolbar::selection == Toolbar::SelectedItem::Line){
@@ -127,58 +130,13 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
         }
 
 
-
-
-//        if(origPoint.x() >= event->scenePos().x() - origPoint.x()){
-//            left = event->scenePos().x();
-//            width = (event->scenePos().x() * -1) + origPoint.x();
-//        }
-//        else{
-//            left = origPoint.x();
-//            width = event->scenePos().x() - origPoint.x();
-//        }
-//        if(origPoint.y() >= event->scenePos().y() - origPoint.y()){
-//            top = event->scenePos().y();
-//            height = (event->scenePos().y() * -1) + origPoint.y();
-//        }
-//        else{
-//            height = event->scenePos().y() - origPoint.y();
-//            top = origPoint.y();
-
-//        }
-
-
-//        QRectF rectangle;
-//        // Draw diagonally
-//        if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier) == true){
-
-
-//            double samePoint = width > height? width : height;
-
-//            rectangle = QRectF(left,top, samePoint, samePoint);
-
-//        }
-//        // Draw the same amount in all angles
-//        else if(QApplication::keyboardModifiers().testFlag(Qt::ControlModifier) == true){
-
-//            rectangle = QRectF((event->scenePos().x() * -1) + origPoint.x()  , (event->scenePos().y() * -1) + origPoint.y(), width, height);
-
-
-
-//        }
-//        else{
-//            qDebug() << "left: " << origPoint.x() << "\ntop:" << origPoint.y() << "\nwidth:" << event->scenePos().y() << "\nheight" << event->scenePos();
-//            //left, top, width, height
-//            //rectangle = QPolygonF(10);
-//        }
-//        //itemToDraw = this->addItem(rectangle);
-
     }
     else if(sceneMode == SelectObject){
-
+        //itemToDraw->moveBy();
         //move the object
     }
     else if(sceneMode == ResizeObject){
+        itemToDraw->resetTransform();
 
     }
     else{
@@ -186,6 +144,8 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
         //QGraphicsRectItem::mouseMoveEvent(event);
         QGraphicsScene::mouseMoveEvent(event);
     }
+
+
 }
 
 void DiagramScene::keyPressEvent(QKeyEvent* event){
