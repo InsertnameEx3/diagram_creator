@@ -27,7 +27,7 @@ public:
     enum Key{Ctrl, Shift, Alt};
     void actionGroupClicked(QAction*);
     explicit MainWindow(QWidget *parent = nullptr);
-
+    Toolbar* toolbar;
 private:
     void createActions();
     void createMenus();
@@ -38,7 +38,7 @@ private:
     //
     DiagramScene* scene;
     //The widget containing all the necessary tools
-    Toolbar* toolbar;
+
     //The widget containing all the properties of a selection
     Properties* properties;
     QAction *openProject;

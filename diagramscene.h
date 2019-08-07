@@ -9,6 +9,7 @@
 #include <QPointF>
 #include <QGraphicsItem>
 #include "diagramitem.h"
+#include <QList>
 class DiagramScene : public QGraphicsScene
 {
 public:
@@ -16,18 +17,21 @@ public:
     DiagramScene(QObject* parent = nullptr);
 
     void setMode(Mode mode);
+    Mode sceneMode;
     //void paintEvent(QPaintEvent *event);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
     void keyPressEvent(QKeyEvent* event);
+    //QList views() const;
+    void getScene();
 
 private:
-    Mode sceneMode;
+
     QPointF origPoint;
     DiagramItem* itemToDraw;
-    void makeItemsControllable(bool areControllable);
+    static void makeItemsControllable(bool areControllable);
 };
 
 #endif // DIAGRAMSCENE_H
