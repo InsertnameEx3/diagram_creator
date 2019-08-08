@@ -28,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     view->setScene(scene);
     scene->setMode(scene->DrawObject);
 
-    toolbar = new Toolbar();
-    toolbar->setDiagramScene(scene);
+    //toolbar = new Toolbar();
+    //toolbar->setDiagramScene(scene);
 
     layout = new QHBoxLayout;
     layout->setContentsMargins(0,0,0,0);
@@ -37,17 +37,18 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     splitter = new QSplitter(parent);
     layout->addWidget(splitter);
 
-    splitter->addWidget(toolbar);
+    //splitter->addWidget(toolbar);
     splitter->addWidget(view);
 
     createActions();
     createMenus();
+    widget->setLayout(layout);
 
     setWindowTitle(tr("UML Creator"));
     setMinimumSize(160, 160);
     resize(480, 320);
 
-    widget->setLayout(layout);
+
 
 }
 

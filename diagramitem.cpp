@@ -4,40 +4,24 @@
 #include <QGraphicsSceneMouseEvent>
 
 
-DiagramItem::DiagramItem()
-{
+DiagramItem::DiagramItem(QPointF* tl, QPointF* br): topLeft{*tl}, bottomRight{*br}{
 
 }
+
 DiagramItem::~DiagramItem(){
 
 }
+
 QRectF DiagramItem::boundingRect() const{
-
+            return QRectF(topLeft, bottomRight);
 }
 
-QRectF DiagramItem::boundingRect(QPointF topLeft, QPointF bottomRight) const
-{
-    return QRectF(topLeft, bottomRight);
-}
+
 
 // overriding paint()
 void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-    QPointF tl(0,0);
-    QPointF br(0,0);
-    QRectF rect = boundingRect(tl,br);
-    if(Pressed)
-    {
-        QPen pen(Qt::red, 3);
-        painter->setPen(pen);
-        painter->drawEllipse(rect);
-    }
-    else
-    {
-        QPen pen(Qt::black, 3);
-        painter->setPen(pen);
-        painter->drawRect(rect);
-    }
+    painter->drawRect(boundingRect());
 }
 
 

@@ -29,6 +29,7 @@ protected:
     void getScene();
 
 private:
+    QRectF* previousItem;
     QVector<DiagramItem*> items;
     QPointF origPoint;
     DiagramItem* itemToDraw;

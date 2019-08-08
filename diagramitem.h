@@ -9,11 +9,10 @@ public:
     enum Mode{Selected, None, Hover};
              // if selected add resize points
              // one hover show element and all arrows connected
-    DiagramItem();
+    DiagramItem(QPointF*, QPointF*);
     ~DiagramItem();
     void mouseDoublePressEvent();
     QRectF boundingRect() const;
-    QRectF boundingRect(QPointF topLeft, QPointF bottomRight) const;
     void PrepareGeometryChange();
 
 
@@ -30,6 +29,9 @@ protected: //overriden methods
     void mousePressEvent(QGraphicsSceneMouseEvent* event);  //Select or see options (left or right mouse)
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);   //Move
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event); //selected
+private:
+    QPointF topLeft;
+    QPointF bottomRight;
 };
 
 #endif // DIAGRAMITEM_H
