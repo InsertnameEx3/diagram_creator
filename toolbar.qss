@@ -1,0 +1,35 @@
+QWidget {
+    background-color: #2D3D46;
+}
+
+QTreeView{
+    background-color: rgb(50, 50, 50);
+    font-size: 15px;
+}
+QTreeView::branch {
+    color: #fff;
+}
+QHeaderView {
+}
+
+QTreeView::item:selected{
+    background-color: black;
+}
+QTreeView::item:hover:!pressed{
+    background-color: blue;
+}
+
+QTreeView::item:has-children{
+    font-size: 15px;
+    border-bottom: 2px solid rgb(46, 46, 46);
+}
+
+QTreeView::branch:has-children:!has-siblings:closed,
+QTreeView::branch:closed:has-children:has-siblings {
+        border-image: none;
+
+}
+QTreeView::branch:open:has-children:!has-siblings,
+QTreeView::branch:open:has-children:has-siblings  {
+        border-image: none;
+}

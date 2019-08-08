@@ -12,9 +12,15 @@
 #include <QVector>
 
 #include <QDebug>
+#include <mainwindow.h>
+#include <QApplication>
+#include "toolbar.h"
+
+Toolbar::SelectedItem Toolbar::selection;
 
 DiagramScene::DiagramScene(QObject* parent)
 {
+
     auto bpoint1 = QPointF(150 , 150);
             auto bpoint2 = QPointF(200 , 150);
             auto bpoint3 = QPointF(200 , 200);
@@ -28,6 +34,13 @@ DiagramScene::DiagramScene(QObject* parent)
 
 }
 
+DiagramScene::~DiagramScene(){
+    //delete[] items;
+    //delete origPoint;
+    //delete itemToDraw;
+}
+
+
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if(sceneMode == DrawObject)
         origPoint = event->scenePos();
@@ -36,20 +49,19 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
-    //this->setMode(this->NoMode);
-    QGraphicsRectItem* rectangle = this->addRect((QRectF(origPoint.x(),origPoint.y(), event->scenePos().x() - origPoint.x(), event->scenePos().y() - origPoint.y())));
-    //rectangle->setFlag(QGraphicsItem::ItemIsMovable);
-
-
+    if(this->sceneMode == this->DrawObject){
+        this->setMode(this->NoMode);
+    }
     QGraphicsScene::mouseReleaseEvent(event);
-
-
+    items.append(itemToDraw);
+    // To avoid a dangling pointer:
+    itemToDraw = nullptr;
 }
 
 void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
     this->clear();
-
+    //itemToDraw->PrepareGeometryChange();
     if(!itemToDraw){
         itemToDraw = new DiagramItem();
         //itemToDraw->setPen(QPen(Qt::black, 3, Qt::SolidLine));
@@ -66,29 +78,13 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
         double tlX {origPoint.x()};
         double tlY{origPoint.y()};
 
-        // This is for certain shapes that can
-        //if current scene position is more left on the screen than the original point
-//        itemToDraw->Overlappable = false;
 
-//        if(itemToDraw->Overlappable){
-//            if(origPoint.x() > event->scenePos().x()){
-//                double swap = brX;
-//                brX = tlX;
-//                tlX = swap;
-//            }
-//            if(origPoint.y() > event->scenePos().y()){
-//                double swap = brY;
-//                brY = tlY;
-//                tlY = swap;
-//            }
-//        } else {
-            // No overlap
-            brX = (brX <= tlX + 20)? tlX + 20 : brX;
-            brY = (brY <= tlY + 20)? tlY + 20 : brY;
-//        }
+
 
         if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier) == true){
             double samePoint = event->scenePos().x() > event->scenePos().y()? event->scenePos().x() : event->scenePos().y();
+            brX = samePoint;
+            brY = samePoint;
 
         }
         // Draw the same amount in all angles
@@ -99,63 +95,48 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
         }
 
+        if(origPoint.x() > event->scenePos().x()){
+            double swap = brX;
+            brX = tlX;
+            tlX = swap;
+        }
+        if(origPoint.y() > event->scenePos().y()){
+            double swap = brY;
+            brY = tlY;
+            tlY = swap;
+        }
+
+
+
+
         QPointF tl(tlX, tlY);
         QPointF br(brX, brY);
         QRectF rect = itemToDraw->boundingRect(tl,br);
 
 
-        this->addRect(rect);
+        if(Toolbar::selection == Toolbar::SelectedItem::Ellipse)
+            this->addEllipse(rect);
 
-//        if(origPoint.x() >= event->scenePos().x() - origPoint.x()){
-//            left = event->scenePos().x();
-//            width = (event->scenePos().x() * -1) + origPoint.x();
-//        }
-//        else{
-//            left = origPoint.x();
-//            width = event->scenePos().x() - origPoint.x();
-//        }
-//        if(origPoint.y() >= event->scenePos().y() - origPoint.y()){
-//            top = event->scenePos().y();
-//            height = (event->scenePos().y() * -1) + origPoint.y();
-//        }
-//        else{
-//            height = event->scenePos().y() - origPoint.y();
-//            top = origPoint.y();
+        if(Toolbar::selection == Toolbar::SelectedItem::Rectangle)
+            this->addRect(rect);
+        if(Toolbar::selection == Toolbar::SelectedItem::Line){
+            //auto line = QLineF(tlX,tlY,brX, brY); //cool animation
+            auto line = QLineF(event->scenePos().x(), event->scenePos().y(), origPoint.x(), origPoint.y());
+            this->addLine(line);
+        }
+        if(Toolbar::selection == Toolbar::SelectedItem::Polygon){
+            this->addPolygon(rect);
 
-//        }
+        }
 
-
-//        QRectF rectangle;
-//        // Draw diagonally
-//        if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier) == true){
-
-
-//            double samePoint = width > height? width : height;
-
-//            rectangle = QRectF(left,top, samePoint, samePoint);
-
-//        }
-//        // Draw the same amount in all angles
-//        else if(QApplication::keyboardModifiers().testFlag(Qt::ControlModifier) == true){
-
-//            rectangle = QRectF((event->scenePos().x() * -1) + origPoint.x()  , (event->scenePos().y() * -1) + origPoint.y(), width, height);
-
-
-
-//        }
-//        else{
-//            qDebug() << "left: " << origPoint.x() << "\ntop:" << origPoint.y() << "\nwidth:" << event->scenePos().y() << "\nheight" << event->scenePos();
-//            //left, top, width, height
-//            //rectangle = QPolygonF(10);
-//        }
-//        //itemToDraw = this->addItem(rectangle);
 
     }
     else if(sceneMode == SelectObject){
-
+        //itemToDraw->moveBy();
         //move the object
     }
     else if(sceneMode == ResizeObject){
+        itemToDraw->resetTransform();
 
     }
     else{
@@ -163,6 +144,8 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
         //QGraphicsRectItem::mouseMoveEvent(event);
         QGraphicsScene::mouseMoveEvent(event);
     }
+
+
 }
 
 void DiagramScene::keyPressEvent(QKeyEvent* event){
@@ -173,6 +156,7 @@ void DiagramScene::makeItemsControllable(bool areControllable){
 }
 void DiagramScene::setMode(Mode mode){
     sceneMode = mode;
+
     QGraphicsView::DragMode vMode =
                QGraphicsView::NoDrag;
        if(mode == DrawObject){
@@ -183,7 +167,7 @@ void DiagramScene::setMode(Mode mode){
            makeItemsControllable(true);
            vMode = QGraphicsView::RubberBandDrag;
        }
-       QGraphicsView* mView = views().at(0);
-       if(mView)
-           mView->setDragMode(vMode);
+//       QGraphicsView* mView = views().at(0);
+//       if(mView)
+//           mView->setDragMode(vMode);
 }

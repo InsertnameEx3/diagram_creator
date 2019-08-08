@@ -54,15 +54,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    images/1.png \
-    images/10.png \
-    images/2.png \
-    images/3.png \
-    images/4.png \
-    images/5.png \
-    images/6.png \
-    images/7.png \
-    images/8.png \
-    images/9.png
+    styles.txt \
+    toolbar.qss
 
 RESOURCES +=

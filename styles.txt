@@ -1,0 +1,9 @@
+@myColor  = #FFDDEE
+@myColor2 = #112233
+@myWidth  = 20px
+
+
+QPushButton {
+    background-color: @myColor;
+    min-width: @myWidth;
+}

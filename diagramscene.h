@@ -9,25 +9,30 @@
 #include <QPointF>
 #include <QGraphicsItem>
 #include "diagramitem.h"
+#include <QList>
 class DiagramScene : public QGraphicsScene
 {
 public:
     enum Mode {NoMode, SelectObject, DrawObject, MoveObject, ResizeObject};
     DiagramScene(QObject* parent = nullptr);
+    ~DiagramScene();
 
     void setMode(Mode mode);
+    Mode sceneMode;
     //void paintEvent(QPaintEvent *event);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
     void keyPressEvent(QKeyEvent* event);
+    //QList views() const;
+    void getScene();
 
 private:
-    Mode sceneMode;
+    QVector<DiagramItem*> items;
     QPointF origPoint;
     DiagramItem* itemToDraw;
-    void makeItemsControllable(bool areControllable);
+    static void makeItemsControllable(bool areControllable);
 };
 
 #endif // DIAGRAMSCENE_H

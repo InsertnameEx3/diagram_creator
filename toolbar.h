@@ -7,16 +7,27 @@
 #include "diagramitem.h"
 #include <QSplitter>
 #include <QTreeView>
+#include "diagramview.h"
+#include <QStandardItem>
 class Toolbar : public QTreeView
 {
 public:
-    enum SelectedItem{ Table, OneToMany, OneToOne, ManyToMany};
+    Toolbar();
+    ~Toolbar();
+
+    enum SelectedItem{Rectangle, Ellipse, Line, Polygon};
     void CreateCategories();
     void CreateTools();
-    Toolbar();
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+    void currentColumnChanged(const QModelIndex &current, const QModelIndex &previous);
+    void currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
+    static SelectedItem selection;
+    void setDiagramScene(DiagramScene* scene);
+
 private:
+    QVector<QStandardItem*> items;
+    DiagramScene* diagramScene;
     QSplitter* splitter = new QSplitter;
-    //QVector<DiagramItem> items;
 };
 
 #endif // TOOLBAR_H

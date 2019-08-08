@@ -12,86 +12,43 @@
 #include <QPushButton>
 #include <diagramscene.h>
 #include <QComboBox>
-
+#include <QFile>
+#include <QStandardItem>
+#include <QDebug>
+#include <QDir>
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     QWidget *widget = new QWidget;
-        setCentralWidget(widget);
+    setCentralWidget(widget);
 
-        QWidget *topFiller = new QWidget;
-        topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    DiagramView* view = new DiagramView();
+    DiagramScene* scene = new DiagramScene(view);
+    view->setScene(scene);
+    scene->setMode(scene->DrawObject);
 
-        QWidget *bottomFiller = new QWidget;
-        bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    toolbar = new Toolbar();
+    toolbar->setDiagramScene(scene);
 
+    layout = new QHBoxLayout;
+    layout->setContentsMargins(0,0,0,0);
 
+    splitter = new QSplitter(parent);
+    layout->addWidget(splitter);
 
-        DiagramView* view = new DiagramView();
-        DiagramScene* scene = new DiagramScene(view);
-        view->setScene(scene);
+    splitter->addWidget(toolbar);
+    splitter->addWidget(view);
 
-        scene->setMode(scene->DrawObject);
+    createActions();
+    createMenus();
 
+    setWindowTitle(tr("UML Creator"));
+    setMinimumSize(160, 160);
+    resize(480, 320);
 
-        //this->setStyleSheet("background-image:url(:/1.png)");
-        //view->show();
+    widget->setLayout(layout);
 
-
-
-        //Properties* properties = new Properties();
-
-        //QAction* lineAction = new QAction;
-        //QAction* selectAction = new QAction;
-        //QActionGroup *actionGroup = new QActionGroup(lineAction);
-        //actionGroup->addAction(selectAction);
-        //QToolBar* drawingToolBar = new QToolBar;
-
-        Toolbar* toolbar = new Toolbar();
-        //toolbar->setOrientation(Qt::Vertical);
-        QAction *action = new QAction("bla", this);
-        QAction *action2 = new QAction("blab", this);
-        QAction *action3 = new QAction("blaasdasd", this);
-        toolbar->addAction(action);
-        toolbar->addAction(action2);
-        toolbar->addAction(action3);
-
-        QComboBox *iconComboBox = new QComboBox;
-        iconComboBox->addItem(QIcon(":/images/bad.svg"), tr("Bad"));
-        iconComboBox->addItem(QIcon(":/images/heart.svg"), tr("Heart"));
-        iconComboBox->addItem(QIcon(":/images/trash.svg"), tr("Trash"));
-
-        QHBoxLayout* layout = new QHBoxLayout;
-        layout->setContentsMargins(0,0,0,0);
-
-
-
-        QSplitter *splitter = new QSplitter(parent);
-
-        layout->addWidget(view);
-        layout->addWidget(iconComboBox);
-
-        //layout->addWidget(splitter);
-        //splitter->addWidget(drawingToolBar);
-        //splitter->addWidget(toolbar);
-        //splitter->addWidget(view);
-        //splitter->addWidget(properties);
-        //splitter->setCursor(QCursor(Qt::SizeHorCursor));
-
-        //layout->addItem(toolbar);
-        //layout->addWidget(view);
-        //layout->addItem(properties);
-        //
-        widget->setLayout(layout);
-
-
-        createActions();
-          createMenus();
-
-          setWindowTitle(tr("Menus"));
-          setMinimumSize(160, 160);
-          resize(480, 320);
 }
 
 void MainWindow::createActions()
@@ -191,6 +148,28 @@ void MainWindow::actionGroupClicked(QAction *action){
     scene->setMode(DiagramScene::Mode(action->data().toInt()));
 }
 
+MainWindow::~MainWindow(){
+
+    delete properties;
+    delete openProject;
+    delete newProject;
+    delete openAct;
+    delete aboutAct;
+    delete newAct;
+    delete lineAction;
+    delete selectAction;
+    delete actionGroup;
+    delete drawingToolBar;
+    delete view;
+    delete scene;
+    delete widget;
+
+    delete splitter;
+    delete layout;
+
+    //QMainWindow::~QMainWindow();
+
+}
 
 #ifndef QT_NO_CONTEXTMENU
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
