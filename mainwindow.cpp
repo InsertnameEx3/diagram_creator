@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         //QToolBar* drawingToolBar = new QToolBar;
 
         Toolbar* toolbar = new Toolbar();
-        toolbar->setOrientation(Qt::Vertical);
+        //toolbar->setOrientation(Qt::Vertical);
         QAction *action = new QAction("bla", this);
         QAction *action2 = new QAction("blab", this);
         QAction *action3 = new QAction("blaasdasd", this);
