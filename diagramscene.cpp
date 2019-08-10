@@ -20,7 +20,8 @@ Toolbar::SelectedItem Toolbar::selection;
 
 DiagramScene::DiagramScene(QObject* parent)
 {
-
+    itemToDraw = new DiagramItem(150,150,120,130);
+    this->addItem(itemToDraw);
     //rect->setFlags(QGraphicsItem::ItemIsMovable);
 
 }

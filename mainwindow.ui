@@ -13,72 +13,7 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>221</width>
-      <height>501</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QTreeWidget" name="treeWidget">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <item>
-        <property name="text">
-         <string>C++</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>OpenGL</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Qt</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Console</string>
-         </property>
-        </item>
-       </item>
-       <item>
-        <property name="text">
-         <string>Python</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>Web-Scraper</string>
-         </property>
-        </item>
-       </item>
-       <item>
-        <property name="text">
-         <string>C</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Haskell</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
+  <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>

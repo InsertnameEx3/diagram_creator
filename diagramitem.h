@@ -7,10 +7,14 @@ class DiagramItem : public QGraphicsItem
 {
 public:
     enum Mode{Selected, None, Hover};
-             // if selected add resize points
-             // one hover show element and all arrows connected
+
+    // if selected add resize points
+    // on hover show element and all arrows connected
+
     DiagramItem(QPointF*, QPointF*);
+    DiagramItem(int,int,int,int);
     ~DiagramItem();
+
     void mouseDoublePressEvent();
     QRectF boundingRect() const;
     void PrepareGeometryChange();

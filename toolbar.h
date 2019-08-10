@@ -15,7 +15,7 @@ public:
     Toolbar();
     ~Toolbar();
 
-    enum SelectedItem{Rectangle, Ellipse, Line, Polygon};
+    enum SelectedItem{Rectangle, Ellipse, Line, Image, SimpleText, Text};
     void CreateCategories();
     void CreateTools();
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);

@@ -2,9 +2,13 @@
 #include <QPen>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
-
+#include "toolbar.h"
 
 DiagramItem::DiagramItem(QPointF* tl, QPointF* br): topLeft{*tl}, bottomRight{*br}{
+
+}
+
+DiagramItem::DiagramItem(int tlX,int tlY,int brX,int brY): topLeft{QPointF(tlX,tlY)}, bottomRight{QPointF(brX, brY)} {
 
 }
 
@@ -21,7 +25,33 @@ QRectF DiagramItem::boundingRect() const{
 // overriding paint()
 void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-    painter->drawRect(boundingRect());
+    //painter->drawRect(boundingRect());
+    //painter->drawArc(boundingRect());
+    painter->drawLine(topLeft, bottomRight);
+    switch(Toolbar::selection){
+    case Toolbar::Rectangle:
+        painter->drawRect(boundingRect());
+        break;
+    case Toolbar::Ellipse:
+        painter->drawEllipse(boundingRect());
+        break;
+    case Toolbar::Line:
+        painter->drawLine(topLeft, bottomRight);
+        break;
+    case Toolbar::Image:
+    {
+        QImage image;
+        painter->drawImage(boundingRect(), image);
+        break;
+    }
+    case Toolbar::SimpleText:
+        painter->drawTextItem()
+        break;
+    case Toolbar::Text:
+        break;
+    default:
+        break;
+    }
 }
 
 

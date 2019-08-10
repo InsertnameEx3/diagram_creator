@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     DiagramView* view = new DiagramView();
     DiagramScene* scene = new DiagramScene(view);
+    scene->setMode(scene->DrawObject);
+
     view->setScene(scene);
     scene->setMode(scene->DrawObject);
 
