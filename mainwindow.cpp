@@ -28,11 +28,11 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     scene->setMode(scene->DrawObject);
 
     view->setScene(scene);
-    Toolbar::selection = Toolbar::SelectedItem::Rectangle;
+    Toolbar::selection = Toolbar::SelectedItem::Ellipse;
     scene->setMode(scene->DrawObject);
 
-    //toolbar = new Toolbar();
-    //toolbar->setDiagramScene(scene);
+    toolbar = new Toolbar();
+    toolbar->setDiagramScene(scene);
 
     layout = new QHBoxLayout;
     layout->setContentsMargins(0,0,0,0);
@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     splitter = new QSplitter(parent);
     layout->addWidget(splitter);
 
-    //splitter->addWidget(toolbar);
+    splitter->addWidget(toolbar);
     splitter->addWidget(view);
 
     createActions();

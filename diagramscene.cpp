@@ -22,15 +22,14 @@ DiagramScene::DiagramScene(QObject* parent)
 {
     //itemToDraw = new DiagramItem(new QPointF(150,150), new QPointF(444,444));
 //        itemToDraw = new DiagramItem(origPoint, event->pos());
-    //this->addItem(itemToDraw);
-//    this->setBackgroundBrush(Qt::blue);
-//    // Add the vertical lines first, paint them red
-//    for (int x=0; x<=1000; x+=50)
-//        this->addLine(x,0,x,1000, QPen(Qt::white));
+    this->setBackgroundBrush(Qt::blue);
+    // Add the vertical lines first, paint them red
+    for (int x=0; x<=1000; x+=50)
+        this->addLine(x,0,x,1000, QPen(Qt::white));
 
-//    // Now add the horizontal lines, paint them green
-//    for (int y=0; y<=1000; y+=50)
-//        this->addLine(0,y,1000,y, QPen(Qt::white));
+    // Now add the horizontal lines, paint them green
+    for (int y=0; y<=1000; y+=50)
+        this->addLine(0,y,1000,y, QPen(Qt::white));
 
 
 }
@@ -46,6 +45,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 //    if(this->sceneMode == this->DrawObject){
         itemToDraw = new DiagramItem(new QPointF(origPoint.x(), origPoint.y()), new QPointF(event->scenePos()));
+
         this->addItem(itemToDraw);
         origPoint = event->scenePos();
 //        itemToDraw = new DiagramItem(new QPointF(event->pos()), new QPointF(event->pos()));
@@ -57,11 +57,9 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
-    if(!Toolbar::selection){
+    if(Toolbar::selection){
 
-        //this->setMode(this->NoMode);
-
-        QGraphicsScene::mouseReleaseEvent(event);
+        this->setMode(this->NoMode);
 
         //add to list of items in scene and remove the old temporary object from the scene
         // To avoid a dangling pointer:
@@ -72,6 +70,8 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
     }
 
+
+    QGraphicsScene::mouseReleaseEvent(event);
 }
 
 void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){

@@ -2,13 +2,15 @@
 #define DIAGRAMITEM_H
 
 #include <QGraphicsPolygonItem>
+#include <QPen>
+#include <QBrush>
 
 class DiagramItem : public QGraphicsItem
 {
 public:
     //properties for property panel:
-    QColor borderColor;
-    QColor color;
+    QPen borderColor;
+    QBrush color;
     QSize size;
     //methods for properties:
     void changeBorderColor();

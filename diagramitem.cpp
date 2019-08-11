@@ -35,11 +35,19 @@ QRectF DiagramItem::boundingRect() const{
 // overriding paint()
 void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+//    borderColor.setBrush(Qt::black);
+
+//    color.setPen(Qt::black);
+//    borderColor.setWidth(1);
+
+    painter->setPen(Qt::darkRed);
+    painter->setBrush(Qt::darkGray);
     //painter->drawRect(boundingRect());
     //painter->drawArc(boundingRect());
     painter->drawLine(topLeft, bottomRight);
     switch(Toolbar::selection){
     case Toolbar::Rectangle:
+
         painter->drawRect(boundingRect());
         break;
     case Toolbar::Ellipse:

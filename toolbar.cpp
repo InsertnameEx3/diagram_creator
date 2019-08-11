@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QStandardItem>
 #include <QDebug>
+#include <QFileSystemModel>
 
 
 
@@ -13,21 +14,16 @@
 Toolbar::Toolbar()
 {
 
+CreateTools();
 
 
-    //items = QVector<QStandardItem*>({shapes, rectangle, ellipse, line});
+//        QFile styleSheet("/home/marten/projects/diagram-creator/toolbar.qss");
+//        if(!styleSheet.open(QFile::ReadOnly))
+//                QMessageBox::information(nullptr, "Error", styleSheet.errorString());
+//        QString StyleSheet = QLatin1String(styleSheet.readAll());
 
 
-        this->CreateCategories();
-        //this->CreateTools();
-
-        QFile styleSheet("/home/marten/projects/diagram-creator/toolbar.qss");
-        if(!styleSheet.open(QFile::ReadOnly))
-                QMessageBox::information(nullptr, "Error", styleSheet.errorString());
-        QString StyleSheet = QLatin1String(styleSheet.readAll());
-
-
-        this->setStyleSheet(StyleSheet);
+//        this->setStyleSheet(StyleSheet);
 
 }
 Toolbar::~Toolbar(){
@@ -47,27 +43,41 @@ Toolbar::~Toolbar(){
 */
 void Toolbar::CreateCategories(){
 
-    QStandardItemModel* model_drzewa = new QStandardItemModel;
+    //QStandardItemModel* model_drzewa = new QStandardItemModel;
 
 
-    QStandardItem* shapes = new QStandardItem("Shapes");
-    QStandardItem* rectangle = new QStandardItem("Rectangle");
-    QStandardItem* ellipse = new QStandardItem("Ellipse");
-    QStandardItem* line = new QStandardItem("Line");
+//    QStandardItem* shapes = new QStandardItem("Shapes");
+//    QStandardItem* rectangle = new QStandardItem("Rectangle");
+//    QStandardItem* ellipse = new QStandardItem("Ellipse");
+//    QStandardItem* line = new QStandardItem("Line");
 
-    model_drzewa->appendRow(shapes);
-    shapes->appendRow(rectangle);
-    shapes->appendRow(ellipse);
-    shapes->appendRow(line);
+//    model_drzewa->appendRow(shapes);
+//    shapes->appendRow(rectangle);
+//    shapes->appendRow(ellipse);
+//    shapes->appendRow(line);
 
 
-    model_drzewa->setHeaderData(0, Qt::Horizontal, "asd");
-    this->setModel(model_drzewa);
+    //model_drzewa->setHeaderData(0, Qt::Horizontal, "asd");
+    //this->setModel(model_drzewa);
     //this->expandAll();
 
 }
 void Toolbar::CreateTools(){
 
+    QTreeWidgetItem* wiptr = nullptr;
+    for(auto category : {"Shapes"}){
+        wiptr = new QTreeWidgetItem(QStringList(category), 0);
+        this->addTopLevelItem(wiptr);
+        categories.append(wiptr);
+    }
+
+    for(auto category : categories){
+        for(auto tool : {"Rectangle", "Ellipse", "Line", "Image", "SimpleText", "Text"}){
+            wiptr = new QTreeWidgetItem(QStringList(tool), 0);
+            category->addChild(wiptr);
+            tools.append(wiptr);
+        }
+    }
 
 
 }
@@ -85,6 +95,15 @@ void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &prev
         break;
         case 2:
             selection = SelectedItem::Line;
+        break;
+        case 3:
+            selection = SelectedItem::Image;
+        break;
+        case 4:
+            selection = SelectedItem::SimpleText;
+        break;
+        case 5:
+            selection = SelectedItem::Text;
         break;
 
     }
