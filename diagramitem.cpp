@@ -12,6 +12,10 @@ DiagramItem::DiagramItem(int tlX,int tlY,int brX,int brY): topLeft{QPointF(tlX,t
 
 }
 
+DiagramItem::DiagramItem(){
+
+}
+
 DiagramItem::~DiagramItem(){
 
 }
@@ -97,6 +101,7 @@ void DiagramItem::setHandles(){
     setHandlesChildEvents(true);
 }
 
-void DiagramItem::PrepareGeometryChange(){
-    this->prepareGeometryChange();
+void DiagramItem::prepareGeometryChange(){
+    QGraphicsItem::prepareGeometryChange();
 }
+

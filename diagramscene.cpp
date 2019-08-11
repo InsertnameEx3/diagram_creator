@@ -20,9 +20,9 @@ Toolbar::SelectedItem Toolbar::selection;
 
 DiagramScene::DiagramScene(QObject* parent)
 {
-    itemToDraw = new DiagramItem(new QPointF(150,150), new QPointF(444,444));
+    //itemToDraw = new DiagramItem(new QPointF(150,150), new QPointF(444,444));
 //        itemToDraw = new DiagramItem(origPoint, event->pos());
-    this->addItem(itemToDraw);
+    //this->addItem(itemToDraw);
 //    this->setBackgroundBrush(Qt::blue);
 //    // Add the vertical lines first, paint them red
 //    for (int x=0; x<=1000; x+=50)
@@ -44,28 +44,23 @@ DiagramScene::~DiagramScene(){
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
-    origPoint = event->pos();
-    //itemToDraw = new DiagramItem(new QPointF(150,150), new QPointF(120,100));
-    //QGraphicsItem::item
+//    if(this->sceneMode == this->DrawObject){
+        itemToDraw = new DiagramItem(new QPointF(origPoint.x(), origPoint.y()), new QPointF(event->scenePos()));
+        this->addItem(itemToDraw);
+        origPoint = event->scenePos();
+//        itemToDraw = new DiagramItem(new QPointF(event->pos()), new QPointF(event->pos()));
 
-    //this->addItem(itemToDraw);
-    //itemToDraw->setFlag(QGraphicsItem::ItemIsMovable);
+//    }
 
-    //this->removeItem(itemToDraw);
-    //itemToDraw = nullptr;
-
-
-    //if(sceneMode == DrawObject)
-        //origPoint = event->scenePos();
     QGraphicsScene::mousePressEvent(event);
 }
 
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
     if(!Toolbar::selection){
-        if(this->sceneMode == this->DrawObject){
-            this->setMode(this->NoMode);
-        }
+
+        //this->setMode(this->NoMode);
+
         QGraphicsScene::mouseReleaseEvent(event);
 
         //add to list of items in scene and remove the old temporary object from the scene
@@ -82,23 +77,14 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
 
-
     //adding a new diagram item
-    if(!Toolbar::selection && this->sceneMode == this->DrawObject){
+    if(this->sceneMode == this->DrawObject){
 
-        if(!itemToDraw){
-            itemToDraw = new DiagramItem(new QPointF(150,150), new QPointF(444,444));
-//        itemToDraw = new DiagramItem(origPoint, event->pos());
-            this->addItem(itemToDraw);
-
-    }
-        qDebug() << "bopo";
-        //itemToDraw->setBoundingRect(QRectF(origPoint, event->pos()));
-        itemToDraw->setPos(QPointF(event->pos().x(), event->pos().y()));
-        //itemToDraw->PrepareGeometryChange();
+        itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
+        //itemToDraw->setPos(QPointF(event->pos().x(), event->pos().y()));
+        itemToDraw->prepareGeometryChange();
         itemToDraw->update();
         this->update();
-
 
     }
     //draw selection box

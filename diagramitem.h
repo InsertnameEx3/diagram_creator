@@ -16,13 +16,14 @@ public:
     void changeSize();
 
 
+
     enum Mode{Selected, None, Hover};
 
     // if selected add resize points
     // on hover show element and all arrows connected
 
     DiagramItem(QPointF*, QPointF*);
-
+    DiagramItem();
     DiagramItem(int,int,int,int);
     DiagramItem(QPointF*,QPointF*,QPointF*,QPointF*);
     ~DiagramItem();
@@ -30,11 +31,9 @@ public:
     void mouseDoublePressEvent();
     void setBoundingRect(QRectF);
     QRectF boundingRect() const;
-    void PrepareGeometryChange();
-
 
     // overriding paint()
-    void paint(QPainter * painter,
+    virtual void paint(QPainter * painter,
         const QStyleOptionGraphicsItem * option,
         QWidget * widget);
 
@@ -43,11 +42,15 @@ public:
     bool Pressed;
     bool Overlappable;
 
+    void prepareGeometryChange();
+
 protected: //overriden methods
+
     void mousePressEvent(QGraphicsSceneMouseEvent* event);  //Select or see options (left or right mouse)
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);   //Move
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event); //selected
-    void setHandles();
+    //virtual method for setting the resizing handles
+    virtual void setHandles();
 private:
     QPointF topLeft;
     QPointF bottomRight;
