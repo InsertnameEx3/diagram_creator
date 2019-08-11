@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     scene->setMode(scene->DrawObject);
 
     view->setScene(scene);
+    Toolbar::selection = Toolbar::SelectedItem::Rectangle;
     scene->setMode(scene->DrawObject);
 
     //toolbar = new Toolbar();

@@ -16,8 +16,14 @@ DiagramItem::~DiagramItem(){
 
 }
 
+void DiagramItem::setBoundingRect(QRectF newRectangle){
+    topLeft = newRectangle.topLeft();
+    bottomRight = newRectangle.bottomRight();
+}
+
 QRectF DiagramItem::boundingRect() const{
             return QRectF(topLeft, bottomRight);
+
 }
 
 
@@ -64,8 +70,12 @@ void DiagramItem::mousePressEvent(QGraphicsSceneMouseEvent* event){
     Pressed = true;
     //check if it touches any of the resize points if so, change mode to resize, else select
     //if()
-    event->pos().x();
-    event->pos().y();
+
+    if(event->pos().x() < 10 && event->pos().x() > 5 && event->pos().y() < 10 && event->pos().y() > 5){
+
+    }
+
+
 
 }
 void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
@@ -76,7 +86,17 @@ void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 }
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     Pressed = false;
+    state = Selected;
+    setHandles();
+
 }
+void DiagramItem::setHandles(){
+
+
+    // ?
+    setHandlesChildEvents(true);
+}
+
 void DiagramItem::PrepareGeometryChange(){
     this->prepareGeometryChange();
 }
