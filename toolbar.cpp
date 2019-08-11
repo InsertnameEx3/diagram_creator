@@ -86,9 +86,6 @@ void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &prev
         case 2:
             selection = SelectedItem::Line;
         break;
-        case 3:
-            selection = SelectedItem::Polygon;
-        break;
 
     }
 

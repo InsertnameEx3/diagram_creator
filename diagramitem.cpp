@@ -45,7 +45,7 @@ void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * opt
         break;
     }
     case Toolbar::SimpleText:
-        painter->drawTextItem()
+        //painter->drawTextItem();
         break;
     case Toolbar::Text:
         break;
