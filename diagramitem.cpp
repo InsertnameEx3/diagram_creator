@@ -44,7 +44,7 @@ void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * opt
     painter->setBrush(Qt::darkGray);
     //painter->drawRect(boundingRect());
     //painter->drawArc(boundingRect());
-    painter->drawLine(topLeft, bottomRight);
+
     switch(Toolbar::selection){
     case Toolbar::Rectangle:
 
