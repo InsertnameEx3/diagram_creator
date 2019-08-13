@@ -14,12 +14,21 @@ Toolbar::Toolbar()
 {
 
 
+        auto model_drzewa = new QStandardItemModel();
 
-    //items = QVector<QStandardItem*>({shapes, rectangle, ellipse, line});
 
 
-        this->CreateCategories();
-        //this->CreateTools();
+        //model_drzewa->appendRow(new QStandardItem("Shapes"));
+        model_drzewa->
+        model_drzewa->appendRow(new QStandardItem("Rectangle"));
+        model_drzewa->appendRow(new QStandardItem("Ellipse"));
+        model_drzewa->appendRow(new QStandardItem("Line"));
+
+
+        model_drzewa->setHeaderData(0, Qt::Horizontal, "asd");
+        this->setModel(model_drzewa);
+        this->expandAll();
+
 
         QFile styleSheet("/home/marten/projects/diagram-creator/toolbar.qss");
         if(!styleSheet.open(QFile::ReadOnly))
@@ -47,23 +56,7 @@ Toolbar::~Toolbar(){
 */
 void Toolbar::CreateCategories(){
 
-    QStandardItemModel* model_drzewa = new QStandardItemModel;
 
-
-    QStandardItem* shapes = new QStandardItem("Shapes");
-    QStandardItem* rectangle = new QStandardItem("Rectangle");
-    QStandardItem* ellipse = new QStandardItem("Ellipse");
-    QStandardItem* line = new QStandardItem("Line");
-
-    model_drzewa->appendRow(shapes);
-    shapes->appendRow(rectangle);
-    shapes->appendRow(ellipse);
-    shapes->appendRow(line);
-
-
-    model_drzewa->setHeaderData(0, Qt::Horizontal, "asd");
-    this->setModel(model_drzewa);
-    //this->expandAll();
 
 }
 void Toolbar::CreateTools(){

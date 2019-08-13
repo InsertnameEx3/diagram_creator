@@ -25,7 +25,6 @@ public:
     void setDiagramScene(DiagramScene* scene);
 
 private:
-    QVector<QStandardItem*> items;
     DiagramScene* diagramScene;
     QSplitter* splitter = new QSplitter;
 };
