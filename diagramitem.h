@@ -13,11 +13,21 @@ public:
     QPen borderColor;
     QBrush color;
     QSize size;
+    double handleSize;
+
+    QVector<QRectF> handles;
     //methods for properties:
     void changeBorderColor();
     void changeInnerColor();
+    //when changing from the properties panel (no mouse event)
     void changeSize();
+    //when changing from the handles
+    void resize(QGraphicsSceneMouseEvent*);
 
+
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
+    //check whether the mouse button is on the item itself (base is only logic for a rectangle)
 
 
     enum Mode{Selected, None, Hover};

@@ -13,6 +13,8 @@ void Line::setHandles(){
 
 }
 void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    painter->setPen(DiagramItem::borderColor);
+    painter->setBrush(DiagramItem::color);
     painter->drawLine(DiagramItem::topLeft, DiagramItem::bottomRight);
 }
 
@@ -28,6 +30,8 @@ void Ellipse::setHandles(){
 
 }
 void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    painter->setPen(DiagramItem::borderColor);
+    painter->setBrush(DiagramItem::color);
     painter->drawEllipse(boundingRect());
 }
 
@@ -43,6 +47,9 @@ void Rectangle::setHandles(){
 
 }
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+        painter->setPen(DiagramItem::borderColor);
+        painter->setBrush(DiagramItem::color);
     painter->drawRect(boundingRect());
 }
 
@@ -52,12 +59,15 @@ Image::Image(): DiagramItem (){
 
 }
 Image::Image(QPointF* tl, QPointF* br): DiagramItem (){
+
     this->setBoundingRect(tl, br);
 }
 void Image::setHandles(){
 
 }
 void Image::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    painter->setPen(DiagramItem::borderColor);
+    painter->setBrush(DiagramItem::color);
 
     image = QImage("/root/Downloads/images/4sgqS82.png");
     painter->drawImage(boundingRect(), image);
@@ -76,6 +86,8 @@ void Text::setHandles(){
 
 }
 void Text::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    painter->setPen(DiagramItem::borderColor);
+    painter->setBrush(DiagramItem::color);
     painter->drawText(topLeft, text);
 }
 
@@ -92,6 +104,8 @@ void SimpleText::setHandles(){
 
 }
 void SimpleText::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    painter->setPen(DiagramItem::borderColor);
+    painter->setBrush(DiagramItem::color);
     painter->drawText(topLeft, text);
 }
 

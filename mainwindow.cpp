@@ -16,6 +16,7 @@
 #include <QStandardItem>
 #include <QDebug>
 #include <QDir>
+#include <QTreeWidget>
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -25,14 +26,14 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     DiagramView* view = new DiagramView();
     DiagramScene* scene = new DiagramScene(view);
-    scene->setMode(scene->DrawObject);
+
 
     view->setScene(scene);
-    Toolbar::selection = Toolbar::SelectedItem::Ellipse;
-    scene->setMode(scene->DrawObject);
+
 
     toolbar = new Toolbar();
     toolbar->setDiagramScene(scene);
+
 
     layout = new QHBoxLayout;
     layout->setContentsMargins(0,0,0,0);

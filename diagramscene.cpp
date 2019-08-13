@@ -43,7 +43,7 @@ DiagramScene::~DiagramScene(){
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
-//    if(this->sceneMode == this->DrawObject){
+    if(this->sceneMode == this->DrawObject){
     switch(Toolbar::selection){
         case Toolbar::Rectangle:
             itemToDraw = new Rectangle(new QPointF(event->pos()), new QPointF(event->pos()));
@@ -67,24 +67,25 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             break;
         }
 
-        this->addItem(itemToDraw);
-        origPoint = event->scenePos();
-//        itemToDraw = new DiagramItem(new QPointF(event->pos()), new QPointF(event->pos()));
 
-//    }
+
+        this->addItem(itemToDraw);
+
+        origPoint = event->scenePos();
+
+    }
 
     QGraphicsScene::mousePressEvent(event);
 }
 
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
-    if(Toolbar::selection){
+    if(this->sceneMode == this->DrawObject){
+
 
         this->setMode(this->NoMode);
-
-        //add to list of items in scene and remove the old temporary object from the scene
         // To avoid a dangling pointer:
-        //itemToDraw = nullptr;
+        itemToDraw = nullptr;
     }
     //select everything in selection box
     else{
@@ -113,10 +114,11 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     else{
 
     }
+    QGraphicsScene::mouseMoveEvent(event);
 }
 
 void DiagramScene::keyPressEvent(QKeyEvent* event){
-
+    QGraphicsScene::keyPressEvent(event);
 }
 void DiagramScene::makeItemsControllable(bool areControllable){
 

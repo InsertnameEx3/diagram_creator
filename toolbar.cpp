@@ -75,9 +75,9 @@ void Toolbar::CreateTools(){
 
 
 void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &previous){
-
     diagramScene->setMode(diagramScene->DrawObject);
     switch(current.row()){
+
         case 0:
             selection = SelectedItem::Rectangle;
         break;
@@ -98,6 +98,7 @@ void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &prev
         break;
 
     }
+
 
 }
 void Toolbar::currentColumnChanged(const QModelIndex &current, const QModelIndex &previous){

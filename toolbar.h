@@ -17,11 +17,12 @@ public:
     Toolbar();
     ~Toolbar();
 
-    enum SelectedItem{Rectangle, Ellipse, Line, Image, SimpleText, Text};
+    enum SelectedItem{Rectangle, Ellipse, Line, Image, SimpleText, Text, none};
     void CreateCategories();
     void CreateTools();
 
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+
     void currentColumnChanged(const QModelIndex &current, const QModelIndex &previous);
     void currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
     static SelectedItem selection;

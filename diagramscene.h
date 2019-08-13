@@ -34,7 +34,6 @@ protected:
 
 private:
     QRectF* previousItem;
-    QVector<DiagramItem*> items;
     QPointF origPoint;
     DiagramItem* itemToDraw;
     static void makeItemsControllable(bool areControllable);
