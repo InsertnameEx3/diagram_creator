@@ -20,17 +20,17 @@ Toolbar::SelectedItem Toolbar::selection;
 
 DiagramScene::DiagramScene(QObject* parent)
 {
+    //itemToDraw = new DiagramItem(new QPointF(150,150), new QPointF(444,444));
+//        itemToDraw = new DiagramItem(origPoint, event->pos());
+    this->setBackgroundBrush(Qt::blue);
+    // Add the vertical lines first, paint them red
+    for (int x=0; x<=1000; x+=50)
+        this->addLine(x,0,x,1000, QPen(Qt::white));
 
-    auto bpoint1 = QPointF(150 , 150);
-            auto bpoint2 = QPointF(200 , 150);
-            auto bpoint3 = QPointF(200 , 200);
-            auto bpoint4 = QPointF(150 , 200);
-            QVector<QPointF> t {bpoint1 , bpoint2 , bpoint3 , bpoint4};
-            auto bproto = QPolygonF(t);
-    this->addPolygon(t);
+    // Now add the horizontal lines, paint them green
+    for (int y=0; y<=1000; y+=50)
+        this->addLine(0,y,1000,y, QPen(Qt::white));
 
-
-    //rect->setFlags(QGraphicsItem::ItemIsMovable);
 
 }
 
@@ -42,110 +42,55 @@ DiagramScene::~DiagramScene(){
 
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
-    if(sceneMode == DrawObject)
+
+//    if(this->sceneMode == this->DrawObject){
+        itemToDraw = new DiagramItem(new QPointF(origPoint.x(), origPoint.y()), new QPointF(event->scenePos()));
+
+        this->addItem(itemToDraw);
         origPoint = event->scenePos();
+//        itemToDraw = new DiagramItem(new QPointF(event->pos()), new QPointF(event->pos()));
+
+//    }
+
     QGraphicsScene::mousePressEvent(event);
 }
 
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
-    if(this->sceneMode == this->DrawObject){
+    if(Toolbar::selection){
+
         this->setMode(this->NoMode);
+
+        //add to list of items in scene and remove the old temporary object from the scene
+        // To avoid a dangling pointer:
+        //itemToDraw = nullptr;
     }
+    //select everything in selection box
+    else{
+
+    }
+
+
     QGraphicsScene::mouseReleaseEvent(event);
-    items.append(itemToDraw);
-    // To avoid a dangling pointer:
-    itemToDraw = nullptr;
 }
 
 void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
-    this->clear();
-    //itemToDraw->PrepareGeometryChange();
-    if(!itemToDraw){
-        itemToDraw = new DiagramItem();
-        //itemToDraw->setPen(QPen(Qt::black, 3, Qt::SolidLine));
 
+    //adding a new diagram item
+    if(this->sceneMode == this->DrawObject){
 
-        itemToDraw->setPos(origPoint);
-        itemToDraw->PrepareGeometryChange();
-
-    }
-
-    if(sceneMode == DrawObject){
-        double brX {event->scenePos().x()};
-        double brY {event->scenePos().y()};
-        double tlX {origPoint.x()};
-        double tlY{origPoint.y()};
-
-
-
-
-        if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier) == true){
-            double samePoint = event->scenePos().x() > event->scenePos().y()? event->scenePos().x() : event->scenePos().y();
-            brX = samePoint;
-            brY = samePoint;
-
-        }
-        // Draw the same amount in all angles
-        else if(QApplication::keyboardModifiers().testFlag(Qt::ControlModifier) == true){
-
-        }
-        else{
-
-        }
-
-        if(origPoint.x() > event->scenePos().x()){
-            double swap = brX;
-            brX = tlX;
-            tlX = swap;
-        }
-        if(origPoint.y() > event->scenePos().y()){
-            double swap = brY;
-            brY = tlY;
-            tlY = swap;
-        }
-
-
-
-
-        QPointF tl(tlX, tlY);
-        QPointF br(brX, brY);
-        QRectF rect = itemToDraw->boundingRect(tl,br);
-
-
-        if(Toolbar::selection == Toolbar::SelectedItem::Ellipse)
-            this->addEllipse(rect);
-
-        if(Toolbar::selection == Toolbar::SelectedItem::Rectangle)
-            this->addRect(rect);
-        if(Toolbar::selection == Toolbar::SelectedItem::Line){
-            //auto line = QLineF(tlX,tlY,brX, brY); //cool animation
-            auto line = QLineF(event->scenePos().x(), event->scenePos().y(), origPoint.x(), origPoint.y());
-            this->addLine(line);
-        }
-        if(Toolbar::selection == Toolbar::SelectedItem::Polygon){
-            this->addPolygon(rect);
-
-        }
-
+        itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
+        //itemToDraw->setPos(QPointF(event->pos().x(), event->pos().y()));
+        itemToDraw->prepareGeometryChange();
+        itemToDraw->update();
+        this->update();
 
     }
-    else if(sceneMode == SelectObject){
-        //itemToDraw->moveBy();
-        //move the object
-    }
-    else if(sceneMode == ResizeObject){
-        itemToDraw->resetTransform();
-
-    }
+    //draw selection box
     else{
-        qDebug() << "else";
-        //QGraphicsRectItem::mouseMoveEvent(event);
-        QGraphicsScene::mouseMoveEvent(event);
+
     }
-
-
 }
 
 void DiagramScene::keyPressEvent(QKeyEvent* event){

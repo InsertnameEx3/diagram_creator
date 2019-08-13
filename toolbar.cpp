@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QStandardItem>
 #include <QDebug>
+#include <QFileSystemModel>
 
 
 
@@ -13,21 +14,8 @@
 Toolbar::Toolbar()
 {
 
+CreateTools();
 
-        auto model_drzewa = new QStandardItemModel();
-
-
-
-        //model_drzewa->appendRow(new QStandardItem("Shapes"));
-        model_drzewa->
-        model_drzewa->appendRow(new QStandardItem("Rectangle"));
-        model_drzewa->appendRow(new QStandardItem("Ellipse"));
-        model_drzewa->appendRow(new QStandardItem("Line"));
-
-
-        model_drzewa->setHeaderData(0, Qt::Horizontal, "asd");
-        this->setModel(model_drzewa);
-        this->expandAll();
 
 
         QFile styleSheet("/home/marten/projects/diagram-creator/toolbar.qss");
@@ -37,6 +25,14 @@ Toolbar::Toolbar()
 
 
         this->setStyleSheet(StyleSheet);
+
+//        QFile styleSheet("/home/marten/projects/diagram-creator/toolbar.qss");
+//        if(!styleSheet.open(QFile::ReadOnly))
+//                QMessageBox::information(nullptr, "Error", styleSheet.errorString());
+//        QString StyleSheet = QLatin1String(styleSheet.readAll());
+
+
+//        this->setStyleSheet(StyleSheet);
 
 }
 Toolbar::~Toolbar(){
@@ -56,11 +52,23 @@ Toolbar::~Toolbar(){
 */
 void Toolbar::CreateCategories(){
 
-
-
 }
 void Toolbar::CreateTools(){
 
+    QTreeWidgetItem* wiptr = nullptr;
+    for(auto category : {"Shapes"}){
+        wiptr = new QTreeWidgetItem(QStringList(category), 0);
+        this->addTopLevelItem(wiptr);
+        categories.append(wiptr);
+    }
+
+    for(auto category : categories){
+        for(auto tool : {"Rectangle", "Ellipse", "Line", "Image", "SimpleText", "Text"}){
+            wiptr = new QTreeWidgetItem(QStringList(tool), 0);
+            category->addChild(wiptr);
+            tools.append(wiptr);
+        }
+    }
 
 
 }
@@ -80,7 +88,13 @@ void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &prev
             selection = SelectedItem::Line;
         break;
         case 3:
-            selection = SelectedItem::Polygon;
+            selection = SelectedItem::Image;
+        break;
+        case 4:
+            selection = SelectedItem::SimpleText;
+        break;
+        case 5:
+            selection = SelectedItem::Text;
         break;
 
     }

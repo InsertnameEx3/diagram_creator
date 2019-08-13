@@ -9,15 +9,18 @@
 #include <QTreeView>
 #include "diagramview.h"
 #include <QStandardItem>
-class Toolbar : public QTreeView
+#include <QTreeWidget>
+
+class Toolbar : public QTreeWidget
 {
 public:
     Toolbar();
     ~Toolbar();
 
-    enum SelectedItem{Rectangle, Ellipse, Line, Polygon};
+    enum SelectedItem{Rectangle, Ellipse, Line, Image, SimpleText, Text};
     void CreateCategories();
     void CreateTools();
+
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
     void currentColumnChanged(const QModelIndex &current, const QModelIndex &previous);
     void currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
@@ -25,6 +28,10 @@ public:
     void setDiagramScene(DiagramScene* scene);
 
 private:
+
+    QVector<QTreeWidgetItem*> categories;
+    QVector<QTreeWidgetItem*> tools;
+
     DiagramScene* diagramScene;
     QSplitter* splitter = new QSplitter;
 };

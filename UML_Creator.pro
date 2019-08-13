@@ -25,10 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        diagramarrow.cpp \
         diagramitem.cpp \
         diagramscene.cpp \
-        diagramtext.cpp \
+        diagramshapes.cpp \
         diagramview.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -36,10 +35,9 @@ SOURCES += \
         toolbar.cpp
 
 HEADERS += \
-        diagramarrow.h \
         diagramitem.h \
         diagramscene.h \
-        diagramtext.h \
+        diagramshapes.h \
         diagramview.h \
         mainwindow.h \
         properties.h \

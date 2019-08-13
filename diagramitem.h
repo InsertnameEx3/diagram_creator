@@ -2,34 +2,61 @@
 #define DIAGRAMITEM_H
 
 #include <QGraphicsPolygonItem>
+#include <QPen>
+#include <QBrush>
 
 class DiagramItem : public QGraphicsItem
 {
 public:
-    enum Mode{Selected, None, Hover};
-             // if selected add resize points
-             // one hover show element and all arrows connected
-    DiagramItem();
-    ~DiagramItem();
-    void mouseDoublePressEvent();
-    QRectF boundingRect() const;
-    QRectF boundingRect(QPointF topLeft, QPointF bottomRight) const;
-    void PrepareGeometryChange();
+    //properties for property panel:
+    QPen borderColor;
+    QBrush color;
+    QSize size;
+    //methods for properties:
+    void changeBorderColor();
+    void changeInnerColor();
+    void changeSize();
 
+
+
+    enum Mode{Selected, None, Hover};
+
+    // if selected add resize points
+    // on hover show element and all arrows connected
+
+    DiagramItem(QPointF*, QPointF*);
+    DiagramItem();
+    DiagramItem(int,int,int,int);
+    DiagramItem(QPointF*,QPointF*,QPointF*,QPointF*);
+    ~DiagramItem();
+
+    void mouseDoublePressEvent();
+    void setBoundingRect(QRectF);
+    QRectF boundingRect() const;
 
     // overriding paint()
-    void paint(QPainter * painter,
+    virtual void paint(QPainter * painter,
         const QStyleOptionGraphicsItem * option,
         QWidget * widget);
 
     // item state
+    Mode state;
     bool Pressed;
     bool Overlappable;
 
+    void prepareGeometryChange();
+
 protected: //overriden methods
+
     void mousePressEvent(QGraphicsSceneMouseEvent* event);  //Select or see options (left or right mouse)
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);   //Move
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event); //selected
+    //virtual method for setting the resizing handles
+    virtual void setHandles();
+private:
+    QPointF topLeft;
+    QPointF bottomRight;
 };
 
 #endif // DIAGRAMITEM_H
+

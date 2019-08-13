@@ -2,41 +2,73 @@
 #include <QPen>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include "toolbar.h"
 
-
-DiagramItem::DiagramItem()
-{
+DiagramItem::DiagramItem(QPointF* tl, QPointF* br): topLeft{*tl}, bottomRight{*br}{
 
 }
+
+DiagramItem::DiagramItem(int tlX,int tlY,int brX,int brY): topLeft{QPointF(tlX,tlY)}, bottomRight{QPointF(brX, brY)} {
+
+}
+
+DiagramItem::DiagramItem(){
+
+}
+
 DiagramItem::~DiagramItem(){
 
 }
+
+void DiagramItem::setBoundingRect(QRectF newRectangle){
+    topLeft = newRectangle.topLeft();
+    bottomRight = newRectangle.bottomRight();
+}
+
 QRectF DiagramItem::boundingRect() const{
+            return QRectF(topLeft, bottomRight);
 
 }
 
-QRectF DiagramItem::boundingRect(QPointF topLeft, QPointF bottomRight) const
-{
-    return QRectF(topLeft, bottomRight);
-}
+
 
 // overriding paint()
 void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-    QPointF tl(0,0);
-    QPointF br(0,0);
-    QRectF rect = boundingRect(tl,br);
-    if(Pressed)
+//    borderColor.setBrush(Qt::black);
+
+//    color.setPen(Qt::black);
+//    borderColor.setWidth(1);
+
+    painter->setPen(Qt::darkRed);
+    painter->setBrush(Qt::darkGray);
+    //painter->drawRect(boundingRect());
+    //painter->drawArc(boundingRect());
+    painter->drawLine(topLeft, bottomRight);
+    switch(Toolbar::selection){
+    case Toolbar::Rectangle:
+
+        painter->drawRect(boundingRect());
+        break;
+    case Toolbar::Ellipse:
+        painter->drawEllipse(boundingRect());
+        break;
+    case Toolbar::Line:
+        painter->drawLine(topLeft, bottomRight);
+        break;
+    case Toolbar::Image:
     {
-        QPen pen(Qt::red, 3);
-        painter->setPen(pen);
-        painter->drawEllipse(rect);
+        QImage image;
+        painter->drawImage(boundingRect(), image);
+        break;
     }
-    else
-    {
-        QPen pen(Qt::black, 3);
-        painter->setPen(pen);
-        painter->drawRect(rect);
+    case Toolbar::SimpleText:
+        //painter->drawTextItem();
+        break;
+    case Toolbar::Text:
+        break;
+    default:
+        break;
     }
 }
 
@@ -50,8 +82,12 @@ void DiagramItem::mousePressEvent(QGraphicsSceneMouseEvent* event){
     Pressed = true;
     //check if it touches any of the resize points if so, change mode to resize, else select
     //if()
-    event->pos().x();
-    event->pos().y();
+
+    if(event->pos().x() < 10 && event->pos().x() > 5 && event->pos().y() < 10 && event->pos().y() > 5){
+
+    }
+
+
 
 }
 void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
@@ -62,7 +98,18 @@ void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 }
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     Pressed = false;
+    state = Selected;
+    setHandles();
+
 }
-void DiagramItem::PrepareGeometryChange(){
-    this->prepareGeometryChange();
+void DiagramItem::setHandles(){
+
+
+    // ?
+    setHandlesChildEvents(true);
 }
+
+void DiagramItem::prepareGeometryChange(){
+    QGraphicsItem::prepareGeometryChange();
+}
+

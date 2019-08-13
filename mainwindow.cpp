@@ -25,7 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     DiagramView* view = new DiagramView();
     DiagramScene* scene = new DiagramScene(view);
+    scene->setMode(scene->DrawObject);
+
     view->setScene(scene);
+    Toolbar::selection = Toolbar::SelectedItem::Ellipse;
     scene->setMode(scene->DrawObject);
 
     toolbar = new Toolbar();
@@ -42,12 +45,13 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     createActions();
     createMenus();
+    widget->setLayout(layout);
 
     setWindowTitle(tr("UML Creator"));
     setMinimumSize(160, 160);
     resize(480, 320);
 
-    widget->setLayout(layout);
+
 
 }
 
