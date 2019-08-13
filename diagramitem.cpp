@@ -20,9 +20,14 @@ DiagramItem::~DiagramItem(){
 
 }
 
-void DiagramItem::setBoundingRect(QRectF newRectangle){
-    topLeft = newRectangle.topLeft();
-    bottomRight = newRectangle.bottomRight();
+void DiagramItem::setBoundingRect(QRectF* newRectangle){
+    topLeft = newRectangle->topLeft();
+    bottomRight = newRectangle->bottomRight();
+}
+
+void DiagramItem::setBoundingRect(QPointF* tl, QPointF* br){
+    topLeft = *tl;
+    bottomRight = *br;
 }
 
 QRectF DiagramItem::boundingRect() const{
@@ -45,31 +50,8 @@ void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * opt
     //painter->drawRect(boundingRect());
     //painter->drawArc(boundingRect());
 
-    switch(Toolbar::selection){
-    case Toolbar::Rectangle:
 
-        painter->drawRect(boundingRect());
-        break;
-    case Toolbar::Ellipse:
-        painter->drawEllipse(boundingRect());
-        break;
-    case Toolbar::Line:
-        painter->drawLine(topLeft, bottomRight);
-        break;
-    case Toolbar::Image:
-    {
-        QImage image;
-        painter->drawImage(boundingRect(), image);
-        break;
-    }
-    case Toolbar::SimpleText:
-        //painter->drawTextItem();
-        break;
-    case Toolbar::Text:
-        break;
-    default:
-        break;
-    }
+
 }
 
 

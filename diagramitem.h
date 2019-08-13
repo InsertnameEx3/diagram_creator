@@ -5,6 +5,7 @@
 #include <QPen>
 #include <QBrush>
 
+
 class DiagramItem : public QGraphicsItem
 {
 public:
@@ -25,13 +26,18 @@ public:
     // on hover show element and all arrows connected
 
     DiagramItem(QPointF*, QPointF*);
+
+    template<typename T>
+    DiagramItem(QPointF*, QPointF*);
+
     DiagramItem();
     DiagramItem(int,int,int,int);
     DiagramItem(QPointF*,QPointF*,QPointF*,QPointF*);
     ~DiagramItem();
 
     void mouseDoublePressEvent();
-    void setBoundingRect(QRectF);
+    void setBoundingRect(QRectF*);
+    void setBoundingRect(QPointF*, QPointF*);
     QRectF boundingRect() const;
 
     // overriding paint()
@@ -53,9 +59,11 @@ protected: //overriden methods
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event); //selected
     //virtual method for setting the resizing handles
     virtual void setHandles();
-private:
+
     QPointF topLeft;
     QPointF bottomRight;
+
+
 };
 
 #endif // DIAGRAMITEM_H

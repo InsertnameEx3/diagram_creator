@@ -44,7 +44,28 @@ DiagramScene::~DiagramScene(){
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 //    if(this->sceneMode == this->DrawObject){
-        itemToDraw = new DiagramItem(new QPointF(origPoint.x(), origPoint.y()), new QPointF(event->scenePos()));
+    switch(Toolbar::selection){
+        case Toolbar::Rectangle:
+            itemToDraw = new Rectangle(new QPointF(event->pos()), new QPointF(event->pos()));
+            break;
+        case Toolbar::Ellipse:
+            itemToDraw = new Ellipse(new QPointF(event->pos()), new QPointF(event->pos()));
+            break;
+        case Toolbar::Line:
+            itemToDraw = new Line(new QPointF(event->pos()), new QPointF(event->pos()));
+
+            break;
+        case Toolbar::Image:
+            itemToDraw = new Image(new QPointF(event->pos()), new QPointF(event->pos()));
+            break;
+
+        case Toolbar::SimpleText:
+            itemToDraw = new SimpleText(new QPointF(event->pos()), new QPointF(event->pos()));
+            break;
+        case Toolbar::Text:
+            itemToDraw = new Text(new QPointF(event->pos()), new QPointF(event->pos()));
+            break;
+        }
 
         this->addItem(itemToDraw);
         origPoint = event->scenePos();
@@ -80,7 +101,8 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     //adding a new diagram item
     if(this->sceneMode == this->DrawObject){
 
-        itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
+
+        itemToDraw->setBoundingRect(new QRectF(QPointF(origPoint), event->scenePos()));
         //itemToDraw->setPos(QPointF(event->pos().x(), event->pos().y()));
         itemToDraw->prepareGeometryChange();
         itemToDraw->update();

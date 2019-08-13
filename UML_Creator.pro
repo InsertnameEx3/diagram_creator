@@ -25,9 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        diagramshapes.cpp \
         diagramitem.cpp \
         diagramscene.cpp \
-        diagramshapes.cpp \
         diagramview.cpp \
         main.cpp \
         mainwindow.cpp \

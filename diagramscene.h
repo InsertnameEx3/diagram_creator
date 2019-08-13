@@ -10,6 +10,9 @@
 #include <QGraphicsItem>
 #include "diagramitem.h"
 #include <QList>
+
+#include "diagramshapes.h"
+
 class DiagramScene : public QGraphicsScene
 {
 public:

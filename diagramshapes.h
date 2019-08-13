@@ -13,7 +13,7 @@ class Line : public DiagramItem
 {
 public:
     Line();
-
+    Line(QPointF*, QPointF*);
 protected:
     void setHandles();
     void paint(QPainter * painter,
@@ -25,8 +25,10 @@ class SimpleText : public DiagramItem
 {
 public:
     SimpleText();
+    SimpleText(QPointF*, QPointF*);
 
 protected:
+    QString text;
     void setHandles();
     void paint(QPainter * painter,
         const QStyleOptionGraphicsItem * option,
@@ -37,8 +39,9 @@ class Text : public DiagramItem
 {
 public:
     Text();
-
+    Text(QPointF*, QPointF*);
 protected:
+    QString text;
     void setHandles();
     void paint(QPainter * painter,
         const QStyleOptionGraphicsItem * option,
@@ -49,7 +52,7 @@ class Rectangle : public DiagramItem
 {
 public:
     Rectangle();
-
+    Rectangle(QPointF*, QPointF*);
 protected:
     void setHandles();
     void paint(QPainter * painter,
@@ -60,6 +63,7 @@ protected:
 class Ellipse : public DiagramItem
 {
 public:
+    Ellipse(QPointF*, QPointF*);
     Ellipse();
 
 protected:
@@ -72,9 +76,11 @@ protected:
 class Image : public DiagramItem
 {
 public:
+    Image(QPointF*, QPointF*);
     Image();
 
 protected:
+    QImage image;
     void setHandles();
     void paint(QPainter * painter,
         const QStyleOptionGraphicsItem * option,
