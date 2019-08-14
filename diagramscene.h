@@ -13,9 +13,30 @@
 
 #include "diagramshapes.h"
 
+
+
 class DiagramScene : public QGraphicsScene
 {
 public:
+
+
+    QColor gridColor = Qt::darkGray;
+
+    QColor backgroundColor = Qt::blue;
+
+    double size = 0.5;
+
+    int space = 50;
+
+    enum GridType{
+        Lines,
+        Dots,
+
+    };
+    GridType grid = Lines;
+
+    bool showGrid;
+
     //when there is noMode you use the selection tool to select multiple items inside the square
     enum Mode {NoMode, SelectObject, DrawObject, MoveObject, ResizeObject};
     DiagramScene(QObject* parent = nullptr);

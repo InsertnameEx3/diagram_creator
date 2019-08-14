@@ -4,22 +4,28 @@
 #include <QGraphicsSceneMouseEvent>
 #include "toolbar.h"
 #include <QDebug>
-DiagramItem::DiagramItem(QPointF* tl, QPointF* br): topLeft{*tl}, bottomRight{*br}{
+
+#include "handle.h"
+#include "handles.h"
+#include <QGraphicsWidget>
+DiagramItem::DiagramItem(QPointF* tl, QPointF* br): topLeft{*tl}, bottomRight{*br}, handles{*new Handles(this)}{
+
     borderColor = QPen(Qt::black, 5);
     color = QBrush(Qt::white);
     setFlags(QGraphicsItem::GraphicsItemFlag::ItemIsMovable|QGraphicsItem::GraphicsItemFlag::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges);
 }
 
-DiagramItem::DiagramItem(int tlX,int tlY,int brX,int brY): topLeft{QPointF(tlX,tlY)}, bottomRight{QPointF(brX, brY)} {
+DiagramItem::DiagramItem(int tlX,int tlY,int brX,int brY): topLeft{QPointF(tlX,tlY)}, bottomRight{QPointF(brX, brY)}, handles{*new Handles(this)} {
     borderColor = QPen(Qt::black, 5);
     color = QBrush(Qt::white);
     setFlags(QGraphicsItem::GraphicsItemFlag::ItemIsMovable|QGraphicsItem::GraphicsItemFlag::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges);
 }
 
-DiagramItem::DiagramItem(){
+DiagramItem::DiagramItem(): handles{*new Handles(this)}{
     borderColor = QPen(Qt::black, 5);
     color = QBrush(Qt::white);
     setFlags(QGraphicsItem::GraphicsItemFlag::ItemIsMovable|QGraphicsItem::GraphicsItemFlag::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges);
+
 }
 
 DiagramItem::~DiagramItem(){
@@ -27,14 +33,36 @@ DiagramItem::~DiagramItem(){
 }
 
 void DiagramItem::setBoundingRect(QRectF* newRectangle){
+    this->prepareGeometryChange();
     topLeft = newRectangle->topLeft();
     bottomRight = newRectangle->bottomRight();
+    this->update();
+    qDebug() << topLeft;
+    //if(handles.length() != 0)
+        //handles.recalculate(topLeft);
 }
 
 void DiagramItem::setBoundingRect(QPointF* tl, QPointF* br){
+    this->prepareGeometryChange();
+    qDebug() << *tl;
     topLeft = *tl;
     bottomRight = *br;
+    this->update();
+    //if(handles.length() != 0)
+        //handles.recalculate(*tl);
 }
+
+void DiagramItem::setBoundingRect(QPointF tl, QPointF br){
+    this->prepareGeometryChange();
+    topLeft = tl;
+    bottomRight = br;
+    this->update();
+    qDebug() << tl;
+    //if(handles.length() != 0)
+        //handles.recalculate(tl);
+
+}
+
 
 QRectF DiagramItem::boundingRect() const{
             return QRectF(topLeft, bottomRight);
@@ -88,20 +116,10 @@ void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     Pressed = false;
     state = Selected;
-    setHandles();
+    //setHandles();
     QGraphicsItem::mouseReleaseEvent(event);
 }
-void DiagramItem::setHandles(){
 
-    DiagramItem* topLeftHandle = new Rectangle(new QPointF(this->topLeft - QPointF(5,5)), new QPointF(this->topLeft + QPointF(5,5)));
-
-    this->childItems().append(topLeftHandle);
-    scene()->addItem(topLeftHandle);
-    scene()->update();
-    this->update();
-    // ?
-    setHandlesChildEvents(true);
-}
 
 void DiagramItem::prepareGeometryChange(){
     QGraphicsItem::prepareGeometryChange();
@@ -111,71 +129,76 @@ void DiagramItem::prepareGeometryChange(){
 
 QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    prepareGeometryChange();
+    qDebug() << handles;
+
+    qDebug() << "fllaaa";
+    //prepareGeometryChange();
+
 
     if (change == QGraphicsItem::ItemSelectedChange)
     {
         qDebug() << change;
         if (value == true)
         {
-            handleSize = 15;
-            this->setHandles();
-            handles = {
-                //syntax: qrectf(topLeft, bottomRight)
-                QRectF(QPointF(this->boundingRect().topLeft() - QPointF(handleSize, handleSize)), QPointF(this->boundingRect().topLeft())),    //topleft
-
-                QRectF(QPointF(
-                this->boundingRect().topLeft() + ((this->boundingRect().topRight() - this->boundingRect().topLeft())/2)) - QPointF(handleSize/2,0),
-                QPointF(
-                this->boundingRect().topLeft() + ((this->boundingRect().topRight() - this->boundingRect().topLeft())/2)) + QPointF(handleSize/2,-handleSize)
-                ),    //topmiddle
-
-                QRectF(QPointF(this->boundingRect().topRight()), QPointF(this->boundingRect().topRight() +  QPointF(handleSize,-handleSize))),    //topright
-
-                QRectF(QPointF(
-                this->boundingRect().topLeft() + ((this->boundingRect().bottomLeft() - this->boundingRect().topLeft())/2)) - QPointF(handleSize, handleSize/2),
-                QPointF(
-                this->boundingRect().topLeft() + ((this->boundingRect().bottomLeft() - this->boundingRect().topLeft())/2)) + QPointF(0, handleSize/2)),    //middleleft
-
-                QRectF(QPointF(
-                this->boundingRect().topRight() + ((this->boundingRect().bottomRight() - this->boundingRect().topRight())/2)) - QPointF(0, handleSize/2),
-                QPointF(
-                this->boundingRect().topRight() + ((this->boundingRect().bottomRight() - this->boundingRect().topRight())/2)) + QPointF(handleSize, handleSize/2)),//middleright
-
-                QRectF(QPointF(this->boundingRect().bottomLeft() - QPointF(handleSize,-handleSize)), QPointF(this->boundingRect().bottomLeft())),//bottomleft
-
-                QRectF(QPointF(
-                this->boundingRect().bottomLeft() + ((this->boundingRect().bottomRight() - this->boundingRect().bottomLeft())/2)) - QPointF(handleSize/2,0),
-                QPointF(
-                this->boundingRect().bottomLeft() + ((this->boundingRect().bottomRight() - this->boundingRect().bottomLeft())/2)) + QPointF(handleSize/2,handleSize)
-                ),//bottommiddle
-
-                QRectF(QPointF(this->boundingRect().bottomRight()), QPointF(this->boundingRect().bottomRight() + QPointF(handleSize,handleSize))),//bottomright
-            };
 
 
-            for(auto handle : handles){
-                scene()->addRect(handle);
-            }
+//            if(!handles.changed){
 
-            //scene()->addqgr);
+//                //handles.addToScene(scene());
+//                handles.recalculate();
+//            }
 
-            scene()->update();
+
+            handles.show();
+
+
             this->update();
+            scene()->update();
+
+
+
+
+
             this->borderColor.setStyle(Qt::DashLine);
             //this->color = Qt::blue;
         }
         else
         {
-            for(auto handle : handles){
-                //scene()->removeItem(handle);
+                //handles.update();
+                handles.hide();
+                scene()->update();
+                this->borderColor.setStyle(Qt::SolidLine);
 
-            }
-            //scene()->removeItem(topLeftHandle);
-            this->borderColor.setStyle(Qt::SolidLine);
+                this->update();
+                scene()->update();
+
+
+
+
+
+
+            this->update();
+
+
             // do stuff if not selected
         }
     }
+    if (change == QGraphicsItem::ItemPositionChange){
 
+        //handles.recalculate();
+
+        handles.setPos(value.toPoint());
+
+        scene()->update();
+        this->update();
+    }
+    if(change == QGraphicsItem::ItemScaleChange){
+
+        //handles.recalculate();
+    }
     return QGraphicsItem::itemChange(change, value);
+
+
 }
+
+

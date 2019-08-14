@@ -25,17 +25,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        diagramshapes.cpp \
         diagramitem.cpp \
+        handles.cpp\
+        handle.cpp \
         diagramscene.cpp \
+        diagramshapes.cpp \
         diagramview.cpp \
-        main.cpp \
         mainwindow.cpp \
         properties.cpp \
-        toolbar.cpp
+        toolbar.cpp \
+        main.cpp
 
 HEADERS += \
         diagramitem.h \
+        handles.h\
+        handle.h \
         diagramscene.h \
         diagramshapes.h \
         diagramview.h \

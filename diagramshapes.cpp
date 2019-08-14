@@ -1,11 +1,10 @@
 #include "diagramshapes.h"
 #include <QPainter>
 
-
 Line::Line(): DiagramItem (){
 
 }
-Line::Line(QPointF* tl, QPointF* br): DiagramItem(){
+Line::Line(QPointF* tl, QPointF* br): DiagramItem(tl,br){
     this->setBoundingRect(tl, br);
 }
 
@@ -23,7 +22,7 @@ void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 Ellipse::Ellipse(): DiagramItem (){
 
 }
-Ellipse::Ellipse(QPointF* tl, QPointF* br): DiagramItem (){
+Ellipse::Ellipse(QPointF* tl, QPointF* br): DiagramItem (tl,br){
     this->setBoundingRect(tl, br);
 }
 void Ellipse::setHandles(){
@@ -40,7 +39,7 @@ void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 Rectangle::Rectangle(): DiagramItem (){
 
 }
-Rectangle::Rectangle(QPointF* tl, QPointF* br): DiagramItem (){
+Rectangle::Rectangle(QPointF* tl, QPointF* br): DiagramItem (tl,br){
     this->setBoundingRect(tl, br);
 }
 void Rectangle::setHandles(){
@@ -58,7 +57,7 @@ void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 Image::Image(): DiagramItem (){
 
 }
-Image::Image(QPointF* tl, QPointF* br): DiagramItem (){
+Image::Image(QPointF* tl, QPointF* br): DiagramItem (tl,br){
 
     this->setBoundingRect(tl, br);
 }
@@ -79,7 +78,7 @@ Text::Text(): DiagramItem (){
 
 }
 
-Text::Text(QPointF* tl, QPointF* br): DiagramItem (){
+Text::Text(QPointF* tl, QPointF* br): DiagramItem (tl,br){
     this->setBoundingRect(tl, br);
 }
 void Text::setHandles(){
@@ -97,7 +96,7 @@ SimpleText::SimpleText(): DiagramItem (){
 
 }
 
-SimpleText::SimpleText(QPointF* tl, QPointF* br){
+SimpleText::SimpleText(QPointF* tl, QPointF* br): DiagramItem(tl,br){
     this->setBoundingRect(tl, br);
 }
 void SimpleText::setHandles(){

@@ -4,6 +4,9 @@
 #include <QGraphicsPolygonItem>
 #include <QPen>
 #include <QBrush>
+#include "handles.h"
+#include <QGraphicsAnchorLayout>
+
 
 
 class DiagramItem : public QGraphicsItem
@@ -13,9 +16,9 @@ public:
     QPen borderColor;
     QBrush color;
     QSize size;
-    double handleSize;
 
-    QVector<QRectF> handles;
+    Handles& handles;
+
     //methods for properties:
     void changeBorderColor();
     void changeInnerColor();
@@ -48,6 +51,7 @@ public:
     void mouseDoublePressEvent();
     void setBoundingRect(QRectF*);
     void setBoundingRect(QPointF*, QPointF*);
+    void setBoundingRect(QPointF, QPointF);
     QRectF boundingRect() const;
 
     // overriding paint()
@@ -64,11 +68,11 @@ public:
 
 protected: //overriden methods
 
+
     void mousePressEvent(QGraphicsSceneMouseEvent* event);  //Select or see options (left or right mouse)
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);   //Move
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event); //selected
     //virtual method for setting the resizing handles
-    virtual void setHandles();
 
     QPointF topLeft;
     QPointF bottomRight;

@@ -15,21 +15,52 @@
 #include <mainwindow.h>
 #include <QApplication>
 #include "toolbar.h"
-
+#include "handle.h"
+#include "QGraphicsLayout"
+#include "handles.h"
 Toolbar::SelectedItem Toolbar::selection;
 
 DiagramScene::DiagramScene(QObject* parent)
 {
-    //itemToDraw = new DiagramItem(new QPointF(150,150), new QPointF(444,444));
-//        itemToDraw = new DiagramItem(origPoint, event->pos());
-    this->setBackgroundBrush(Qt::blue);
-    // Add the vertical lines first, paint them red
-    for (int x=0; x<=1000; x+=50)
-        this->addLine(x,0,x,1000, QPen(Qt::white));
 
-    // Now add the horizontal lines, paint them green
-    for (int y=0; y<=1000; y+=50)
-        this->addLine(0,y,1000,y, QPen(Qt::white));
+
+
+
+    QColor gridColor = Qt::darkGray;
+    QColor backgroundColor = Qt::blue;
+    double size = 0.5;
+    int space = 50;
+    enum GridType{
+        Lines,
+        Dots
+    };
+    GridType grid = Lines;
+
+
+    this->setBackgroundBrush(backgroundColor);
+
+
+
+//    switch(grid){
+//    case Lines:
+//        for (int x=0; x<=2000; x+=space){
+//            this->addLine(x,0,x,2000, QPen(gridColor));
+
+//        }
+//        for (int y=0; y<=2000; y+=space){
+//            this->addLine(0,y,2000,y, QPen(gridColor));
+//        }
+//        break;
+//    case Dots:
+//        for(int x=0; x<=2000; x+=space){
+//            for(int y=0; y<=2000; y+=space){
+//                this->addEllipse(QRectF(QPointF(x-size,y-size), QPointF(x+size,y+size)), QPen(gridColor), QBrush(gridColor));
+//            }
+//        }
+        //break;
+//    }
+
+
 
 
 }
@@ -67,10 +98,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             break;
         }
 
-
-
         this->addItem(itemToDraw);
-
         origPoint = event->scenePos();
 
     }

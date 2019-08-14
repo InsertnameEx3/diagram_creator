@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     toolbar = new Toolbar();
     toolbar->setDiagramScene(scene);
 
+    properties = new Properties();
+
 
     layout = new QHBoxLayout;
     layout->setContentsMargins(0,0,0,0);
@@ -43,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     splitter->addWidget(toolbar);
     splitter->addWidget(view);
+    splitter->addWidget(properties);
 
     createActions();
     createMenus();

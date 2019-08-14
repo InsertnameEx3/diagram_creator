@@ -86,5 +86,4 @@ protected:
         const QStyleOptionGraphicsItem * option,
         QWidget * widget);
 };
-
 #endif // SHAPES_H

@@ -11,7 +11,10 @@ public:
 private:
     QSplitter* splitter = new QSplitter;
     enum Selection{Item, Arrow, None};
-
+    //blender
+    //Scene
+    //Selection (item)
+    //Handles
 };
 
 #endif // PROPERTIES_H
