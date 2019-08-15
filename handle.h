@@ -26,13 +26,15 @@ public:
         BottomRight
     };
 
-    Handle(QPointF*, QPointF*, HandleType, DiagramItem&);
-    Handle(QPointF, QPointF, HandleType, DiagramItem&);
+    Handle(QPointF*, QPointF*, HandleType, DiagramItem*);
+    Handle(QPointF, QPointF, HandleType, DiagramItem*);
     ~Handle() override;
 
 
 
     HandleType handleType;
+    void recalculate(QPointF*, QPointF*);
+    void recalculate(QPointF, QPointF);
 
     void setBoundingRect(QRectF*);
     void setBoundingRect(QPointF*, QPointF*);
@@ -66,7 +68,7 @@ protected:
 
 
 private:
-    DiagramItem& parent;
+    DiagramItem* parent;
     QPointF topLeft;
     QPointF bottomRight;
 };

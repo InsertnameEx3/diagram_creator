@@ -41,24 +41,24 @@ DiagramScene::DiagramScene(QObject* parent)
 
 
 
-//    switch(grid){
-//    case Lines:
-//        for (int x=0; x<=2000; x+=space){
-//            this->addLine(x,0,x,2000, QPen(gridColor));
+    switch(grid){
+    case Lines:
+        for (int x=0; x<=2000; x+=space){
+            this->addLine(x,0,x,2000, QPen(gridColor));
 
-//        }
-//        for (int y=0; y<=2000; y+=space){
-//            this->addLine(0,y,2000,y, QPen(gridColor));
-//        }
-//        break;
-//    case Dots:
-//        for(int x=0; x<=2000; x+=space){
-//            for(int y=0; y<=2000; y+=space){
-//                this->addEllipse(QRectF(QPointF(x-size,y-size), QPointF(x+size,y+size)), QPen(gridColor), QBrush(gridColor));
-//            }
-//        }
-        //break;
-//    }
+        }
+        for (int y=0; y<=2000; y+=space){
+            this->addLine(0,y,2000,y, QPen(gridColor));
+        }
+        break;
+    case Dots:
+        for(int x=0; x<=2000; x+=space){
+            for(int y=0; y<=2000; y+=space){
+                this->addEllipse(QRectF(QPointF(x-size,y-size), QPointF(x+size,y+size)), QPen(gridColor), QBrush(gridColor));
+            }
+        }
+        break;
+    }
 
 
 
