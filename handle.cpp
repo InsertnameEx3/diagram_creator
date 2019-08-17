@@ -81,6 +81,16 @@ QRectF Handle::boundingRect() const{
 void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
     //event->accept();
     //parent->scene()->clearSelection();
+    //if
+    if(parent->boundingRect().height() >= 10){
+
+    }
+    if(parent->boundingRect().width() >= 30){
+
+    }
+
+
+
     parent->prepareGeometryChange();
     this->prepareGeometryChange();
     switch(handleType){
@@ -119,9 +129,11 @@ void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
             break;
     }
 
-    this->update();
     parent->update();
     parent->scene()->update();
+    this->update();
+    parent->setAcceptHoverEvents(true);
+    parent->setAcceptTouchEvents(true);
     //QGraphicsItem::mousePressEvent(event);
 }
 
@@ -166,9 +178,11 @@ void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     }
 
 
-    this->update();
     parent->update();
     parent->scene()->update();
+    this->update();
+    parent->setAcceptHoverEvents(true);
+    parent->setAcceptTouchEvents(true);
     //QGraphicsItem::mouseMoveEvent(event);
 }
 void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
@@ -210,10 +224,11 @@ void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
             break;
     }
 
-    this->update();
     parent->update();
     parent->scene()->update();
-
+    this->update();
+    parent->setAcceptHoverEvents(true);
+    parent->setAcceptTouchEvents(true);
     //QGraphicsItem::mouseReleaseEvent(event);
 }
 

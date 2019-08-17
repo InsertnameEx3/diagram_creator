@@ -54,12 +54,18 @@ void DiagramItem::setBoundingRect(QPointF* tl, QPointF* br){
 
 void DiagramItem::setBoundingRect(QPointF tl, QPointF br){
     this->prepareGeometryChange();
-    topLeft = tl;
-    bottomRight = br;
+
+    if(QRectF(tl, br).height() >= 50){
+        topLeft.setY(tl.y());
+        bottomRight.setY(br.y());
+    }
+    if(QRectF(tl, br).width() >= 100){
+        topLeft.setX(tl.x());
+        bottomRight.setX(br.x());
+    }
+
     this->update();
     qDebug() << tl;
-    //if(handles.length() != 0)
-        //handles.recalculate(tl);
 
 }
 
