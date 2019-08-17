@@ -40,8 +40,8 @@ public:
 
     DiagramItem(QPointF*, QPointF*);
 
-    template<typename T>
-    DiagramItem(QPointF*, QPointF*);
+
+
 
     DiagramItem();
     DiagramItem(int,int,int,int);
@@ -50,6 +50,7 @@ public:
 
     void mouseDoublePressEvent();
     void setBoundingRect(QRectF*);
+    void setBoundingRect(QRectF);
     void setBoundingRect(QPointF*, QPointF*);
     void setBoundingRect(QPointF, QPointF);
     QRectF boundingRect() const;
@@ -68,7 +69,7 @@ public:
 
 protected: //overriden methods
 
-
+    //static double minHeight;
     void mousePressEvent(QGraphicsSceneMouseEvent* event);  //Select or see options (left or right mouse)
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);   //Move
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event); //selected
