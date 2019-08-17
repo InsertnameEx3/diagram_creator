@@ -79,20 +79,9 @@ QRectF Handle::boundingRect() const{
 };
 
 void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
-    //event->accept();
-    //parent->scene()->clearSelection();
-    //if
-    if(parent->boundingRect().height() >= 10){
-
-    }
-    if(parent->boundingRect().width() >= 30){
-
-    }
-
-
-
     parent->prepareGeometryChange();
     this->prepareGeometryChange();
+
     switch(handleType){
         case TopLeft:
             //set boundingrect according to event position and recalculate the handles
@@ -132,15 +121,13 @@ void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
     parent->update();
     parent->scene()->update();
     this->update();
-    parent->setAcceptHoverEvents(true);
-    parent->setAcceptTouchEvents(true);
     //QGraphicsItem::mousePressEvent(event);
 }
 
 void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     parent->prepareGeometryChange();
     this->prepareGeometryChange();
-    //qDebug() << parent;
+
     switch(handleType){
         case TopLeft:
             //set boundingrect according to event position and recalculate the handles
@@ -181,13 +168,12 @@ void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     parent->update();
     parent->scene()->update();
     this->update();
-    parent->setAcceptHoverEvents(true);
-    parent->setAcceptTouchEvents(true);
     //QGraphicsItem::mouseMoveEvent(event);
 }
 void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     parent->prepareGeometryChange();
     this->prepareGeometryChange();
+
     switch(handleType){
         case TopLeft:
             //set boundingrect according to event position and recalculate the handles
@@ -227,8 +213,6 @@ void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     parent->update();
     parent->scene()->update();
     this->update();
-    parent->setAcceptHoverEvents(true);
-    parent->setAcceptTouchEvents(true);
     //QGraphicsItem::mouseReleaseEvent(event);
 }
 
