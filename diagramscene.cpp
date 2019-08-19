@@ -12,7 +12,7 @@
 #include <QVector>
 
 #include <QDebug>
-#include <mainwindow.h>
+#include "mainwindow.h"
 #include <QApplication>
 #include "toolbar.h"
 #include "handle.h"
@@ -25,9 +25,8 @@ DiagramScene::DiagramScene(QObject* parent)
 
 
 
-
-    QColor gridColor = Qt::darkGray;
-    QColor backgroundColor = Qt::blue;
+    QColor gridColor = "#cdcccc";
+    QColor backgroundColor = "#e4e4e4";
     double size = 0.5;
     int space = 50;
     enum GridType{
@@ -160,18 +159,18 @@ void DiagramScene::setMode(Mode mode){
     qDebug() << "jeee";
     sceneMode = mode;
 
-//    QGraphicsView::DragMode vMode =
-//               QGraphicsView::NoDrag;
-//       if(mode == DrawObject){
-//           makeItemsControllable(false);
-//           vMode = QGraphicsView::NoDrag;
-//       }
-//       else if(mode == SelectObject){
-//           makeItemsControllable(true);
-//           vMode = QGraphicsView::RubberBandDrag;
-//       }
+    QGraphicsView::DragMode vMode =
+               QGraphicsView::NoDrag;
+       if(mode == DrawObject){
+           makeItemsControllable(false);
+           vMode = QGraphicsView::NoDrag;
+       }
+       else if(mode == SelectObject){
+           makeItemsControllable(true);
+           vMode = QGraphicsView::RubberBandDrag;
+       }
 
-//       QGraphicsView* mView = views().at(0);
-//       if(mView)
-//           mView->setDragMode(vMode);
+       QGraphicsView* mView = views().at(0);
+       if(mView)
+           mView->setDragMode(vMode);
 }

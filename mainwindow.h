@@ -16,13 +16,25 @@
 #include <QToolBar>
 namespace Ui {
 class MainWindow;
+struct Theme;
 }
+
+struct Theme{
+    QString UIColor;
+    QString sceneColor;
+    QString activeTextColor;
+    QString inActiveTextColor;
+    QString sceneGridColor;
+    QString selectedColor;
+};
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+
+    static Theme theme;
     enum Diagram{SequenceDiagram, CaseDiagram, ClassDiagram};
     enum Key{Ctrl, Shift, Alt};
     void actionGroupClicked(QAction*);

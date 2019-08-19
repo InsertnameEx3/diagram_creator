@@ -13,7 +13,7 @@
 
 #include "diagramshapes.h"
 
-
+struct Theme;
 
 class DiagramScene : public QGraphicsScene
 {
@@ -49,6 +49,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+
+
     void keyPressEvent(QKeyEvent* event);
     //QList views() const;
     void getScene();

@@ -1,5 +1,6 @@
 #include "diagramitem.h"
 #include <QPen>
+#include "mainwindow.h"
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 #include "toolbar.h"

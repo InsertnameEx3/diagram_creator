@@ -28,6 +28,8 @@ public:
     static SelectedItem selection;
     void setDiagramScene(DiagramScene* scene);
 
+
+
 private:
 
     QVector<QTreeWidgetItem*> categories;

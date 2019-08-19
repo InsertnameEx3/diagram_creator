@@ -7,7 +7,7 @@
 #include "handles.h"
 #include <QGraphicsAnchorLayout>
 
-
+struct Theme;
 
 class DiagramItem : public QGraphicsItem
 {

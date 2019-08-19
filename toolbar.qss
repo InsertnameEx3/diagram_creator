@@ -1,9 +1,9 @@
 QWidget {
-    background-color: #2D3D46;
+    background-color: #f7f7f7;
 }
 
 QTreeView{
-    background-color: rgb(50, 50, 50);
+    background-color: #f7f7f7;
     font-size: 15px;
 }
 QTreeView::branch {

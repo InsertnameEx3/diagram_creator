@@ -23,7 +23,6 @@ CreateTools();
                 QMessageBox::information(nullptr, "Error", styleSheet.errorString());
         QString StyleSheet = QLatin1String(styleSheet.readAll());
 
-
         this->setStyleSheet(StyleSheet);
 
 //        QFile styleSheet("/home/marten/projects/diagram-creator/toolbar.qss");

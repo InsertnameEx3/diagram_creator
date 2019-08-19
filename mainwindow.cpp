@@ -19,6 +19,16 @@
 #include <QTreeWidget>
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    //Setting up the theme
+
+//    this->theme.UIColor = "#f7f7f7";
+//    this->theme.sceneColor = "#e4e4e4";
+//    this->theme.sceneGridColor = "#cdcccc";
+//    this->theme.activeTextColor = "#666666";
+//    this->theme.inActiveTextColor = "#b7b7b7";
+//    this->theme.selectedColor = "#505050";
+
+
     ui->setupUi(this);
 
     QWidget *widget = new QWidget;

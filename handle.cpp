@@ -13,6 +13,10 @@
 Handle::Handle(QPointF* tl, QPointF* br, HandleType type, DiagramItem* p): QGraphicsItem(), parent{p}{
 
     form = this->Rounded;
+
+
+
+
     topLeft = *tl;
 
     bottomRight = *br;
@@ -24,7 +28,12 @@ Handle::Handle(QPointF* tl, QPointF* br, HandleType type, DiagramItem* p): QGrap
 }
 
 Handle::Handle(QPointF tl, QPointF br, HandleType type, DiagramItem* p): QGraphicsItem(), parent{p}{
-    form = this->Squared;
+    form = this->Rounded;
+
+
+
+
+
     setBoundingRect(&tl,&br);
     borderColor = QPen(Qt::black);
      color = Qt::white;
@@ -63,10 +72,10 @@ void Handle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     painter->setBrush(color);
 
     switch(this->form){
-    case 0:
+    case Handle::Rounded:
         painter->drawEllipse(boundingRect());
         break;
-    case 1:
+    case Handle::Squared:
         painter->drawRect(boundingRect());
         break;
     }
@@ -195,6 +204,14 @@ void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
 void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     parent->handles.setOpacity(100);
+//    parent->stackBefore(parent->handles.at(0));
+//    parent->stackBefore(parent->handles.at(1));
+//    parent->stackBefore(parent->handles.at(2));
+//    parent->stackBefore(parent->handles.at(3));
+//    parent->stackBefore(parent->handles.at(4));
+//    parent->stackBefore(parent->handles.at(5));
+//    parent->stackBefore(parent->handles.at(6));
+//    parent->stackBefore(parent->handles.at(7));
     parent->prepareGeometryChange();
     this->prepareGeometryChange();
 

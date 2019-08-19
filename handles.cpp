@@ -30,7 +30,7 @@ Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType
         this->append(new Handle(QPointF(
                                 parent->boundingRect().topLeft() - QPointF(handleSize/2, handleSize/2)),
                                 QPointF(
-                                parent->boundingRect().topLeft())
+                                parent->boundingRect().topLeft()) + QPointF(handleSize/2, handleSize/2)
                                 , Handle::TopLeft, parent));
         this->append(new Handle(QPointF(
                                 parent->boundingRect().topLeft() + ((parent->boundingRect().topRight() - parent->boundingRect().topLeft())/2)) - QPointF(handleSize/2,0),
@@ -58,6 +58,7 @@ Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType
                                     , Handle::Bottom, parent));
         this->append(new Handle(QPointF(parent->boundingRect().bottomRight()), QPointF(parent->boundingRect().bottomRight() + QPointF(handleSize,handleSize))
                                 , Handle::BottomRight, parent));
+
     break;
     }
 
@@ -106,30 +107,37 @@ void Handles::recalculate(){
                                     parent->boundingRect().topLeft() - QPointF(handleSize/2, handleSize/2)),
                                     QPointF(
                                     parent->boundingRect().topLeft()) + QPointF(handleSize/2, handleSize/2));
+
             this->at(1)->recalculate(QPointF(
-                                          parent->boundingRect().topLeft() + ((parent->boundingRect().topRight() - parent->boundingRect().topLeft())/2)) - QPointF(handleSize/2,0),
+                                          parent->boundingRect().topLeft() + ((parent->boundingRect().topRight() - parent->boundingRect().topLeft())/2)) - QPointF(handleSize/2,handleSize/2),
                                           QPointF(
                                           parent->boundingRect().topLeft() + ((parent->boundingRect().topRight() - parent->boundingRect().topLeft())/2)) + QPointF(handleSize/2,handleSize/2));
-            this->at(2)->recalculate(QPointF(parent->boundingRect().topRight()), QPointF(parent->boundingRect().topRight() +  QPointF(handleSize,-handleSize))
+
+            this->at(2)->recalculate(QPointF(parent->boundingRect().topRight()) - QPointF(handleSize/2,handleSize/2), QPointF(parent->boundingRect().topRight() +  QPointF(handleSize/2,handleSize/2))
                                       );
+
             this->at(3)->recalculate(QPointF(
-                                         parent->boundingRect().topLeft() + ((parent->boundingRect().bottomLeft() - parent->boundingRect().topLeft())/2)) - QPointF(handleSize, handleSize/2),
+                                         parent->boundingRect().topLeft() + ((parent->boundingRect().bottomLeft() - parent->boundingRect().topLeft())/2)) - QPointF(handleSize/2, handleSize/2),
                                          QPointF(
-                                         parent->boundingRect().topLeft() + ((parent->boundingRect().bottomLeft() - parent->boundingRect().topLeft())/2)) + QPointF(0, handleSize/2)
+                                         parent->boundingRect().topLeft() + ((parent->boundingRect().bottomLeft() - parent->boundingRect().topLeft())/2)) + QPointF(handleSize/2, handleSize/2)
                                          );
+
             this->at(4)->recalculate(QPointF(
-                                         parent->boundingRect().topRight() + ((parent->boundingRect().bottomRight() - parent->boundingRect().topRight())/2)) - QPointF(0, handleSize/2),
+                                         parent->boundingRect().topRight() + ((parent->boundingRect().bottomRight() - parent->boundingRect().topRight())/2)) - QPointF(handleSize/2, handleSize/2),
                                          QPointF(
-                                         parent->boundingRect().topRight() + ((parent->boundingRect().bottomRight() - parent->boundingRect().topRight())/2)) + QPointF(handleSize, handleSize/2)
+                                         parent->boundingRect().topRight() + ((parent->boundingRect().bottomRight() - parent->boundingRect().topRight())/2)) + QPointF(handleSize/2, handleSize/2)
                                          );
-            this->at(5)->recalculate(QPointF(parent->boundingRect().bottomLeft() - QPointF(handleSize,-handleSize)), QPointF(parent->boundingRect().bottomLeft())
+
+            this->at(5)->recalculate(QPointF(parent->boundingRect().bottomLeft() - QPointF(handleSize/2,handleSize/2)), QPointF(parent->boundingRect().bottomLeft()) + QPointF(handleSize/2,handleSize/2)
                                      );
             this->at(6)->recalculate(QPointF(
-                                         parent->boundingRect().bottomLeft() + ((parent->boundingRect().bottomRight() - parent->boundingRect().bottomLeft())/2)) - QPointF(handleSize/2,0),
+                                         parent->boundingRect().bottomLeft() + ((parent->boundingRect().bottomRight() - parent->boundingRect().bottomLeft())/2)) - QPointF(handleSize/2,handleSize/2),
                                          QPointF(
-                                         parent->boundingRect().bottomLeft() + ((parent->boundingRect().bottomRight() - parent->boundingRect().bottomLeft())/2)) + QPointF(handleSize/2,handleSize)
+                                         parent->boundingRect().bottomLeft() + ((parent->boundingRect().bottomRight() - parent->boundingRect().bottomLeft())/2)) + QPointF(handleSize/2,handleSize/2)
                                          );
-            this->at(7)->recalculate(QPointF(parent->boundingRect().bottomRight()), QPointF(parent->boundingRect().bottomRight() + QPointF(handleSize,handleSize)));
+
+            this->at(7)->recalculate(QPointF(parent->boundingRect().bottomRight()) - QPointF(handleSize/2, handleSize/2), QPointF(parent->boundingRect().bottomRight() + QPointF(handleSize/2,handleSize/2)));
+
         }
             break;
         case twoHandles:
