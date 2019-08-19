@@ -84,7 +84,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             break;
         case Toolbar::Line:
             itemToDraw = new Line(new QPointF(event->pos()), new QPointF(event->pos()));
-
+            itemToDraw->handles.handleType = itemToDraw->handles.twoHandles;
             break;
         case Toolbar::Image:
             itemToDraw = new Image(new QPointF(event->pos()), new QPointF(event->pos()));
@@ -168,6 +168,7 @@ void DiagramScene::setMode(Mode mode){
            makeItemsControllable(true);
            vMode = QGraphicsView::RubberBandDrag;
        }
+
 //       QGraphicsView* mView = views().at(0);
 //       if(mView)
 //           mView->setDragMode(vMode);

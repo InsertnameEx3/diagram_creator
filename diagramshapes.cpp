@@ -13,8 +13,21 @@ void Line::setHandles(){
 }
 void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     painter->setPen(DiagramItem::borderColor);
-    painter->setBrush(DiagramItem::color);
-    painter->drawLine(DiagramItem::topLeft, DiagramItem::bottomRight);
+    //painter->setBrush(DiagramItem::color);
+
+    //path.moveTo(DiagramItem::topLeft);
+    //path.lineTo(DiagramItem::bottomRight);
+    //path.lineTo(DiagramItem::bottomRight + QPointF(100, 100));
+    //painter->drawLine(DiagramItem::topLeft, DiagramItem::bottomRight);
+    path.moveTo(DiagramItem::topLeft);
+    path.lineTo(DiagramItem::topLeft + QPointF(0, 100));
+    path.lineTo(DiagramItem::bottomRight);
+    painter->drawPath(path);
+    path.clear();
+
+
+
+    //painter->drawLines(pointss);
 }
 
 

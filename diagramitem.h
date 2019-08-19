@@ -53,6 +53,8 @@ public:
     void setBoundingRect(QRectF);
     void setBoundingRect(QPointF*, QPointF*);
     void setBoundingRect(QPointF, QPointF);
+    void setLine(QPointF, QPointF);
+
     QRectF boundingRect() const;
 
     // overriding paint()

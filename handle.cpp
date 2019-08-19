@@ -81,40 +81,49 @@ QRectF Handle::boundingRect() const{
 void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
     parent->prepareGeometryChange();
     this->prepareGeometryChange();
+    switch(parent->handles.handleType){
+        case Handles::twoHandles:
 
-    switch(handleType){
-        case TopLeft:
-            //set boundingrect according to event position and recalculate the handles
-            parent->setBoundingRect(event->pos(), parent->boundingRect().bottomRight());
-            parent->handles.recalculate();
+//                switch(handleType){
+
+//                }
             break;
-        case Top:
-            parent->setBoundingRect(QPointF(parent->boundingRect().topLeft().x(), event->pos().y()), parent->boundingRect().bottomRight());
-            parent->handles.recalculate();
-            break;
-        case TopRight:
-            parent->setBoundingRect(QPointF(parent->boundingRect().topLeft().x(), event->pos().y()), QPointF(event->pos().x(), parent->boundingRect().bottomRight().y()));
-            parent->handles.recalculate();
-            break;
-        case Left:
-            parent->setBoundingRect(QPointF(event->pos().x(), parent->boundingRect().topLeft().y()), parent->boundingRect().bottomRight());
-            parent->handles.recalculate();
-            break;
-        case Right:
-            parent->setBoundingRect(parent->boundingRect().topLeft(), QPointF(event->pos().x(), parent->boundingRect().bottomRight().y()));
-            parent->handles.recalculate();
-            break;
-        case BottomLeft:
-        parent->setBoundingRect(QPointF(event->pos().x(), parent->boundingRect().topLeft().y()), QPointF(parent->boundingRect().bottomRight().x(), event->pos().y()));
-        parent->handles.recalculate();
-            break;
-        case Bottom:
-            parent->setBoundingRect(parent->boundingRect().topLeft(), QPointF(parent->boundingRect().bottomRight().x(), event->pos().y()));
-            parent->handles.recalculate();
-            break;
-        case BottomRight:
-            parent->setBoundingRect(parent->boundingRect().topLeft(), event->pos());
-            parent->handles.recalculate();
+        case Handles::eightHandles:
+            switch(handleType){
+                case TopLeft:
+                    //set boundingrect according to event position and recalculate the handles
+                    parent->setBoundingRect(event->pos(), parent->boundingRect().bottomRight());
+                    parent->handles.recalculate();
+                    break;
+                case Top:
+                    parent->setBoundingRect(QPointF(parent->boundingRect().topLeft().x(), event->pos().y()), parent->boundingRect().bottomRight());
+                    parent->handles.recalculate();
+                    break;
+                case TopRight:
+                    parent->setBoundingRect(QPointF(parent->boundingRect().topLeft().x(), event->pos().y()), QPointF(event->pos().x(), parent->boundingRect().bottomRight().y()));
+                    parent->handles.recalculate();
+                    break;
+                case Left:
+                    parent->setBoundingRect(QPointF(event->pos().x(), parent->boundingRect().topLeft().y()), parent->boundingRect().bottomRight());
+                    parent->handles.recalculate();
+                    break;
+                case Right:
+                    parent->setBoundingRect(parent->boundingRect().topLeft(), QPointF(event->pos().x(), parent->boundingRect().bottomRight().y()));
+                    parent->handles.recalculate();
+                    break;
+                case BottomLeft:
+                parent->setBoundingRect(QPointF(event->pos().x(), parent->boundingRect().topLeft().y()), QPointF(parent->boundingRect().bottomRight().x(), event->pos().y()));
+                parent->handles.recalculate();
+                    break;
+                case Bottom:
+                    parent->setBoundingRect(parent->boundingRect().topLeft(), QPointF(parent->boundingRect().bottomRight().x(), event->pos().y()));
+                    parent->handles.recalculate();
+                    break;
+                case BottomRight:
+                    parent->setBoundingRect(parent->boundingRect().topLeft(), event->pos());
+                    parent->handles.recalculate();
+                    break;
+            }
             break;
     }
 

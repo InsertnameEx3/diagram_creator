@@ -86,6 +86,7 @@ void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &prev
         break;
         case 2:
             selection = SelectedItem::Line;
+
         break;
         case 3:
             selection = SelectedItem::Image;

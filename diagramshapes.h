@@ -15,6 +15,9 @@ public:
     Line();
     Line(QPointF*, QPointF*);
 protected:
+    QPainterPath path;
+    QVector<QGraphicsLineItem> lines;
+
     void setHandles();
     void paint(QPainter * painter,
         const QStyleOptionGraphicsItem * option,
