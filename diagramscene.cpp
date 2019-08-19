@@ -106,9 +106,27 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsScene::mousePressEvent(event);
 }
 
+void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
+
+
+    //adding a new diagram item
+    if(this->sceneMode == this->DrawObject){
+
+        itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
+        this->update();
+
+    }
+    //draw selection box
+    else{
+
+    }
+    QGraphicsScene::mouseMoveEvent(event);
+}
+
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
     if(this->sceneMode == this->DrawObject){
+        //if this is a connectionLine remove item if it is not connected by 1 or 2 diagram items
         if(itemToDraw->boundingRect().height() <= 50){
             double heightDiff = 50 - itemToDraw->boundingRect().height();
             itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft() - QPointF(0, heightDiff), itemToDraw->boundingRect().bottomRight());
@@ -132,23 +150,6 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
-void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
-
-
-    //adding a new diagram item
-    if(this->sceneMode == this->DrawObject){
-
-        itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
-        this->update();
-
-    }
-    //draw selection box
-    else{
-
-    }
-    QGraphicsScene::mouseMoveEvent(event);
-}
-
 void DiagramScene::keyPressEvent(QKeyEvent* event){
     QGraphicsScene::keyPressEvent(event);
 }
@@ -156,18 +157,19 @@ void DiagramScene::makeItemsControllable(bool areControllable){
 
 }
 void DiagramScene::setMode(Mode mode){
+    qDebug() << "jeee";
     sceneMode = mode;
 
-    QGraphicsView::DragMode vMode =
-               QGraphicsView::NoDrag;
-       if(mode == DrawObject){
-           makeItemsControllable(false);
-           vMode = QGraphicsView::NoDrag;
-       }
-       else if(mode == SelectObject){
-           makeItemsControllable(true);
-           vMode = QGraphicsView::RubberBandDrag;
-       }
+//    QGraphicsView::DragMode vMode =
+//               QGraphicsView::NoDrag;
+//       if(mode == DrawObject){
+//           makeItemsControllable(false);
+//           vMode = QGraphicsView::NoDrag;
+//       }
+//       else if(mode == SelectObject){
+//           makeItemsControllable(true);
+//           vMode = QGraphicsView::RubberBandDrag;
+//       }
 
 //       QGraphicsView* mView = views().at(0);
 //       if(mView)

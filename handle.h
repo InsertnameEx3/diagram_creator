@@ -25,6 +25,8 @@ public:
         Bottom,
         BottomRight
     };
+    // if this is the handle of a line
+    int index;
 
     Handle(QPointF*, QPointF*, HandleType, DiagramItem*);
     Handle(QPointF, QPointF, HandleType, DiagramItem*);
@@ -36,6 +38,7 @@ public:
     void recalculate(QPointF*, QPointF*);
     void recalculate(QPointF, QPointF);
 
+    void setBoundingRect(QPointF, QPointF);
     void setBoundingRect(QRectF*);
     void setBoundingRect(QPointF*, QPointF*);
     void setPos(QPointF);

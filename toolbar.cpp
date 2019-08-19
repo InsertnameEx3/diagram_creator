@@ -76,6 +76,7 @@ void Toolbar::CreateTools(){
 
 void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &previous){
     diagramScene->setMode(diagramScene->DrawObject);
+
     switch(current.row()){
 
         case 0:

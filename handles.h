@@ -13,6 +13,7 @@ class DiagramScene;
 class Handle;
 class DiagramItem;
 
+//Interface for all handles of a DiagramItem
 class Handles : public QList<Handle* >
 {
 public:
@@ -21,16 +22,16 @@ public:
         twoHandles
     };
 
-
-
+    void setOpacity(qreal opacity);
+    Types handleType;
+    double handleSize;
     bool changed = false;
+
     DiagramItem* parent;
     Handles(DiagramItem* parent = nullptr, Types = eightHandles, double = 15);
     ~Handles();
-    Types handleType;
-    double handleSize;
 
-    void updateHandles();
+
     void recalculate();
     void setBoundingRect(QRectF*);
     void setBoundingRect(QPointF, QPointF);

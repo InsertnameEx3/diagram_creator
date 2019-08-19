@@ -12,12 +12,12 @@
 
 Handle::Handle(QPointF* tl, QPointF* br, HandleType type, DiagramItem* p): QGraphicsItem(), parent{p}{
 
-    form = this->Squared;
+    form = this->Rounded;
     topLeft = *tl;
 
     bottomRight = *br;
     borderColor = QPen(Qt::black);
-    color = Qt::black;
+    color = Qt::white;
 
     handleType = type;
     this->setFlag(QGraphicsItem::ItemIsMovable);
@@ -27,7 +27,7 @@ Handle::Handle(QPointF tl, QPointF br, HandleType type, DiagramItem* p): QGraphi
     form = this->Squared;
     setBoundingRect(&tl,&br);
     borderColor = QPen(Qt::black);
-    color = Qt::black;
+     color = Qt::white;
 
     topLeft = tl;
 
@@ -36,6 +36,7 @@ Handle::Handle(QPointF tl, QPointF br, HandleType type, DiagramItem* p): QGraphi
     handleType = type;
     this->setFlag(QGraphicsItem::ItemIsMovable);
 }
+
 Handle::~Handle(){
 
 }
@@ -52,8 +53,13 @@ void Handle::recalculate(QPointF tl, QPointF br){
 }
 
 
+
 void Handle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->setPen(borderColor);
+    auto borderColor = QBrush(Qt::black);
+    auto borderWidth = 3;
+    auto border = QPen(borderColor, borderWidth);
+
+    painter->setPen(border);
     painter->setBrush(color);
 
     switch(this->form){
@@ -74,6 +80,12 @@ void Handle::setBoundingRect(QPointF* tl, QPointF* br){
     topLeft = *tl;
     bottomRight = *br;
 }
+
+void Handle::setBoundingRect(QPointF tl, QPointF br){
+    topLeft = tl;
+    bottomRight = br;
+}
+
 QRectF Handle::boundingRect() const{
     return QRectF(topLeft, bottomRight);
 };
@@ -136,7 +148,7 @@ void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
 void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     parent->prepareGeometryChange();
     this->prepareGeometryChange();
-
+    parent->handles.setOpacity(0);
     switch(handleType){
         case TopLeft:
             //set boundingrect according to event position and recalculate the handles
@@ -177,9 +189,12 @@ void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     parent->update();
     parent->scene()->update();
     this->update();
+
     //QGraphicsItem::mouseMoveEvent(event);
 }
+
 void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
+    parent->handles.setOpacity(100);
     parent->prepareGeometryChange();
     this->prepareGeometryChange();
 

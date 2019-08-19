@@ -13,9 +13,13 @@ class DiagramItem : public QGraphicsItem
 {
 public:
     //properties for property panel:
-    QPen borderColor;
-    QBrush color;
+    QPen border;
+    double borderWidth;
+    QBrush borderColor;
+    QBrush innerColor;
     QSize size;
+
+    Handle* addPointHandle;
 
     Handles& handles;
 
@@ -65,7 +69,8 @@ public:
     // item state
     Mode state;
     bool Pressed;
-    bool Overlappable;
+    bool connectable;
+    bool overlappable;
 
     void prepareGeometryChange();
 

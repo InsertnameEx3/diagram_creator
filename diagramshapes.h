@@ -8,12 +8,17 @@
 #include <QGraphicsSimpleTextItem>
 #include <QGraphicsTextItem>
 #include <QGraphicsPixmapItem>
-
+#include <QGraphicsSceneHoverEvent>
 class Line : public DiagramItem
 {
 public:
     Line();
     Line(QPointF*, QPointF*);
+
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+
 protected:
     QPainterPath path;
     QVector<QGraphicsLineItem> lines;
