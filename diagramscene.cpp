@@ -63,10 +63,6 @@ DiagramScene::DiagramScene(QObject* parent)
         }
         break;
     }
-
-
-
-
 }
 
 DiagramScene::~DiagramScene(){

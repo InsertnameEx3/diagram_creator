@@ -23,6 +23,7 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
+    void setPos(const QPointF &pos);
     virtual QPainterPath shape() const;
     QPointF closestPoint(QPointF) const;
 

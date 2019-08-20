@@ -67,6 +67,7 @@ void DiagramItem::setBoundingRect(QPointF* tl, QPointF* br){
 
 void DiagramItem::setBoundingRect(QPointF tl, QPointF br){
     this->prepareGeometryChange();
+
     switch(handles.handleType){
     case Handles::eightHandles:
         if(QRectF(tl, br).height() >= 50){
@@ -102,18 +103,6 @@ QRectF DiagramItem::boundingRect() const{
 // overriding paint()
 void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-//    borderColor.setBrush(Qt::black);
-
-//    color.setPen(Qt::black);
-//    borderColor.setWidth(1);
-
-    painter->setPen(Qt::darkRed);
-
-    painter->setBrush(Qt::darkGray);
-    //painter->drawRect(boundingRect());
-    //painter->drawArc(boundingRect());
-
-
 
 }
 

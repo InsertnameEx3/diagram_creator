@@ -12,6 +12,7 @@ class DiagramView : public QGraphicsView
 {
 public:
     DiagramView();
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
 

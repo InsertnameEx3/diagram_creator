@@ -15,6 +15,26 @@ Line::Line(QPointF* tl, QPointF* br): DiagramItem(tl,br, Handles::twoHandles, 15
 void Line::setHandles(){
 
 }
+void Line::setPos(const QPointF &pos){
+    for (int i =0; i <path.elementCount(); ++i) {
+        path.setElementPositionAt(i, path.elementAt(i).x + pos.x(), path.elementAt(i).y + pos.y());
+    }
+    DiagramItem::setPos(pos);
+}
+
+
+void Line::mousePressEvent(QGraphicsSceneMouseEvent* event){
+    //DiagramItem::mousePressEvent(event);
+}
+void Line::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
+    //setPos(event->pos());
+    //DiagramItem::mouseMoveEvent(event);
+}
+void Line::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
+    //DiagramItem::mouseReleaseEvent(event);
+}
+
+
 
 void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
