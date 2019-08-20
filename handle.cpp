@@ -4,12 +4,6 @@
 #include <QCursor>
 #include <QDebug>
 
-
-
-
-
-
-
 Handle::Handle(QPointF* tl, QPointF* br, HandleType type, DiagramItem* p): QGraphicsItem(), parent{p}{
 
     form = this->Rounded;
@@ -25,14 +19,9 @@ Handle::Handle(QPointF* tl, QPointF* br, HandleType type, DiagramItem* p): QGrap
 
 Handle::Handle(QPointF tl, QPointF br, HandleType type, DiagramItem* p): QGraphicsItem(), parent{p}{
     form = this->Rounded;
-
-
-
-
-
     setBoundingRect(&tl,&br);
     borderColor = QPen(Qt::black);
-     color = Qt::white;
+    color = Qt::white;
 
     topLeft = tl;
 
@@ -47,14 +36,17 @@ Handle::~Handle(){
 }
 
 void Handle::recalculate(QPointF* tl, QPointF* br){
+    this->prepareGeometryChange();
     topLeft = *tl;
-
     bottomRight = *br;
+    this->update();
 }
 
 void Handle::recalculate(QPointF tl, QPointF br){
+    this->prepareGeometryChange();
     topLeft = tl;
     bottomRight = br;
+    this->update();
 }
 
 void Handle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){

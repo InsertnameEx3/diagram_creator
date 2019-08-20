@@ -49,7 +49,6 @@ void DiagramItem::setBoundingRect(QRectF* newRectangle){
     topLeft = newRectangle->topLeft();
     bottomRight = newRectangle->bottomRight();
     this->update();
-    qDebug() << topLeft;
 }
 
 void DiagramItem::setBoundingRect(QRectF newRectangle){
@@ -126,21 +125,9 @@ void DiagramItem::mouseDoublePressEvent(){
 
 void DiagramItem::mousePressEvent(QGraphicsSceneMouseEvent* event){
     Pressed = true;
-    //check if it touches any of the resize points if so, change mode to resize, else select
-    //if()
-
-    if(event->pos().x() < 10 && event->pos().x() > 5 && event->pos().y() < 10 && event->pos().y() > 5){
-
-    }
-
     QGraphicsItem::mousePressEvent(event);
-
 }
 void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
-    //on resize check which point is selected, move on:
-    // *x&y *y  *x&y
-    // *x       *x
-    // *x&y *y  *x&y
     QGraphicsItem::mouseMoveEvent(event);
 }
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){

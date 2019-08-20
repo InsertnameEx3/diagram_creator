@@ -27,30 +27,35 @@ DiagramScene::DiagramScene(QObject* parent)
 
     QColor gridColor = "#cdcccc";
     QColor backgroundColor = "#e4e4e4";
-    double size = 0.5;
-    int space = 50;
+
     enum GridType{
         Lines,
         Dots
     };
-    GridType grid = Lines;
+    GridType grid = Dots;
 
 
     this->setBackgroundBrush(backgroundColor);
 
 
-
+    double width = this->width() < 1920? 1920 : this->width();
+    double height = this->height() < 1920? 1920 : this->height();
     switch(grid){
+
     case Lines:
-        for (int x=0; x<=2000; x+=space){
-            this->addLine(x,0,x,2000, QPen(gridColor));
+        size = 1;
+        space = 25;
+        for (int x=0; x<=width; x+=space){
+            this->addLine(x,0,x,height, QPen(gridColor));
 
         }
-        for (int y=0; y<=2000; y+=space){
-            this->addLine(0,y,2000,y, QPen(gridColor));
+        for (int y=0; y<=height; y+=space){
+            this->addLine(0,y,width,y, QPen(gridColor));
         }
         break;
     case Dots:
+        size = 1;
+        space = 25;
         for(int x=0; x<=2000; x+=space){
             for(int y=0; y<=2000; y+=space){
                 this->addEllipse(QRectF(QPointF(x-size,y-size), QPointF(x+size,y+size)), QPen(gridColor), QBrush(gridColor));
@@ -72,6 +77,7 @@ DiagramScene::~DiagramScene(){
 
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
+
 
     if(this->sceneMode == this->DrawObject){
     switch(Toolbar::selection){
@@ -136,8 +142,6 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         }
         this->update();
         this->setMode(this->NoMode);
-        // To avoid a dangling pointer:
-        itemToDraw = nullptr;
     }
     //select everything in selection box
     else{

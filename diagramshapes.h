@@ -19,8 +19,16 @@ public:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+
+    virtual QPainterPath shape() const;
+    QPointF closestPoint(QPointF) const;
+
 protected:
     QPainterPath path;
+    QGraphicsPathItem pathItem;
     QVector<QGraphicsLineItem> lines;
 
     void setHandles();

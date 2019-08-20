@@ -97,10 +97,10 @@ void Handles::setPos(QPointF point){
 
 void Handles::recalculate(){
     changed = true;
+
     switch (handleType) {
         case eightHandles:
         {
-
             this->at(0)->recalculate(QPointF(
                                     parent->boundingRect().topLeft() - QPointF(handleSize/2, handleSize/2)),
                                     QPointF(
@@ -149,15 +149,6 @@ void Handles::recalculate(){
         }
             break;
 
-    }
-
-
-
-
-
-    //this->addToScene(parent->scene());
-    for(auto handle : *this){
-        handle->update();
     }
 }
 

@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     view->setRenderHints(QPainter::Antialiasing);
     DiagramScene* scene = new DiagramScene(view);
 
-
     view->setScene(scene);
 
 
@@ -64,10 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     setWindowTitle(tr("UML Creator"));
     setMinimumSize(160, 160);
-    resize(480, 320);
-
-
-
+    resize(480, 320); 
 }
 
 void MainWindow::createActions()
