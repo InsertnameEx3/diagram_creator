@@ -4,7 +4,7 @@
 Line::Line(): DiagramItem (){
 
 }
-Line::Line(QPointF* tl, QPointF* br): DiagramItem(tl,br){
+Line::Line(QPointF* tl, QPointF* br): DiagramItem(tl,br, Handles::twoHandles, 15){
     this->setBoundingRect(tl, br);
 }
 

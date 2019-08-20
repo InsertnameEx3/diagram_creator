@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     setCentralWidget(widget);
 
     DiagramView* view = new DiagramView();
+    view->setRenderHints(QPainter::Antialiasing);
     DiagramScene* scene = new DiagramScene(view);
 
 

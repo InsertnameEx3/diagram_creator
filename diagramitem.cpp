@@ -9,7 +9,7 @@
 #include "handle.h"
 #include "handles.h"
 #include <QGraphicsWidget>
-DiagramItem::DiagramItem(QPointF* tl, QPointF* br): topLeft{*tl}, bottomRight{*br}, handles{*new Handles(this)}{
+DiagramItem::DiagramItem(QPointF* tl, QPointF* br, Handles::Types type, double size): topLeft{*tl}, bottomRight{*br}, handles{*new Handles(this, type, size)}{
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
     border = QPen(borderColor, DiagramItem::borderWidth);
@@ -19,7 +19,7 @@ DiagramItem::DiagramItem(QPointF* tl, QPointF* br): topLeft{*tl}, bottomRight{*b
     this->setAcceptHoverEvents(true);
 }
 
-DiagramItem::DiagramItem(int tlX,int tlY,int brX,int brY): topLeft{QPointF(tlX,tlY)}, bottomRight{QPointF(brX, brY)}, handles{*new Handles(this)} {
+DiagramItem::DiagramItem(int tlX,int tlY,int brX,int brY, Handles::Types type, double size): topLeft{QPointF(tlX,tlY)}, bottomRight{QPointF(brX, brY)}, handles{*new Handles(this, type, size)} {
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
     border = QPen(borderColor, DiagramItem::borderWidth);
@@ -29,7 +29,7 @@ DiagramItem::DiagramItem(int tlX,int tlY,int brX,int brY): topLeft{QPointF(tlX,t
     this->setAcceptHoverEvents(true);
 }
 
-DiagramItem::DiagramItem(): handles{*new Handles(this)}{
+DiagramItem::DiagramItem(Handles::Types type, double size): handles{*new Handles(this, type, size)}{
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
     border = QPen(borderColor, DiagramItem::borderWidth);
@@ -163,9 +163,9 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
         if (value == true)
         {
 
-            handles.handleType = handles.eightHandles;
 
-            qDebug() << "sha";
+
+
             if(!handles.changed){
 
 

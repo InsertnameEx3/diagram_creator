@@ -42,13 +42,13 @@ public:
     // if selected add resize points
     // on hover show element and all arrows connected
 
-    DiagramItem(QPointF*, QPointF*);
+    DiagramItem(QPointF*, QPointF*, Handles::Types = Handles::eightHandles, double = 15);
 
 
 
 
-    DiagramItem();
-    DiagramItem(int,int,int,int);
+    DiagramItem(Handles::Types = Handles::eightHandles, double = 15);
+    DiagramItem(int,int,int,int, Handles::Types = Handles::eightHandles, double = 15);
     DiagramItem(QPointF*,QPointF*,QPointF*,QPointF*);
     ~DiagramItem();
 

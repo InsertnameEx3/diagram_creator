@@ -28,7 +28,7 @@ public:
     bool changed = false;
 
     DiagramItem* parent;
-    Handles(DiagramItem* parent = nullptr, Types = eightHandles, double = 15);
+    Handles(DiagramItem* parent = nullptr, Types handleType = eightHandles, double handleSize = 15);
     ~Handles();
 
 

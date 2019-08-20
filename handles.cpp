@@ -13,7 +13,6 @@
 
 
 Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType{type}, handleSize{size}{
-
     switch (this->handleType) {
     case Handles::twoHandles:
 
@@ -24,6 +23,7 @@ Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType
                                 , Handle::TopLeft, parent));
         this->append(new Handle(QPointF(parent->boundingRect().bottomRight()), QPointF(parent->boundingRect().bottomRight() + QPointF(handleSize,handleSize))
                                 , Handle::BottomRight, parent));
+
         break;
     case Handles::eightHandles:
 
@@ -62,7 +62,6 @@ Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType
     break;
     }
 
-    handleType = eightHandles;
     changed = false;
 
 }
@@ -98,7 +97,6 @@ void Handles::setPos(QPointF point){
 
 void Handles::recalculate(){
     changed = true;
-    qDebug() << handleType;
     switch (handleType) {
         case eightHandles:
         {
@@ -143,12 +141,11 @@ void Handles::recalculate(){
         case twoHandles:
         {
             this->at(0)->recalculate(QPointF(
-
                                 parent->boundingRect().topLeft() - QPointF(handleSize/2, handleSize/2)),
                                 QPointF(
-                                parent->boundingRect().topLeft()));
+                                parent->boundingRect().topLeft()  + QPointF(handleSize/2, handleSize/2)));
 
-             this->at(1)->recalculate(QPointF(parent->boundingRect().bottomRight()), QPointF(parent->boundingRect().bottomRight() + QPointF(handleSize,handleSize)));
+             this->at(1)->recalculate(QPointF(parent->boundingRect().bottomRight() - QPointF(handleSize/2,handleSize/2)), QPointF(parent->boundingRect().bottomRight() + QPointF(handleSize/2,handleSize/2)));
         }
             break;
 
