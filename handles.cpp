@@ -12,7 +12,9 @@
 
 
 
-Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType{type}, handleSize{size}{
+Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType{type}{
+    const double handleSize = size;
+    setHandleSize(size);
     switch (this->handleType) {
     case Handles::twoHandles:
 
@@ -97,7 +99,7 @@ void Handles::setPos(QPointF point){
 
 void Handles::recalculate(){
     changed = true;
-
+    const double handleSize = this->getHandleSize();
     switch (handleType) {
         case eightHandles:
         {
@@ -204,3 +206,13 @@ void Handles::setOpacity(qreal opacity){
     }
 }
 
+void Handles::setHandleSize(double size){
+
+//    Handles::handleSize = size;
+    //Handles::handleSize = size;
+}
+
+double Handles::getHandleSize(){
+    //return Handles::handleSize;
+    return 15;
+}

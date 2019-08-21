@@ -13,6 +13,8 @@ class DiagramScene;
 class Handle;
 class DiagramItem;
 
+
+
 //Interface for all handles of a DiagramItem
 class Handles : public QList<Handle* >
 {
@@ -24,7 +26,10 @@ public:
 
     void setOpacity(qreal opacity);
     Types handleType;
-    double handleSize;
+    static double handleSize;
+    void setHandleSize(double);
+    double getHandleSize();
+
     bool changed = false;
 
     DiagramItem* parent;
@@ -54,5 +59,7 @@ private:
     QRectF* rect;
 
 };
+
+//double Handles::handleSize;
 
 #endif // HANDLES_H

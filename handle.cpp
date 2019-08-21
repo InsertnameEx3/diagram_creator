@@ -3,7 +3,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QCursor>
 #include <QDebug>
-
+#include <QGraphicsView>
 Handle::Handle(QPointF* tl, QPointF* br, HandleType type, DiagramItem* p): QGraphicsItem(), parent{p}{
 
     form = this->Rounded;
@@ -86,130 +86,78 @@ QRectF Handle::boundingRect() const{
 };
 
 void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
-    parent->prepareGeometryChange();
-    this->prepareGeometryChange();
-    switch(parent->handles.handleType){
-        case Handles::twoHandles:
-//        switch(handleType){
-//            case TopLeft:
-//                //set boundingrect according to event position and recalculate the handles
-//                parent->setBoundingRect(event->pos(), parent->boundingRect().bottomRight());
-//                parent->handles.recalculate();
-//                break;
-//            case BottomRight:
-//                parent->setBoundingRect(parent->boundingRect().topLeft(), event->pos());
-//                parent->handles.recalculate();
-//                break;
 
-//                }
-//            break;
-        case Handles::eightHandles:
-            switch(handleType){
-                case TopLeft:
-                    //set boundingrect according to event position and recalculate the handles
-                    parent->setBoundingRect(event->pos(), parent->boundingRect().bottomRight());
-                    parent->handles.recalculate();
-                    break;
-                case Top:
-                    parent->setBoundingRect(QPointF(parent->boundingRect().topLeft().x(), event->pos().y()), parent->boundingRect().bottomRight());
-                    parent->handles.recalculate();
-                    break;
-                case TopRight:
-                    parent->setBoundingRect(QPointF(parent->boundingRect().topLeft().x(), event->pos().y()), QPointF(event->pos().x(), parent->boundingRect().bottomRight().y()));
-                    parent->handles.recalculate();
-                    break;
-                case Left:
-                    parent->setBoundingRect(QPointF(event->pos().x(), parent->boundingRect().topLeft().y()), parent->boundingRect().bottomRight());
-                    parent->handles.recalculate();
-                    break;
-                case Right:
-                    parent->setBoundingRect(parent->boundingRect().topLeft(), QPointF(event->pos().x(), parent->boundingRect().bottomRight().y()));
-                    parent->handles.recalculate();
-                    break;
-                case BottomLeft:
-                parent->setBoundingRect(QPointF(event->pos().x(), parent->boundingRect().topLeft().y()), QPointF(parent->boundingRect().bottomRight().x(), event->pos().y()));
-                parent->handles.recalculate();
-                    break;
-                case Bottom:
-                    parent->setBoundingRect(parent->boundingRect().topLeft(), QPointF(parent->boundingRect().bottomRight().x(), event->pos().y()));
-                    parent->handles.recalculate();
-                    break;
-                case BottomRight:
-                    parent->setBoundingRect(parent->boundingRect().topLeft(), event->pos());
-                    parent->handles.recalculate();
-                    break;
-            }
-            break;
-    }
-
-    parent->update();
-    parent->scene()->update();
-    this->update();
     //QGraphicsItem::mousePressEvent(event);
 }
 
 void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
-    parent->prepareGeometryChange();
-    this->prepareGeometryChange();
     parent->handles.setOpacity(0);
+//    parent->scene()->views()[0]->setRenderHints(QPainter::HighQualityAntialiasing);
     switch(handleType){
         case TopLeft:
-            //set boundingrect according to event position and recalculate the handles
+            //set boundingrect according to event position
             parent->setBoundingRect(event->pos(), parent->boundingRect().bottomRight());
-            parent->handles.recalculate();
             break;
         case Top:
             parent->setBoundingRect(QPointF(parent->boundingRect().topLeft().x(), event->pos().y()), parent->boundingRect().bottomRight());
-            parent->handles.recalculate();
             break;
         case TopRight:
             parent->setBoundingRect(QPointF(parent->boundingRect().topLeft().x(), event->pos().y()), QPointF(event->pos().x(), parent->boundingRect().bottomRight().y()));
-            parent->handles.recalculate();
             break;
         case Left:
             parent->setBoundingRect(QPointF(event->pos().x(), parent->boundingRect().topLeft().y()), parent->boundingRect().bottomRight());
-            parent->handles.recalculate();
             break;
         case Right:
             parent->setBoundingRect(parent->boundingRect().topLeft(), QPointF(event->pos().x(), parent->boundingRect().bottomRight().y()));
-            parent->handles.recalculate();
             break;
         case BottomLeft:
         parent->setBoundingRect(QPointF(event->pos().x(), parent->boundingRect().topLeft().y()), QPointF(parent->boundingRect().bottomRight().x(), event->pos().y()));
-        parent->handles.recalculate();
             break;
         case Bottom:
             parent->setBoundingRect(parent->boundingRect().topLeft(), QPointF(parent->boundingRect().bottomRight().x(), event->pos().y()));
-            parent->handles.recalculate();
             break;
         case BottomRight:
             parent->setBoundingRect(parent->boundingRect().topLeft(), event->pos());
-            parent->handles.recalculate();
             break;
     }
 
-
-    parent->update();
     parent->scene()->update();
-    this->update();
-
     //QGraphicsItem::mouseMoveEvent(event);
 }
 
 void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
-    parent->handles.setOpacity(100);
-//    parent->stackBefore(parent->handles.at(0));
-//    parent->stackBefore(parent->handles.at(1));
-//    parent->stackBefore(parent->handles.at(2));
-//    parent->stackBefore(parent->handles.at(3));
-//    parent->stackBefore(parent->handles.at(4));
-//    parent->stackBefore(parent->handles.at(5));
-//    parent->stackBefore(parent->handles.at(6));
-//    parent->stackBefore(parent->handles.at(7));
 
-    parent->update();
-    parent->scene()->update();
+    switch(handleType){
+        case TopLeft:
+            // Recalculate handles
+            parent->handles.recalculate();
+            break;
+        case Top:
+            parent->handles.recalculate();
+            break;
+        case TopRight:
+            parent->handles.recalculate();
+            break;
+        case Left:
+            parent->handles.recalculate();
+            break;
+        case Right:
+            parent->handles.recalculate();
+            break;
+        case BottomLeft:
+        parent->handles.recalculate();
+            break;
+        case Bottom:
+            parent->handles.recalculate();
+            break;
+        case BottomRight:
+            parent->handles.recalculate();
+            break;
+    }
+
+    parent->handles.setOpacity(100);
     this->update();
+    parent->scene()->update();
     //QGraphicsItem::mouseReleaseEvent(event);
 }
 

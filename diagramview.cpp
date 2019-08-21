@@ -24,9 +24,11 @@ void DiagramView::wheelEvent(QWheelEvent *event){
         double scaleFactor = 1.15;
 
         if(event->delta() > 0){
+            //Handles::handleSize = scaleFactor;
             scale(scaleFactor, scaleFactor);
         }
         else {
+            //Handles::handleSize = 1/scaleFactor;
             scale(1/scaleFactor, 1/scaleFactor);
         }
 

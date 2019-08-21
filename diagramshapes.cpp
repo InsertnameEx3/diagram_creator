@@ -4,6 +4,8 @@
 #include <QStyleOptionGraphicsItem>
 #include <QtDebug>
 #include <QLineF>
+#include "handles.h"
+
 Line::Line(): DiagramItem (){
 
 }
@@ -107,7 +109,7 @@ QPointF Line::closestPoint(QPointF point) const{
 
 void Line::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
     const QPointF point = closestPoint(event->pos());
-    auto handleSize = 15;
+    const double handleSize = this->handles.getHandleSize();
 
     addPointHandle = new Handle(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2)
                             , Handle::TopLeft, this);
@@ -118,7 +120,7 @@ void Line::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
 }
 void Line::hoverMoveEvent(QGraphicsSceneHoverEvent *event){
     const QPointF point = closestPoint(event->pos());
-    auto handleSize = 15;
+    const double handleSize = this->handles.getHandleSize();
 
     addPointHandle->setBoundingRect(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2));
 
