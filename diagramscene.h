@@ -24,9 +24,9 @@ public:
 
     QColor backgroundColor = Qt::blue;
 
-    double size = 0.5;
+    static double size;
 
-    int space = 50;
+    static int space;
 
     enum GridType{
         Lines,

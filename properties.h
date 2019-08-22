@@ -9,6 +9,7 @@ class Properties : public QWidget, public QVBoxLayout
 public:
     Properties();
 
+    static bool gridSnap;
     //    void change
     //    theme.UIColor
     //    theme.sceneColor

@@ -19,6 +19,9 @@
 #include "QGraphicsLayout"
 #include "handles.h"
 Toolbar::SelectedItem Toolbar::selection;
+double DiagramScene::size;
+
+
 
 DiagramScene::DiagramScene(QObject* parent)
 {

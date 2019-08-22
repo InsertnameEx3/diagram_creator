@@ -9,6 +9,9 @@
 #include "handle.h"
 #include "handles.h"
 #include <QGraphicsWidget>
+#include <QApplication>
+#include <cmath>
+
 DiagramItem::DiagramItem(QPointF* tl, QPointF* br, Handles::Types type, double size): topLeft{*tl}, bottomRight{*br}, handles{*new Handles(this, type, size)}{
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
@@ -117,6 +120,7 @@ void DiagramItem::mousePressEvent(QGraphicsSceneMouseEvent* event){
     QGraphicsItem::mousePressEvent(event);
 }
 void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
+
     QGraphicsItem::mouseMoveEvent(event);
 }
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
@@ -131,6 +135,9 @@ void DiagramItem::prepareGeometryChange(){
     QGraphicsItem::prepareGeometryChange();
 }
 
+int DiagramScene::space;
+bool Properties::gridSnap;
+
 QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &value){
 
     if (change == QGraphicsItem::ItemSelectedChange)
@@ -139,12 +146,7 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
         if (value == true)
         {
 
-
-
-
             if(!handles.changed){
-
-
                 handles.recalculate();
                 //auto handleSize = 15.0;
 
@@ -153,8 +155,6 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
                 handles.setAcceptedMouseButtons(Qt::LeftButton);
                 handles.addToScene(scene());
                 handles.changed = true;
-
-
             }
 
             handles.show();
@@ -165,12 +165,10 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
 
             //this->color = Qt::blue;
         }
-        else
-        {
-
-                handles.hide();
-                this->update();
-                scene()->update();
+        else {
+            handles.hide();
+            this->update();
+            scene()->update();
 
             // do stuff if not selected
         }
@@ -178,8 +176,20 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
     if (change == QGraphicsItem::ItemPositionChange){
 
         //handles.recalculate();
+        QPointF newPos = value.toPointF();
 
-        handles.setPos(value.toPoint());
+        if(QApplication::mouseButtons() == Qt::LeftButton && Properties::gridSnap){
+            int gridSpace = DiagramScene::space;
+            qreal xV = round(newPos.x()/gridSpace)*gridSpace;
+            qreal yV = round(newPos.y()/gridSpace)*gridSpace;
+            handles.setPos(QPointF(xV, yV));
+            return QPointF(xV, yV);
+        }
+        else{
+            handles.setPos(newPos);
+            return newPos;
+        }
+
 
         scene()->update();
         this->update();

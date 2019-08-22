@@ -12,6 +12,12 @@ struct Theme;
 class DiagramItem : public QGraphicsItem
 {
 public:
+//    DiagramScene* scene;
+
+//    DiagramScene* getScene();
+//    void setScene();
+
+
     //properties for property panel:
     QPen border;
     double borderWidth;
