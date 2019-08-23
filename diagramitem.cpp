@@ -106,7 +106,40 @@ QRectF DiagramItem::boundingRect() const{
 // overriding paint()
 void DiagramItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    switch(renderingStyle){
+        case Antialiasing:
+            painter->setRenderHint(QPainter::Antialiasing);
+        break;
+        case TextAntialiasing:
+            painter->setRenderHint(QPainter::TextAntialiasing);
+        break;
+        case SmoothPixmapTransform :
+            painter->setRenderHint(QPainter::SmoothPixmapTransform);
+        break;
+        case HighQualityAntialiasing:
+            painter->setRenderHint(QPainter::HighQualityAntialiasing);
+        break;
+        case NonCosmeticDefaultPen:
+            painter->setRenderHint(QPainter::NonCosmeticDefaultPen);
+        break;
+        case Qt4CompatiblePainting:
+            painter->setRenderHint(QPainter::Qt4CompatiblePainting);
+        break;
+        case LosslessImageRendering:
+            painter->setRenderHint(QPainter::LosslessImageRendering);
+        break;
 
+    }
+
+
+//    Antialiasing = 0x01,
+//    TextAntialiasing = 0x02,
+//    SmoothPixmapTransform = 0x04,
+//    HighQualityAntialiasing = 0x08,
+//    NonCosmeticDefaultPen = 0x10,
+//    Qt4CompatiblePainting = 0x20,
+//    LosslessImageRendering = 0x40,
+    //QGraphicsItem::paint(painter, option, widget);
 }
 
 
@@ -114,6 +147,9 @@ void DiagramItem::mouseDoublePressEvent(){
 
 }
 
+void DiagramItem::setRenderStyle(RenderStyle style){
+    this->renderingStyle = style;
+}
 
 void DiagramItem::mousePressEvent(QGraphicsSceneMouseEvent* event){
     Pressed = true;
@@ -121,9 +157,14 @@ void DiagramItem::mousePressEvent(QGraphicsSceneMouseEvent* event){
 }
 void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
+    //scene()->views()[0]->setRenderHints(QPainter::NonCosmeticDefaultPen);
+    this->setRenderStyle(NonCosmeticDefaultPen);
+    //this->handles.set
     QGraphicsItem::mouseMoveEvent(event);
+
 }
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
+    this->setRenderStyle(Antialiasing);
     Pressed = false;
     state = Selected;
     //setHandles();
@@ -131,14 +172,12 @@ void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
 }
 
 
-void DiagramItem::prepareGeometryChange(){
-    QGraphicsItem::prepareGeometryChange();
-}
-
 int DiagramScene::space;
 bool Properties::gridSnap;
 
 QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &value){
+
+
 
     if (change == QGraphicsItem::ItemSelectedChange)
     {
@@ -147,9 +186,8 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
         {
 
             if(!handles.changed){
-                handles.recalculate();
-                //auto handleSize = 15.0;
 
+                handles.recalculate();
                 handles.setAcceptHoverEvents(true);
                 handles.setAcceptTouchEvents(true);
                 handles.setAcceptedMouseButtons(Qt::LeftButton);
@@ -175,10 +213,14 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
     }
     if (change == QGraphicsItem::ItemPositionChange){
 
+        this->setRenderStyle(NonCosmeticDefaultPen);
+
         //handles.recalculate();
         QPointF newPos = value.toPointF();
+        this->prepareGeometryChange();
 
         if(QApplication::mouseButtons() == Qt::LeftButton && Properties::gridSnap){
+
             int gridSpace = DiagramScene::space;
             qreal xV = round(newPos.x()/gridSpace)*gridSpace;
             qreal yV = round(newPos.y()/gridSpace)*gridSpace;
@@ -204,4 +246,29 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
 
 }
 
+
+QPainter::RenderHint DiagramItem::getRenderStyle(){
+    switch(renderingStyle){
+        case Antialiasing:
+            return QPainter::Antialiasing;
+
+        case TextAntialiasing:
+            return QPainter::TextAntialiasing;
+
+        case SmoothPixmapTransform :
+            return QPainter::SmoothPixmapTransform;
+
+        case HighQualityAntialiasing:
+            return QPainter::HighQualityAntialiasing;
+
+        case NonCosmeticDefaultPen:
+            return QPainter::NonCosmeticDefaultPen;
+
+        case Qt4CompatiblePainting:
+            return QPainter::Qt4CompatiblePainting;
+
+        case LosslessImageRendering:
+            return QPainter::LosslessImageRendering;
+    }
+}
 

@@ -91,8 +91,12 @@ void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
 }
 
 void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
+    // Change to non antialiasing
+    //if(parent->renderingStyle == DiagramItem::Antialiasing)
+        parent->setRenderStyle(DiagramItem::NonCosmeticDefaultPen);
+
     parent->handles.setOpacity(0);
-//    parent->scene()->views()[0]->setRenderHints(QPainter::HighQualityAntialiasing);
+
     switch(handleType){
         case TopLeft:
             //set boundingrect according to event position
@@ -126,6 +130,8 @@ void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 }
 
 void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
+
+    parent->setRenderStyle(DiagramItem::Antialiasing);
 
     switch(handleType){
         case TopLeft:

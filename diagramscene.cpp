@@ -76,9 +76,10 @@ DiagramScene::~DiagramScene(){
 
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
-
+    qDebug() << "press";
 
     if(this->sceneMode == this->DrawObject){
+        this->sceneMode = this->Drawing;
     switch(Toolbar::selection){
         case Toolbar::Rectangle:
             itemToDraw = new Rectangle(new QPointF(event->pos()), new QPointF(event->pos()));
@@ -110,16 +111,15 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
-
-
+    qDebug() << "move";
     //adding a new diagram item
-    if(this->sceneMode == this->DrawObject){
+    if(this->sceneMode == this->Drawing){
 
         itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
         this->update();
 
     }
-    //draw selection box
+    //hover event
     else{
 
     }
@@ -128,7 +128,8 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
-    if(this->sceneMode == this->DrawObject){
+    qDebug() << "release";
+    if(this->sceneMode == this->Drawing){
         //if this is a connectionLine remove item if it is not connected by 1 or 2 diagram items
         if(itemToDraw->boundingRect().height() <= 50){
             double heightDiff = 50 - itemToDraw->boundingRect().height();
@@ -139,8 +140,9 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft() - QPointF(widthDiff, 0), itemToDraw->boundingRect().bottomRight());
 
         }
-        this->update();
+        itemToDraw = nullptr;
         this->setMode(this->NoMode);
+        this->update();
     }
     //select everything in selection box
     else{
@@ -176,3 +178,4 @@ void DiagramScene::setMode(Mode mode){
        if(mView)
            mView->setDragMode(vMode);
 }
+

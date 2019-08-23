@@ -11,7 +11,7 @@
 
 
 
-
+double Handles::handleSize;
 Handles::Handles(DiagramItem* p, Types type, double size): parent{p}, handleType{type}{
     const double handleSize = size;
     setHandleSize(size);

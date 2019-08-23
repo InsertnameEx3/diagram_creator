@@ -6,17 +6,31 @@
 #include <QBrush>
 #include "handles.h"
 #include <QGraphicsAnchorLayout>
+#include <QPainter>
+
+
 
 struct Theme;
 
 class DiagramItem : public QGraphicsItem
 {
 public:
-//    DiagramScene* scene;
 
-//    DiagramScene* getScene();
-//    void setScene();
+    enum RenderStyle {
+        Antialiasing = 0x01,
+        TextAntialiasing = 0x02,
+        SmoothPixmapTransform = 0x04,
+        HighQualityAntialiasing = 0x08,
+        NonCosmeticDefaultPen = 0x10,
+        Qt4CompatiblePainting = 0x20,
+        LosslessImageRendering = 0x40,
+    };
 
+    RenderStyle renderingStyle;
+    void setRenderStyle(RenderStyle);
+
+    // Return QPainter renderhint from DiagramItem renderstyle
+    QPainter::RenderHint getRenderStyle();
 
     //properties for property panel:
     QPen border;
@@ -78,7 +92,6 @@ public:
     bool connectable;
     bool overlappable;
 
-    void prepareGeometryChange();
 
 protected: //overriden methods
 

@@ -38,7 +38,7 @@ public:
     bool showGrid;
 
     //when there is noMode you use the selection tool to select multiple items inside the square
-    enum Mode {NoMode, SelectObject, DrawObject, MoveObject, ResizeObject};
+    enum Mode {NoMode, SelectObject, DrawObject, MoveObject, ResizeObject, Drawing};
     DiagramScene(QObject* parent = nullptr);
     ~DiagramScene();
 
@@ -46,6 +46,7 @@ public:
     Mode sceneMode;
     //void paintEvent(QPaintEvent *event);
 protected:
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);

@@ -39,7 +39,7 @@ void Line::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
 
 
 void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
+    painter->setRenderHint(this->getRenderStyle());
     //painter->setClipRect( option->exposedRect );
     borderColor = QBrush(Qt::black);
     borderWidth = 5;
@@ -150,6 +150,7 @@ void Ellipse::setHandles(){
 
 }
 void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+        painter->setRenderHint(this->getRenderStyle());
     //painter->setClipRect( option->exposedRect );
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
@@ -172,6 +173,7 @@ void Rectangle::setHandles(){
 
 }
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    painter->setRenderHint(this->getRenderStyle());
     //painter->setClipRect( option->exposedRect );
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
@@ -195,6 +197,7 @@ void Image::setHandles(){
 
 }
 void Image::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    painter->setRenderHint(this->getRenderStyle());
     //painter->setClipRect( option->exposedRect );
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
@@ -221,7 +224,8 @@ void Text::setHandles(){
 
 }
 void Text::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-       painter->setClipRect( option->exposedRect );
+    painter->setRenderHint(this->getRenderStyle());
+    //painter->setClipRect( option->exposedRect );
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
     border = QPen(borderColor, DiagramItem::borderWidth);
@@ -244,7 +248,8 @@ void SimpleText::setHandles(){
 
 }
 void SimpleText::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-       painter->setClipRect( option->exposedRect );
+    painter->setRenderHint(this->getRenderStyle());
+    //painter->setClipRect( option->exposedRect );
     borderColor = QBrush(Qt::black);
     borderWidth = 3;
     border = QPen(borderColor, DiagramItem::borderWidth);
