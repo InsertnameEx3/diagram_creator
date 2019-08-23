@@ -80,34 +80,42 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
     if(this->sceneMode == this->DrawObject){
         this->sceneMode = this->Drawing;
-    switch(Toolbar::selection){
-        case Toolbar::Rectangle:
-            itemToDraw = new Rectangle(new QPointF(event->pos()), new QPointF(event->pos()));
-            break;
-        case Toolbar::Ellipse:
-            itemToDraw = new Ellipse(new QPointF(event->pos()), new QPointF(event->pos()));
-            break;
-        case Toolbar::Line:
-            itemToDraw = new Line(new QPointF(event->pos()), new QPointF(event->pos()));
-            break;
-        case Toolbar::Image:
-            itemToDraw = new Image(new QPointF(event->pos()), new QPointF(event->pos()));
-            break;
 
-        case Toolbar::SimpleText:
-            itemToDraw = new SimpleText(new QPointF(event->pos()), new QPointF(event->pos()));
-            break;
-        case Toolbar::Text:
-            itemToDraw = new Text(new QPointF(event->pos()), new QPointF(event->pos()));
-            break;
-        }
-
-        this->addItem(itemToDraw);
         origPoint = event->scenePos();
 
-    }
+        switch(Toolbar::selection){
+            case Toolbar::Rectangle:
+                itemToDraw = new Rectangle(new QPointF(event->pos()), new QPointF(event->pos()));
+                break;
+            case Toolbar::Ellipse:
+                itemToDraw = new Ellipse(new QPointF(event->pos()), new QPointF(event->pos()));
+                break;
+            case Toolbar::Line:
+            if(this->currentHoveredItem){
+                itemToDraw = new Line(new QPointF(event->pos()), new QPointF(event->pos()));
+                itemToDraw->diagramItemType = itemToDraw->ConnectionLine;
+                origPoint = this->currentHoveredItem->pos();
+            }
+                break;
+            case Toolbar::Image:
+                itemToDraw = new Image(new QPointF(event->pos()), new QPointF(event->pos()));
+                break;
+
+            case Toolbar::SimpleText:
+                itemToDraw = new SimpleText(new QPointF(event->pos()), new QPointF(event->pos()));
+                break;
+            case Toolbar::Text:
+                itemToDraw = new Text(new QPointF(event->pos()), new QPointF(event->pos()));
+                break;
+        }
+
+        //check if diagram item
+        if(this->currentHoveredItem || itemToDraw->diagramItemType == itemToDraw->Shape ){
+            this->addItem(itemToDraw);
+        }
 
     QGraphicsScene::mousePressEvent(event);
+}
 }
 
 void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
@@ -121,7 +129,7 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     }
     //hover event
     else{
-
+        //invert cursor color
     }
     QGraphicsScene::mouseMoveEvent(event);
 }
@@ -130,23 +138,34 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
     qDebug() << "release";
     if(this->sceneMode == this->Drawing){
-        //if this is a connectionLine remove item if it is not connected by 1 or 2 diagram items
-        if(itemToDraw->boundingRect().height() <= 50){
-            double heightDiff = 50 - itemToDraw->boundingRect().height();
-            itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft() - QPointF(0, heightDiff), itemToDraw->boundingRect().bottomRight());
-        }
-        if(itemToDraw->boundingRect().width() <= 100){
-            double widthDiff = 100 - itemToDraw->boundingRect().width();
-            itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft() - QPointF(widthDiff, 0), itemToDraw->boundingRect().bottomRight());
 
+        if(itemToDraw->diagramItemType == itemToDraw->ConnectionLine){
+            // if on release cursor is hovering over a diagram item connect it else remove item;
+            if(this->currentHoveredItem){
+                itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft(), this->currentHoveredItem->scenePos());
+            }
+            else{
+                removeItem(itemToDraw);
+            }
         }
-        itemToDraw = nullptr;
+        else{
+            if(itemToDraw->boundingRect().height() <= 50){
+                double heightDiff = 50 - itemToDraw->boundingRect().height();
+                itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft() - QPointF(0, heightDiff), itemToDraw->boundingRect().bottomRight());
+            }
+            if(itemToDraw->boundingRect().width() <= 100){
+                double widthDiff = 100 - itemToDraw->boundingRect().width();
+                itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft() - QPointF(widthDiff, 0), itemToDraw->boundingRect().bottomRight());
+
+            }
+        }
+        //itemToDraw = nullptr;
+        itemToDraw->diagramItemType = itemToDraw->NoType;
         this->setMode(this->NoMode);
         this->update();
     }
     //select everything in selection box
     else{
-
     }
 
 

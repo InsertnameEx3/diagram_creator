@@ -36,6 +36,7 @@ public:
     GridType grid = Lines;
 
     bool showGrid;
+    static DiagramItem* currentHoveredItem;
 
     //when there is noMode you use the selection tool to select multiple items inside the square
     enum Mode {NoMode, SelectObject, DrawObject, MoveObject, ResizeObject, Drawing};

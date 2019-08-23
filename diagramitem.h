@@ -25,6 +25,12 @@ public:
         Qt4CompatiblePainting = 0x20,
         LosslessImageRendering = 0x40,
     };
+    enum ItemType{
+        ConnectionLine, // A connection line that connects two shapes
+        Shape,
+        NoType
+    };
+    ItemType diagramItemType = Shape;
 
     RenderStyle renderingStyle;
     void setRenderStyle(RenderStyle);
@@ -87,6 +93,7 @@ public:
         QWidget * widget);
 
     // item state
+    bool hovered;   // Check if item is currently being hovered
     Mode state;
     bool Pressed;
     bool connectable;
@@ -100,6 +107,10 @@ protected: //overriden methods
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);   //Move
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event); //selected
     //virtual method for setting the resizing handles
+
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override; //change cursor
+
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override; //cursor to normal
 
     QPointF topLeft;
     QPointF bottomRight;

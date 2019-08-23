@@ -272,3 +272,13 @@ QPainter::RenderHint DiagramItem::getRenderStyle(){
     }
 }
 
+DiagramItem* DiagramScene::currentHoveredItem;
+void DiagramItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
+    hovered = true;
+    DiagramScene::currentHoveredItem = this;
+}
+
+void DiagramItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
+    hovered = false;
+    DiagramScene::currentHoveredItem = nullptr;
+}
