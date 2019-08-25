@@ -9,6 +9,7 @@
 #include <QPainter>
 
 
+class Line;
 
 struct Theme;
 
@@ -16,24 +17,17 @@ class DiagramItem : public QGraphicsItem
 {
 public:
 
-    enum RenderStyle {
-        Antialiasing = 0x01,
-        TextAntialiasing = 0x02,
-        SmoothPixmapTransform = 0x04,
-        HighQualityAntialiasing = 0x08,
-        NonCosmeticDefaultPen = 0x10,
-        Qt4CompatiblePainting = 0x20,
-        LosslessImageRendering = 0x40,
-    };
+    QList<DiagramItem*> connectedLines;
+
     enum ItemType{
         ConnectionLine, // A connection line that connects two shapes
-        Shape,
+        Shape,          // All shapes
         NoType
     };
     ItemType diagramItemType = Shape;
 
-    RenderStyle renderingStyle;
-    void setRenderStyle(RenderStyle);
+    QPainter::RenderHint renderingStyle;
+    void setRenderStyle(QPainter::RenderHint);
 
     // Return QPainter renderhint from DiagramItem renderstyle
     QPainter::RenderHint getRenderStyle();
@@ -58,7 +52,7 @@ public:
     void resize(QGraphicsSceneMouseEvent*);
 
 
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
     //check whether the mouse button is on the item itself (base is only logic for a rectangle)
 
@@ -76,7 +70,7 @@ public:
     DiagramItem(Handles::Types = Handles::eightHandles, double = 15);
     DiagramItem(int,int,int,int, Handles::Types = Handles::eightHandles, double = 15);
     DiagramItem(QPointF*,QPointF*,QPointF*,QPointF*);
-    ~DiagramItem();
+    ~DiagramItem() override;
 
     void mouseDoublePressEvent();
     void setBoundingRect(QRectF*);
@@ -84,13 +78,14 @@ public:
     void setBoundingRect(QPointF*, QPointF*);
     void setBoundingRect(QPointF, QPointF);
     void setLine(QPointF, QPointF);
+    void updateLines();
 
-    QRectF boundingRect() const;
+    QRectF boundingRect() const override;
 
     // overriding paint()
     virtual void paint(QPainter * painter,
         const QStyleOptionGraphicsItem * option,
-        QWidget * widget);
+        QWidget * widget) override;
 
     // item state
     bool hovered;   // Check if item is currently being hovered
@@ -103,14 +98,17 @@ public:
 protected: //overriden methods
 
     //static double minHeight;
-    void mousePressEvent(QGraphicsSceneMouseEvent* event);  //Select or see options (left or right mouse)
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event);   //Move
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event); //selected
+
     //virtual method for setting the resizing handles
 
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override; //change cursor
 
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override; //cursor to normal
+
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
 
     QPointF topLeft;
     QPointF bottomRight;

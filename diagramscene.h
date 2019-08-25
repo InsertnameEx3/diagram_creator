@@ -19,6 +19,9 @@ class DiagramScene : public QGraphicsScene
 {
 public:
 
+    void setSelectionArea(const QPainterPath &path, const QTransform &deviceTransform);
+    void setSelectionArea(const QPainterPath &path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, const QTransform &deviceTransform = QTransform());
+    void setSelectionArea(const QPainterPath &path, Qt::ItemSelectionOperation selectionOperation, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, const QTransform &deviceTransform = QTransform());
 
     QColor gridColor = Qt::darkGray;
 
@@ -47,7 +50,10 @@ public:
     Mode sceneMode;
     //void paintEvent(QPaintEvent *event);
 protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    QList<DiagramItem *> items(Qt::SortOrder order = Qt::DescendingOrder) const;
+    void addItem(DiagramItem *item);
+    void removeItem(DiagramItem *item);
+
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
@@ -58,6 +64,8 @@ protected:
     void getScene();
 
 private:
+    QList<DiagramItem *> diagramItems;
+
     QRectF* previousItem;
     QPointF origPoint;
     DiagramItem* itemToDraw;

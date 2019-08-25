@@ -18,6 +18,7 @@
 #include "handle.h"
 #include "QGraphicsLayout"
 #include "handles.h"
+#include "diagramshapes.h"
 Toolbar::SelectedItem Toolbar::selection;
 double DiagramScene::size;
 
@@ -25,6 +26,7 @@ double DiagramScene::size;
 
 DiagramScene::DiagramScene(QObject* parent)
 {
+
 
 
 
@@ -78,14 +80,25 @@ DiagramScene::~DiagramScene(){
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     qDebug() << "press";
 
+
     if(this->sceneMode == this->DrawObject){
+
         this->sceneMode = this->Drawing;
+
+        // No items are selectable when in drawing mode
+        for(auto item : this->items()){
+            item->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsSelectable, false);
+            item->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsMovable, false);
+
+            item->setAcceptHoverEvents(true);
+        }
 
         origPoint = event->scenePos();
 
         switch(Toolbar::selection){
             case Toolbar::Rectangle:
                 itemToDraw = new Rectangle(new QPointF(event->pos()), new QPointF(event->pos()));
+
                 break;
             case Toolbar::Ellipse:
                 itemToDraw = new Ellipse(new QPointF(event->pos()), new QPointF(event->pos()));
@@ -94,7 +107,9 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             if(this->currentHoveredItem){
                 itemToDraw = new Line(new QPointF(event->pos()), new QPointF(event->pos()));
                 itemToDraw->diagramItemType = itemToDraw->ConnectionLine;
-                origPoint = this->currentHoveredItem->pos();
+                origPoint = this->currentHoveredItem->boundingRect().center();
+
+                this->currentHoveredItem->connectedLines.append(itemToDraw);
             }
                 break;
             case Toolbar::Image:
@@ -114,12 +129,11 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             this->addItem(itemToDraw);
         }
 
+    }
     QGraphicsScene::mousePressEvent(event);
-}
 }
 
 void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
-    qDebug() << "move";
     //adding a new diagram item
     if(this->sceneMode == this->Drawing){
 
@@ -137,12 +151,30 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
     qDebug() << "release";
+
+
+
     if(this->sceneMode == this->Drawing){
+
+        for(auto item : this->items()){
+            item->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsSelectable, true);
+            item->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsMovable, true);
+        }
 
         if(itemToDraw->diagramItemType == itemToDraw->ConnectionLine){
             // if on release cursor is hovering over a diagram item connect it else remove item;
             if(this->currentHoveredItem){
-                itemToDraw->setBoundingRect(itemToDraw->boundingRect().topLeft(), this->currentHoveredItem->scenePos());
+
+                for(auto item : this->items()){
+                    if(item->contains(event->scenePos())){
+                        this->currentHoveredItem = item;
+                    }
+                }
+
+                qDebug() << origPoint << "\n" << this->currentHoveredItem->boundingRect().center();
+                itemToDraw->setBoundingRect(origPoint, this->currentHoveredItem->boundingRect().center());
+                //add line to connectedLines
+                this->currentHoveredItem->connectedLines.append(itemToDraw);
             }
             else{
                 removeItem(itemToDraw);
@@ -160,6 +192,7 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             }
         }
         //itemToDraw = nullptr;
+        //set toolbar to none selected
         itemToDraw->diagramItemType = itemToDraw->NoType;
         this->setMode(this->NoMode);
         this->update();
@@ -198,3 +231,21 @@ void DiagramScene::setMode(Mode mode){
            mView->setDragMode(vMode);
 }
 
+
+QList<DiagramItem *> DiagramScene::items(Qt::SortOrder order) const{
+    return diagramItems;
+}
+
+void DiagramScene::addItem(DiagramItem *item){
+    diagramItems.append(item);
+    QGraphicsScene::addItem(item);
+}
+void DiagramScene::removeItem(DiagramItem *item){
+    //find diagram item
+    for(int i = 0; i<diagramItems.count(); ++i){
+        if(item == diagramItems[i]){
+            diagramItems.removeAt(i);
+        }
+    }
+    QGraphicsScene::removeItem(item);
+}

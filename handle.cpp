@@ -93,7 +93,7 @@ void Handle::mousePressEvent(QGraphicsSceneMouseEvent* event){
 void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     // Change to non antialiasing
     //if(parent->renderingStyle == DiagramItem::Antialiasing)
-        parent->setRenderStyle(DiagramItem::NonCosmeticDefaultPen);
+        parent->setRenderStyle(QPainter::NonCosmeticDefaultPen);
 
     parent->handles.setOpacity(0);
 
@@ -131,7 +131,7 @@ void Handle::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
 
 void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
 
-    parent->setRenderStyle(DiagramItem::Antialiasing);
+    parent->setRenderStyle(QPainter::Antialiasing);
 
     switch(handleType){
         case TopLeft:

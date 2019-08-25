@@ -212,13 +212,18 @@ void Image::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 }
 
 
-
+// for having an editable text box
 Text::Text(): DiagramItem (){
-
+    text = "Type..";
+    QGraphicsTextItem(this->text);
+    setTextInteractionFlags(Qt::TextEditorInteraction);
 }
 
 Text::Text(QPointF* tl, QPointF* br): DiagramItem (tl,br){
+    text = "Type..";
+    QGraphicsTextItem(this->text);
     this->setBoundingRect(tl, br);
+    setTextInteractionFlags(Qt::TextEditorInteraction);
 }
 void Text::setHandles(){
 
@@ -236,13 +241,14 @@ void Text::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 }
 
 
-
+//for showing plain text in an item
 SimpleText::SimpleText(): DiagramItem (){
 
 }
 
 SimpleText::SimpleText(QPointF* tl, QPointF* br): DiagramItem(tl,br){
     this->setBoundingRect(tl, br);
+    //QGraphicsSimpleTextItem("blop");
 }
 void SimpleText::setHandles(){
 

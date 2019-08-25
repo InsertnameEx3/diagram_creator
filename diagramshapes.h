@@ -9,6 +9,13 @@
 #include <QGraphicsTextItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneHoverEvent>
+
+class SelectableArea : public DiagramItem
+{
+    SelectableArea();
+    ~SelectableArea();
+};
+
 class Line : public DiagramItem
 {
 public:
@@ -50,9 +57,10 @@ protected:
     void paint(QPainter * painter,
         const QStyleOptionGraphicsItem * option,
         QWidget * widget);
+private:
 };
 
-class Text : public DiagramItem
+class Text : public DiagramItem, QGraphicsTextItem
 {
 public:
     Text();
