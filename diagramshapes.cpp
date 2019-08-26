@@ -11,12 +11,37 @@ Line::Line(): DiagramItem (){
 }
 
 Line::Line(QPointF* tl, QPointF* br): DiagramItem(tl,br, Handles::twoHandles, 15){
-    this->setBoundingRect(tl, br);
+    //this->setBoundingRect(tl, br);
+
+    setFlags(QGraphicsItem::GraphicsItemFlag::ItemIsMovable|QGraphicsItem::GraphicsItemFlag::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsFocusable);
+    this->setAcceptHoverEvents(true);
+    this->setAcceptTouchEvents(true);
+
 }
 
 void Line::setHandles(){
 
 }
+
+void Line::setBoundingRect(QPointF tl, QPointF br){
+    this->setFirstPointPos(tl);
+    this->setLastPointPos(br);
+}
+void Line::setBoundingRect(QPointF* tl, QPointF* br){
+    this->setFirstPointPos(*tl);
+    this->setLastPointPos(*br);
+}
+
+void Line::setBoundingRect(QRectF rect){
+
+    this->setFirstPointPos(rect.topLeft());
+    this->setLastPointPos(rect.bottomRight());
+}
+void Line::setBoundingRect(QRectF* rect){
+    this->setFirstPointPos(rect->topLeft());
+    this->setLastPointPos(rect->bottomRight());
+}
+
 void Line::setPos(const QPointF &pos){
     for (int i =0; i <path.elementCount(); ++i) {
         path.setElementPositionAt(i, path.elementAt(i).x + pos.x(), path.elementAt(i).y + pos.y());
@@ -37,13 +62,19 @@ void Line::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
 }
 
 void Line::setFirstPointPos(QPointF val){
-    path.setElementPositionAt(0, val.x(), val.y());
+    this->prepareGeometryChange();
+    this->path.setElementPositionAt(0, val.x(), val.y());
+    //path.setElementPositionAt()
+    this->update();
 
 }
 
 void Line::setLastPointPos(QPointF val){
+    this->prepareGeometryChange();
     path.setElementPositionAt(path.elementCount(), val.x(), val.y());
+    this->update();
 }
+
 
 void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     painter->setRenderHint(this->getRenderStyle());
@@ -57,8 +88,9 @@ void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
         path.moveTo(DiagramItem::topLeft);
         path.lineTo(DiagramItem::bottomRight);
     }
-    path.setElementPositionAt(0, DiagramItem::topLeft.x() ,DiagramItem::topLeft.y());
-    path.setElementPositionAt(1, DiagramItem::bottomRight.x() ,DiagramItem::bottomRight.y());
+
+    //path.setElementPositionAt(0, DiagramItem::topLeft.x() ,DiagramItem::topLeft.y());
+    //path.setElementPositionAt(1, DiagramItem::bottomRight.x() ,DiagramItem::bottomRight.y());
 
 
     auto painterPath = path;
@@ -97,9 +129,6 @@ QPainterPath Line::shape() const{
      return path;
 }
 
-
-
-
 QPointF Line::closestPoint(QPointF point) const{
     QLineF pathLine = QLineF(path.elementAt(0).x, path.elementAt(0).y, path.elementAt(1).x, path.elementAt(1).y);
     QLineF perpendicLine(point,QPointF(point.x(),0.0));
@@ -115,36 +144,42 @@ QPointF Line::closestPoint(QPointF point) const{
 }
 
 void Line::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
-    const QPointF point = closestPoint(event->pos());
-    const double handleSize = this->handles.getHandleSize();
+    if(isSelected()){
+        const QPointF point = closestPoint(event->pos());
+        const double handleSize = this->handles.getHandleSize();
 
-    addPointHandle = new Handle(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2)
-                            , Handle::TopLeft, this);
-    addPointHandle->form = Handle::Rounded;
-    this->scene()->addItem(addPointHandle);
+        addPointHandle = new Handle(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2)
+                                , Handle::TopLeft, this);
+        addPointHandle->form = Handle::Rounded;
+        this->scene()->addItem(addPointHandle);
 
-    QGraphicsItem::hoverEnterEvent(event);
+        QGraphicsItem::hoverEnterEvent(event);
+    }
 }
 void Line::hoverMoveEvent(QGraphicsSceneHoverEvent *event){
-    const QPointF point = closestPoint(event->pos());
-    const double handleSize = this->handles.getHandleSize();
+    if(isSelected()){
+        const QPointF point = closestPoint(event->pos());
+        const double handleSize = this->handles.getHandleSize();
 
-    addPointHandle->setBoundingRect(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2));
+        addPointHandle->setBoundingRect(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2));
 
-    addPointHandle->update();
-    this->scene()->update();
+        addPointHandle->update();
+        this->scene()->update();
 
-    QGraphicsItem::hoverMoveEvent(event);
+        QGraphicsItem::hoverMoveEvent(event);
+    }
 }
 
 void Line::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
-    this->scene()->removeItem(addPointHandle);
+    if(isSelected()){
+        this->scene()->removeItem(addPointHandle);
 
-    this->scene()->update();
+        this->scene()->update();
 
-    //delete addPointHandle;
-    //addPointHandle = nullptr;
-    QGraphicsItem::hoverLeaveEvent(event);
+        //delete addPointHandle;
+        //addPointHandle = nullptr;
+        QGraphicsItem::hoverLeaveEvent(event);
+    }
 }
 
 Ellipse::Ellipse(): DiagramItem (){
@@ -165,7 +200,7 @@ void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     painter->setPen(border);
     painter->setBrush(DiagramItem::innerColor);
-    painter->drawEllipse(boundingRect());
+    painter->drawEllipse(DiagramItem::boundingRect());
 }
 
 

@@ -25,6 +25,12 @@ public:
     void setFirstPointPos(QPointF val);
     void setLastPointPos(QPointF val);
 
+    void setBoundingRect(QPointF, QPointF);
+    void setBoundingRect(QPointF*, QPointF*);
+
+    void setBoundingRect(QRectF);
+    void setBoundingRect(QRectF*);
+
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);

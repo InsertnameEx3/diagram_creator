@@ -55,19 +55,25 @@ void Toolbar::CreateCategories(){
 void Toolbar::CreateTools(){
 
     QTreeWidgetItem* wiptr = nullptr;
-    for(auto category : {"Shapes"}){
+    for(auto category : {"Shapes", "Drawing"}){
         wiptr = new QTreeWidgetItem(QStringList(category), 0);
         this->addTopLevelItem(wiptr);
         categories.append(wiptr);
     }
 
-    for(auto category : categories){
-        for(auto tool : {"Rectangle", "Ellipse", "Line", "Image", "SimpleText", "Text"}){
-            wiptr = new QTreeWidgetItem(QStringList(tool), 0);
-            category->addChild(wiptr);
-            tools.append(wiptr);
-        }
+
+    for(auto tool : {"Rectangle", "Ellipse", "Line", "Image", "SimpleText", "Text"}){
+        wiptr = new QTreeWidgetItem(QStringList(tool), 0);
+        categories[0]->addChild(wiptr);
+        tools.append(wiptr);
     }
+
+    for(auto tool : {"Pen", "Eraser"}){
+        wiptr = new QTreeWidgetItem(QStringList(tool), 0);
+        categories[1]->addChild(wiptr);
+        tools.append(wiptr);
+    }
+
 
 
 }

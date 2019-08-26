@@ -53,19 +53,25 @@ DiagramItem::DiagramItem(Handles::Types type, double size): handles{*new Handles
 }
 
 
-void DiagramItem::updateLines(){
-//    qDebug() << this;
+void DiagramItem::updateLines(QPointF newPos){
+
+    qDebug() << this;
+    qDebug() << newPos;
+
     if(connectedLines.count() != 0){
         for(auto line : connectedLines){
             if(this->contains(line->boundingRect().topLeft())){
-                qDebug() << line;
-                line->setFirstPointPos(this->boundingRect().center());
+//                offset = pos-rect.center();
+//                super().moveBy(offset.rx, offset.ry);
+
+                //line->setFirstPointPos(newPos);
+                //line->setFirstPointPos(newPos.isNull() ? this->boundingRect().center() : newPos);
 
                 line->setBoundingRect(this->boundingRect().center(), line->bottomRight);
             }
             else{
-                qDebug() << line;
-                line->setLastPointPos(this->boundingRect().center());
+                //line->setLastPointPos(newPos);
+                line->setLastPointPos(newPos.isNull() ? this->boundingRect().center() : newPos);
 
             }
         }
@@ -155,7 +161,7 @@ bool Properties::gridSnap;
 QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &value){
 
 
-
+    qDebug() << "selected";
     if (change == QGraphicsItem::ItemSelectedChange)
     {
 
@@ -163,7 +169,6 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
         {
 
             if(!handles.changed){
-
                 handles.recalculate();
                 handles.setAcceptHoverEvents(true);
                 handles.setAcceptTouchEvents(true);
@@ -197,6 +202,7 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
 
         this->prepareGeometryChange();
 
+        this->updateLines(newPos);
         if(QApplication::mouseButtons() == Qt::LeftButton && Properties::gridSnap){
 
             int gridSpace = DiagramScene::space;

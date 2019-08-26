@@ -78,7 +78,9 @@ public:
     void setBoundingRect(QPointF*, QPointF*);
     void setBoundingRect(QPointF, QPointF);
     void setLine(QPointF, QPointF);
-    void updateLines();
+
+    void updateLines(QPointF = QPointF());
+
 
     QRectF boundingRect() const override;
 

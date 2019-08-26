@@ -108,7 +108,9 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             qDebug() << this->currentHoveredItem;
             if(this->currentHoveredItem){
                 lineToDraw = new Line(new QPointF(event->pos()), new QPointF(event->pos()));
+                lineToDraw->setFlag(DiagramItem::ItemIsSelectable);
                 itemToDraw = lineToDraw;
+                itemToDraw->setFlag(DiagramItem::ItemIsSelectable);
 
                 this->currentHoveredItem->connectedLines.append(lineToDraw);
 
@@ -116,7 +118,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 origPoint = this->currentHoveredItem->boundingRect().center();
 
 
-                this->currentHoveredItem = nullptr;
+
 
             }
                 break;
@@ -184,16 +186,19 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
                         itemToDraw = lineToDraw;
 
+                        itemToDraw->setBoundingRect(origPoint, this->currentHoveredItem->boundingRect().center());
+
                         lineToDraw->setBoundingRect(itemToDraw->boundingRect());
 
                         this->currentHoveredItem->connectedLines.append(lineToDraw);
 
 
-                        itemToDraw->setBoundingRect(origPoint, this->currentHoveredItem->boundingRect().center());
+
                         //add line to connectedLines
                     }
                     else{
                         removeItem(lineToDraw);
+                        removeItem(itemToDraw);
                         // Hopefully a good use of goto?
                         goto end;
                     }

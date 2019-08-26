@@ -17,7 +17,7 @@ public:
     Toolbar();
     ~Toolbar();
 
-    enum SelectedItem{Rectangle, Ellipse, Line, Image, SimpleText, Text, none};
+    enum SelectedItem{Rectangle, Ellipse, Line, Image, SimpleText, Text, Pen, none};
     void CreateCategories();
     void CreateTools();
 
