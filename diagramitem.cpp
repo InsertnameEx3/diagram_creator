@@ -54,33 +54,24 @@ DiagramItem::DiagramItem(Handles::Types type, double size): handles{*new Handles
 
 
 void DiagramItem::updateLines(){
-    qDebug() << "updating lines";
+//    qDebug() << this;
     if(connectedLines.count() != 0){
         for(auto line : connectedLines){
             if(this->contains(line->boundingRect().topLeft())){
+                qDebug() << line;
+                line->setFirstPointPos(this->boundingRect().center());
+
                 line->setBoundingRect(this->boundingRect().center(), line->bottomRight);
             }
             else{
-                //line->setBoundingRect(line->topLeft, this->pos());
-                line->setBoundingRect(line->topLeft, this->boundingRect().center());
+                qDebug() << line;
+                line->setLastPointPos(this->boundingRect().center());
+
             }
         }
     }
 }
 
-//void DiagramItem::updateLinesPos(){
-//    qDebug() << "updating lines";
-//    if(connectedLines.count() != 0){
-//        for(auto line : connectedLines){
-//            if(this->contains(line->boundingRect().topLeft())){
-//                line->setBoundingRect(this->pos(), line->bottomRight);
-//            }
-//            else{
-//                line->setBoundingRect(line->topLeft, this->pos());
-//            }
-//        }
-//    }
-//}
 
 void DiagramItem::setBoundingRect(QRectF* newRectangle){
 
@@ -167,7 +158,7 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
 
     if (change == QGraphicsItem::ItemSelectedChange)
     {
-        qDebug() << change;
+
         if (value == true)
         {
 
@@ -193,7 +184,6 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
             handles.hide();
             this->update();
             scene()->update();
-
             // do stuff if not selected
         }
     }
@@ -217,13 +207,27 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
         }
         else{
             handles.setPos(newPos);
+
+
+            //this->updateLines();
+                for(auto line : connectedLines){
+                    if(this->contains(line->boundingRect().topLeft())){
+
+                                //newPos, line->bottomRight);
+
+                    }
+                    else{
+
+                        //line->setBoundingRect(line->topLeft, this->pos());
+                    }
+                }
+
+
             return newPos;
         }
 
 
-        scene()->update();
-        this->update();
-        this->updateLines();
+        //this->updateLines();
     }
     if(change == QGraphicsItem::ItemScaleChange){
 
@@ -242,16 +246,12 @@ QPainter::RenderHint DiagramItem::getRenderStyle(){
 DiagramItem* DiagramScene::currentHoveredItem;
 
 void DiagramItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
-    qDebug() << "entered" << this->boundingRect().center();
-    this->setCursor(Qt::WaitCursor);
     hovered = true;
     DiagramScene::currentHoveredItem = this;
     //set shadow-y background around item
 }
 
 void DiagramItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
-    qDebug() << "left" <<this->boundingRect().center();
-    this->setCursor(Qt::ArrowCursor);
     hovered = false;
     DiagramScene::currentHoveredItem = nullptr;
     //remove shadow-y background around item
@@ -266,6 +266,7 @@ void DiagramItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsItem::mouseMoveEvent(event);
+
 }
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsItem::mouseReleaseEvent(event);

@@ -29,7 +29,7 @@ DiagramScene::DiagramScene(QObject* parent)
 
 
 
-
+    lineToDraw = nullptr;
     QColor gridColor = "#cdcccc";
     QColor backgroundColor = "#e4e4e4";
 
@@ -94,7 +94,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         }
 
         origPoint = event->scenePos();
-
+        qDebug() << Toolbar::selection;
         switch(Toolbar::selection){
             case Toolbar::Rectangle:
                 itemToDraw = new Rectangle(new QPointF(event->pos()), new QPointF(event->pos()));
@@ -104,12 +104,20 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 itemToDraw = new Ellipse(new QPointF(event->pos()), new QPointF(event->pos()));
                 break;
             case Toolbar::Line:
+            qDebug() << "whahahaha";
+            qDebug() << this->currentHoveredItem;
             if(this->currentHoveredItem){
-                itemToDraw = new Line(new QPointF(event->pos()), new QPointF(event->pos()));
-                itemToDraw->diagramItemType = itemToDraw->ConnectionLine;
+                lineToDraw = new Line(new QPointF(event->pos()), new QPointF(event->pos()));
+                itemToDraw = lineToDraw;
+
+                this->currentHoveredItem->connectedLines.append(lineToDraw);
+
+
                 origPoint = this->currentHoveredItem->boundingRect().center();
 
-                this->currentHoveredItem->connectedLines.append(itemToDraw);
+
+                this->currentHoveredItem = nullptr;
+
             }
                 break;
             case Toolbar::Image:
@@ -124,10 +132,10 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 break;
         }
 
-        //check if diagram item
-        if(this->currentHoveredItem || itemToDraw->diagramItemType == itemToDraw->Shape ){
-            this->addItem(itemToDraw);
-        }
+
+        this->addItem(itemToDraw);
+
+
 
     }
     QGraphicsScene::mousePressEvent(event);
@@ -148,6 +156,8 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     QGraphicsScene::mouseMoveEvent(event);
 }
 
+DiagramItem* DiagramScene::lastHoveredItem;
+
 void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
     qDebug() << "release";
@@ -161,25 +171,35 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             item->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsMovable, true);
         }
 
-        if(itemToDraw->diagramItemType == itemToDraw->ConnectionLine){
-            // if on release cursor is hovering over a diagram item connect it else remove item;
-            if(this->currentHoveredItem){
-
-                for(auto item : this->items()){
-                    if(item->contains(event->scenePos())){
-                        this->currentHoveredItem = item;
+                //if lineToDraw points to a line
+                if(lineToDraw){
+                    for(auto item : this->items()){
+                        if(item->contains(event->scenePos())){
+                            this->lastHoveredItem = this->currentHoveredItem;
+                            this->currentHoveredItem = item;
+                        }
                     }
-                }
+                    // if on release cursor is hovering over a diagram item connect it else remove item;
+                    if(this->currentHoveredItem != nullptr && currentHoveredItem != lastHoveredItem){
 
-                qDebug() << origPoint << "\n" << this->currentHoveredItem->boundingRect().center();
-                itemToDraw->setBoundingRect(origPoint, this->currentHoveredItem->boundingRect().center());
-                //add line to connectedLines
-                this->currentHoveredItem->connectedLines.append(itemToDraw);
-            }
-            else{
-                removeItem(itemToDraw);
-            }
-        }
+                        itemToDraw = lineToDraw;
+
+                        lineToDraw->setBoundingRect(itemToDraw->boundingRect());
+
+                        this->currentHoveredItem->connectedLines.append(lineToDraw);
+
+
+                        itemToDraw->setBoundingRect(origPoint, this->currentHoveredItem->boundingRect().center());
+                        //add line to connectedLines
+                    }
+                    else{
+                        removeItem(lineToDraw);
+                        // Hopefully a good use of goto?
+                        goto end;
+                    }
+
+                    lineToDraw = nullptr;
+                }
         else{
             if(itemToDraw->boundingRect().height() <= 50){
                 double heightDiff = 50 - itemToDraw->boundingRect().height();
@@ -191,9 +211,10 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
             }
         }
-        //itemToDraw = nullptr;
+
         //set toolbar to none selected
         itemToDraw->diagramItemType = itemToDraw->NoType;
+        itemToDraw = nullptr;
         this->setMode(this->NoMode);
         this->update();
     }
@@ -201,7 +222,7 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     else{
     }
 
-
+    end:
     QGraphicsScene::mouseReleaseEvent(event);
 }
 

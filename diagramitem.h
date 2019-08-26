@@ -17,7 +17,7 @@ class DiagramItem : public QGraphicsItem
 {
 public:
 
-    QList<DiagramItem*> connectedLines;
+    QList<Line* > connectedLines;
 
     enum ItemType{
         ConnectionLine, // A connection line that connects two shapes

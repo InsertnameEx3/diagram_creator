@@ -10,7 +10,6 @@
 #include <QGraphicsItem>
 #include "diagramitem.h"
 #include <QList>
-
 #include "diagramshapes.h"
 
 struct Theme;
@@ -40,6 +39,7 @@ public:
 
     bool showGrid;
     static DiagramItem* currentHoveredItem;
+    static DiagramItem* lastHoveredItem;
 
     //when there is noMode you use the selection tool to select multiple items inside the square
     enum Mode {NoMode, SelectObject, DrawObject, MoveObject, ResizeObject, Drawing};
@@ -69,6 +69,7 @@ private:
     QRectF* previousItem;
     QPointF origPoint;
     DiagramItem* itemToDraw;
+    Line* lineToDraw;
     static void makeItemsControllable(bool areControllable);
 };
 

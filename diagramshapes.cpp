@@ -36,7 +36,14 @@ void Line::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     //DiagramItem::mouseReleaseEvent(event);
 }
 
+void Line::setFirstPointPos(QPointF val){
+    path.setElementPositionAt(0, val.x(), val.y());
 
+}
+
+void Line::setLastPointPos(QPointF val){
+    path.setElementPositionAt(path.elementCount(), val.x(), val.y());
+}
 
 void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     painter->setRenderHint(this->getRenderStyle());
@@ -264,4 +271,6 @@ void SimpleText::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->setBrush(DiagramItem::innerColor);
     painter->drawText(topLeft, text);
 }
+
+
 

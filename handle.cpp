@@ -169,7 +169,6 @@ void Handle::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
 
 
 void Handle::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
-    qDebug() << event;
 
     switch(handleType){
         case TopLeft:
@@ -199,8 +198,6 @@ void Handle::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
 void Handle::setPos(QPointF point){
     this->prepareGeometryChange();
 
-    //QGraphicsItem::moveBy(point.x(), point.y());
-    qDebug() << point;
     QGraphicsItem::setPos(point);
     this->update();
     this->setFlags(QGraphicsItem::ItemIsMovable);

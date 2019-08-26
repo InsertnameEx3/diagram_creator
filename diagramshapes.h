@@ -22,6 +22,9 @@ public:
     Line();
     Line(QPointF*, QPointF*);
 
+    void setFirstPointPos(QPointF val);
+    void setLastPointPos(QPointF val);
+
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
