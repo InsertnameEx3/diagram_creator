@@ -19,6 +19,8 @@
 #include "QGraphicsLayout"
 #include "handles.h"
 #include "diagramshapes.h"
+#include "diagramcanvas.h"
+
 Toolbar::SelectedItem Toolbar::selection;
 double DiagramScene::size;
 
@@ -95,6 +97,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
         origPoint = event->scenePos();
         qDebug() << Toolbar::selection;
+
         switch(Toolbar::selection){
             case Toolbar::Rectangle:
                 itemToDraw = new Rectangle(new QPointF(event->pos()), new QPointF(event->pos()));
@@ -117,9 +120,6 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
                 origPoint = this->currentHoveredItem->boundingRect().center();
 
-
-
-
             }
                 break;
             case Toolbar::Image:
@@ -131,6 +131,9 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 break;
             case Toolbar::Text:
                 itemToDraw = new Text(new QPointF(event->pos()), new QPointF(event->pos()));
+                break;
+            case Toolbar::Pen:
+                itemToDraw = new Pen(event->pos());
                 break;
         }
 
@@ -148,6 +151,7 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     if(this->sceneMode == this->Drawing){
 
         itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
+
         this->update();
 
     }

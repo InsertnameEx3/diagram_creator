@@ -82,10 +82,16 @@ void Toolbar::CreateTools(){
 void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &previous){
     diagramScene->setMode(diagramScene->DrawObject);
 
+
+    qDebug() << current.row();
+
+qDebug() << this->model();
     switch(current.row()){
 
+
         case 0:
-            selection = SelectedItem::Rectangle;
+            //selection = SelectedItem::Rectangle;
+            selection = SelectedItem::Pen;
         break;
         case 1:
             selection = SelectedItem::Ellipse;
@@ -102,6 +108,9 @@ void Toolbar::currentChanged(const QModelIndex &current, const QModelIndex &prev
         break;
         case 5:
             selection = SelectedItem::Text;
+        break;
+        case 6:
+            selection = SelectedItem::Pen;
         break;
 
     }

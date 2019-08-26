@@ -76,6 +76,7 @@ void Handle::setBoundingRect(QPointF* tl, QPointF* br){
     bottomRight = *br;
 }
 
+
 void Handle::setBoundingRect(QPointF tl, QPointF br){
     topLeft = tl;
     bottomRight = br;
