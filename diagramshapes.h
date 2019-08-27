@@ -25,7 +25,8 @@ public:
     void setFirstPointPos(QPointF val);
     void setLastPointPos(QPointF val);
 
-
+    DiagramItem* firstElement;
+    DiagramItem* lastElement;
 
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
@@ -40,6 +41,7 @@ public:
     QPointF closestPoint(QPointF) const;
 
 protected:
+
     QPainterPath path;
     QGraphicsPathItem pathItem;
     QVector<QGraphicsLineItem> lines;

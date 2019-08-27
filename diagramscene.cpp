@@ -116,7 +116,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 itemToDraw->setFlag(DiagramItem::ItemIsSelectable);
 
                 this->currentHoveredItem->connectedLines.append(lineToDraw);
-
+                lineToDraw->firstElement= this->currentHoveredItem;
 
                 origPoint = this->currentHoveredItem->boundingRect().center();
 
@@ -194,7 +194,7 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
                         lineToDraw->setBoundingRect(itemToDraw->boundingRect());
 
                         this->currentHoveredItem->connectedLines.append(lineToDraw);
-
+                        lineToDraw->lastElement = this->currentHoveredItem;
 
 
                         //add line to connectedLines

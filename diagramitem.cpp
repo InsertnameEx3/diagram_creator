@@ -53,28 +53,18 @@ DiagramItem::DiagramItem(Handles::Types type, double size): handles{*new Handles
 }
 
 
-void DiagramItem::updateLines(QPointF newPos){
+void DiagramItem::updateLines(QPointF offset){
 
-    qDebug() << this;
-    qDebug() << newPos;
-    //?
-    newPos = this->pos();
+
+    QPointF newPos = offset == QPointF(0,0) ? QPointF(boundingRect().center() + pos()) : QPointF(offset + boundingRect().center());
+
     if(connectedLines.count() != 0){
         for(auto line : connectedLines){
-            if(this->contains(line->boundingRect().topLeft())){
-//                offset = pos-rect.center();
-//                super().moveBy(offset.rx, offset.ry);
-
-                //line->setFirstPointPos(newPos);
-                //line->setFirstPointPos(newPos.isNull() ? this->boundingRect().center() : newPos);
-
-                line->setBoundingRect(this->boundingRect().center(), line->bottomRight);
+            if(this == line->firstElement){
+                line->setBoundingRect(newPos, line->lastElement->boundingRect().center());
             }
             else{
-                //line->setLastPointPos(newPos);
-                //line->setLastPointPos(newPos.isNull() ? this->boundingRect().center() : newPos);
-                line->setBoundingRect(line->topLeft, this->boundingRect().center());
-
+                line->setBoundingRect(line->firstElement->boundingRect().center(), newPos);
             }
         }
     }
@@ -206,6 +196,7 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
         this->prepareGeometryChange();
 
         this->updateLines(newPos);
+
         if(QApplication::mouseButtons() == Qt::LeftButton && Properties::gridSnap){
 
             int gridSpace = DiagramScene::space;
@@ -216,21 +207,6 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
         }
         else{
             handles.setPos(newPos);
-
-
-            //this->updateLines();
-                for(auto line : connectedLines){
-                    if(this->contains(line->boundingRect().topLeft())){
-
-                                //newPos, line->bottomRight);
-
-                    }
-                    else{
-
-                        //line->setBoundingRect(line->topLeft, this->pos());
-                    }
-                }
-
 
             return newPos;
         }

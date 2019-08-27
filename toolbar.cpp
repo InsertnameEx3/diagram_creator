@@ -73,7 +73,7 @@ void Toolbar::CreateTools(){
         categories[1]->addChild(wiptr);
         tools.append(wiptr);
     }
-
+    this->expandAll();
 
 
 }
