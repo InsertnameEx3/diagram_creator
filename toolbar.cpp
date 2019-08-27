@@ -91,7 +91,7 @@ qDebug() << this->model();
 
         case 0:
             //selection = SelectedItem::Rectangle;
-            selection = SelectedItem::Pen;
+            selection = SelectedItem::Rectangle;
         break;
         case 1:
             selection = SelectedItem::Ellipse;

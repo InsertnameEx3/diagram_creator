@@ -11,7 +11,8 @@ Line::Line(): DiagramItem (){
 }
 
 Line::Line(QPointF* tl, QPointF* br): DiagramItem(tl,br, Handles::twoHandles, 15){
-    //this->setBoundingRect(tl, br);
+
+
 
     setFlags(QGraphicsItem::GraphicsItemFlag::ItemIsMovable|QGraphicsItem::GraphicsItemFlag::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsFocusable);
     this->setAcceptHoverEvents(true);
@@ -23,24 +24,7 @@ void Line::setHandles(){
 
 }
 
-void Line::setBoundingRect(QPointF tl, QPointF br){
-    this->setFirstPointPos(tl);
-    this->setLastPointPos(br);
-}
-void Line::setBoundingRect(QPointF* tl, QPointF* br){
-    this->setFirstPointPos(*tl);
-    this->setLastPointPos(*br);
-}
 
-void Line::setBoundingRect(QRectF rect){
-
-    this->setFirstPointPos(rect.topLeft());
-    this->setLastPointPos(rect.bottomRight());
-}
-void Line::setBoundingRect(QRectF* rect){
-    this->setFirstPointPos(rect->topLeft());
-    this->setLastPointPos(rect->bottomRight());
-}
 
 void Line::setPos(const QPointF &pos){
     for (int i =0; i <path.elementCount(); ++i) {
@@ -63,6 +47,7 @@ void Line::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
 
 void Line::setFirstPointPos(QPointF val){
     this->prepareGeometryChange();
+    //DiagramItem::boundingRect().setTopLeft(val);
     this->path.setElementPositionAt(0, val.x(), val.y());
     //path.setElementPositionAt()
     this->update();
@@ -71,6 +56,8 @@ void Line::setFirstPointPos(QPointF val){
 
 void Line::setLastPointPos(QPointF val){
     this->prepareGeometryChange();
+
+    //DiagramItem::boundingRect().setTopLeft(val);
     path.setElementPositionAt(path.elementCount(), val.x(), val.y());
     this->update();
 }
@@ -89,8 +76,8 @@ void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
         path.lineTo(DiagramItem::bottomRight);
     }
 
-    //path.setElementPositionAt(0, DiagramItem::topLeft.x() ,DiagramItem::topLeft.y());
-    //path.setElementPositionAt(1, DiagramItem::bottomRight.x() ,DiagramItem::bottomRight.y());
+    path.setElementPositionAt(0, DiagramItem::topLeft.x() ,DiagramItem::topLeft.y());
+    path.setElementPositionAt(1, DiagramItem::bottomRight.x() ,DiagramItem::bottomRight.y());
 
 
     auto painterPath = path;

@@ -25,7 +25,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        diagramcanvas.cpp \
         diagramitem.cpp \
         handles.cpp\
         handle.cpp \
@@ -38,7 +37,6 @@ SOURCES += \
         main.cpp
 
 HEADERS += \
-        diagramcanvas.h \
         diagramitem.h \
         handles.h\
         handle.h \

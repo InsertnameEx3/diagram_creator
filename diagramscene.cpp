@@ -19,7 +19,7 @@
 #include "QGraphicsLayout"
 #include "handles.h"
 #include "diagramshapes.h"
-#include "diagramcanvas.h"
+
 
 Toolbar::SelectedItem Toolbar::selection;
 double DiagramScene::size;
@@ -133,7 +133,6 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 itemToDraw = new Text(new QPointF(event->pos()), new QPointF(event->pos()));
                 break;
             case Toolbar::Pen:
-                itemToDraw = new Pen(event->pos());
                 break;
         }
 
@@ -203,6 +202,7 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
                     else{
                         removeItem(lineToDraw);
                         removeItem(itemToDraw);
+
                         // Hopefully a good use of goto?
                         goto end;
                     }

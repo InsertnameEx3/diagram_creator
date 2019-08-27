@@ -57,7 +57,8 @@ void DiagramItem::updateLines(QPointF newPos){
 
     qDebug() << this;
     qDebug() << newPos;
-
+    //?
+    newPos = this->pos();
     if(connectedLines.count() != 0){
         for(auto line : connectedLines){
             if(this->contains(line->boundingRect().topLeft())){
@@ -71,7 +72,8 @@ void DiagramItem::updateLines(QPointF newPos){
             }
             else{
                 //line->setLastPointPos(newPos);
-                line->setLastPointPos(newPos.isNull() ? this->boundingRect().center() : newPos);
+                //line->setLastPointPos(newPos.isNull() ? this->boundingRect().center() : newPos);
+                line->setBoundingRect(line->topLeft, this->boundingRect().center());
 
             }
         }
@@ -89,6 +91,7 @@ void DiagramItem::setBoundingRect(QRectF* newRectangle){
 }
 
 void DiagramItem::setBoundingRect(QRectF newRectangle){
+    qDebug() << newRectangle;
     this->prepareGeometryChange();
     topLeft = newRectangle.topLeft();
     bottomRight = newRectangle.bottomRight();
