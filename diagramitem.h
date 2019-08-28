@@ -24,7 +24,8 @@ public:
         Shape,          // All shapes
         NoType
     };
-    ItemType diagramItemType = Shape;
+
+    ItemType itemType = Shape;
 
     QPainter::RenderHint renderingStyle;
     void setRenderStyle(QPainter::RenderHint);
@@ -51,6 +52,8 @@ public:
     //when changing from the handles
     void resize(QGraphicsSceneMouseEvent*);
 
+    //check closest point
+    QPointF closestPoint(QPointF) const;
 
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 

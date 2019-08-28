@@ -114,11 +114,10 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 lineToDraw->setFlag(DiagramItem::ItemIsSelectable);
                 itemToDraw = lineToDraw;
                 itemToDraw->setFlag(DiagramItem::ItemIsSelectable);
+                itemToDraw->itemType = DiagramItem::ConnectionLine;
 
                 this->currentHoveredItem->connectedLines.append(lineToDraw);
                 lineToDraw->firstElement= this->currentHoveredItem;
-
-                origPoint = this->currentHoveredItem->boundingRect().center();
 
             }
                 break;
@@ -149,7 +148,13 @@ void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event){
     //adding a new diagram item
     if(this->sceneMode == this->Drawing){
 
-        itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
+        if(itemToDraw->itemType == DiagramItem::ConnectionLine){
+            // Use closest point to event as origin point
+            itemToDraw->setBoundingRect(QRectF(lineToDraw->firstElement->closestPoint(event->scenePos()), event->scenePos()));
+        }
+        else{
+            itemToDraw->setBoundingRect(QRectF(QPointF(origPoint), event->scenePos()));
+        }
 
         this->update();
 
@@ -222,7 +227,7 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         }
 
         //set toolbar to none selected
-        itemToDraw->diagramItemType = itemToDraw->NoType;
+        itemToDraw->itemType = itemToDraw->NoType;
         itemToDraw = nullptr;
         this->setMode(this->NoMode);
         this->update();

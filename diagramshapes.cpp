@@ -116,45 +116,32 @@ QPainterPath Line::shape() const{
      return path;
 }
 
-QPointF Line::closestPoint(QPointF point) const{
-    QLineF pathLine = QLineF(path.elementAt(0).x, path.elementAt(0).y, path.elementAt(1).x, path.elementAt(1).y);
-    QLineF perpendicLine(point,QPointF(point.x(),0.0));
-    perpendicLine.setAngle(90.0+pathLine.angle());
-    QPointF closestPoint;
-    pathLine.intersect(perpendicLine,&closestPoint);
-
-//    for (int i = 0; i < path.elementCount(); ++i) {
-
-
-//    }
-    return closestPoint;
-}
 
 void Line::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
-    if(isSelected()){
-        const QPointF point = closestPoint(event->pos());
-        const double handleSize = this->handles.getHandleSize();
+//    if(isSelected()){
+//        const QPointF point = closestPoint(event->pos());
+//        const double handleSize = this->handles.getHandleSize();
 
-        addPointHandle = new Handle(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2)
-                                , Handle::TopLeft, this);
-        addPointHandle->form = Handle::Rounded;
-        this->scene()->addItem(addPointHandle);
+//        addPointHandle = new Handle(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2)
+//                                , Handle::TopLeft, this);
+//        addPointHandle->form = Handle::Rounded;
+//        this->scene()->addItem(addPointHandle);
 
-        QGraphicsItem::hoverEnterEvent(event);
-    }
+//        QGraphicsItem::hoverEnterEvent(event);
+//    }
 }
 void Line::hoverMoveEvent(QGraphicsSceneHoverEvent *event){
-    if(isSelected()){
-        const QPointF point = closestPoint(event->pos());
-        const double handleSize = this->handles.getHandleSize();
+//    if(isSelected()){
+//        const QPointF point = closestPoint(event->pos());
+//        const double handleSize = this->handles.getHandleSize();
 
-        addPointHandle->setBoundingRect(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2));
+//        addPointHandle->setBoundingRect(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2));
 
-        addPointHandle->update();
-        this->scene()->update();
+//        addPointHandle->update();
+//        this->scene()->update();
 
-        QGraphicsItem::hoverMoveEvent(event);
-    }
+//        QGraphicsItem::hoverMoveEvent(event);
+//    }
 }
 
 void Line::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){

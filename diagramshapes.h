@@ -38,7 +38,7 @@ public:
 
     void setPos(const QPointF &pos);
     virtual QPainterPath shape() const;
-    QPointF closestPoint(QPointF) const;
+
 
 protected:
 

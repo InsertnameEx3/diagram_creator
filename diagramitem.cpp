@@ -81,7 +81,6 @@ void DiagramItem::setBoundingRect(QRectF* newRectangle){
 }
 
 void DiagramItem::setBoundingRect(QRectF newRectangle){
-    qDebug() << newRectangle;
     this->prepareGeometryChange();
     topLeft = newRectangle.topLeft();
     bottomRight = newRectangle.bottomRight();
@@ -255,4 +254,48 @@ void DiagramItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 }
 void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsItem::mouseReleaseEvent(event);
+}
+
+
+QPointF DiagramItem::closestPoint(QPointF point) const{
+    // Get path from diagram item's shape
+    QPainterPath path = this->shape();
+    QPolygonF polygon = path.toFillPolygon();
+
+    double totalXDist = polygon.at(0).x() < point.x() ? point.x() - polygon.at(0).x() : polygon.at(0).x() - point.x();
+    double totalYDist = polygon.at(0).y() < point.y() ? point.y() - polygon.at(0).y() : polygon.at(0).y() - point.y();
+    QPointF closestPoint = polygon.at(0);
+    for(int i=1;i < polygon.count(); i++) {
+        /*
+         * Change the total distance if it is smaller than the current total distance
+         * and set it as the newest closest point.
+        */
+        qDebug() << i;
+        qDebug() << polygon.at(i);
+        double newXDist = polygon.at(i).x() < point.x() ? point.x() - polygon.at(i).x() : polygon.at(i).x() - point.x();
+        if(totalXDist < newXDist){
+            totalXDist = newXDist;
+            closestPoint.setX(totalXDist);
+        }
+        double newYDist = polygon.at(i).y() < point.y() ? point.y() - polygon.at(i).y() : polygon.at(i).y() - point.y();
+        if(totalYDist < newYDist){
+            totalYDist = newYDist;
+            closestPoint.setY(totalYDist);
+        }
+     }
+
+
+
+//    QLineF pathLine = QLineF(path.elementAt(0).x, path.elementAt(0).y, path.elementAt(1).x, path.elementAt(1).y);
+//    QLineF perpendicLine(point,QPointF(point.x(),0.0));
+//    perpendicLine.setAngle(90.0+pathLine.angle());
+//    QPointF closestPoint;
+    //pathLine.intersect(perpendicLine,&closestPoint);
+
+//    for (int i = 0; i < path.elementCount(); ++i) {
+
+
+//    }
+
+    return closestPoint;
 }
