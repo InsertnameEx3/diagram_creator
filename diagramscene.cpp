@@ -194,12 +194,16 @@ void DiagramScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
                         itemToDraw = lineToDraw;
 
-                        itemToDraw->setBoundingRect(origPoint, this->currentHoveredItem->boundingRect().center());
 
                         lineToDraw->setBoundingRect(itemToDraw->boundingRect());
 
                         this->currentHoveredItem->connectedLines.append(lineToDraw);
                         lineToDraw->lastElement = this->currentHoveredItem;
+                        QPointF firstPoint = lineToDraw->firstElement->closestPoint(event->scenePos());
+                        QPointF lastPoint = lineToDraw->lastElement->closestPoint(lineToDraw->firstElement->scenePos());
+                        qDebug() << firstPoint;
+                        qDebug() << lastPoint;
+                        itemToDraw->setBoundingRect(firstPoint, lastPoint);
 
 
                         //add line to connectedLines
