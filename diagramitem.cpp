@@ -56,15 +56,17 @@ DiagramItem::DiagramItem(Handles::Types type, double size): handles{*new Handles
 void DiagramItem::updateLines(QPointF offset){
 
 
-    QPointF newPos = offset == QPointF(0,0) ? QPointF(boundingRect().center() + pos()) : QPointF(offset + boundingRect().center());
+
 
     if(connectedLines.count() != 0){
         for(auto line : connectedLines){
             if(this == line->firstElement){
-                line->setBoundingRect(newPos, line->lastElement->boundingRect().center());
+                QPointF newPos = offset == QPointF(0,0) ? QPointF(boundingRect().topLeft() + pos()) : QPointF(offset + boundingRect().bottomRight());
+                line->setBoundingRect(newPos, line->boundingRect().bottomRight());
             }
             else{
-                line->setBoundingRect(line->firstElement->boundingRect().center(), newPos);
+                QPointF newPos = offset == QPointF(0,0) ? QPointF(boundingRect().bottomRight() + pos()) : QPointF(offset + boundingRect().topLeft());
+                line->setBoundingRect(line->boundingRect().topLeft(), newPos);
             }
         }
     }
@@ -260,16 +262,18 @@ void DiagramItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 QPointF DiagramItem::closestPoint(QPointF point) const{
     // Get path from diagram item's shape
     QPainterPath path = this->shape();
+    QPolygonF polygon = path.toFillPolygon();
 
-    QPointF shortestDistance = path.elementAt(0) - point;
+    QPointF shortestDistance = polygon.at(0) - point;
 
     qreal shortestLength = shortestDistance.manhattanLength();
-    for (int i = 1; i < path.elementCount(); ++i) {
-        const QPointF distance(path.elementAt(i) - point);
+    for (int i = 1; i < polygon.count(); ++i) {
+
+        const QPointF distance(polygon.at(i) - point);
         const qreal length = distance.manhattanLength();
 
         if (length < shortestLength) {
-            shortestDistance = path.elementAt(i);
+            shortestDistance = polygon.at(i);
             shortestLength = length;
         }
     }
