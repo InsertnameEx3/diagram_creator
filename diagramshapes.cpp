@@ -118,34 +118,34 @@ QPainterPath Line::shape() const{
 
 
 void Line::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
-//    if(isSelected()){
-//        const QPointF point = closestPoint(event->pos());
-//        const double handleSize = this->handles.getHandleSize();
 
-//        addPointHandle = new Handle(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2)
-//                                , Handle::TopLeft, this);
-//        addPointHandle->form = Handle::Rounded;
-//        this->scene()->addItem(addPointHandle);
+        const QPointF point = closestPoint(event->pos());
+        const double handleSize = this->handles.getHandleSize();
 
-//        QGraphicsItem::hoverEnterEvent(event);
-//    }
+        addPointHandle = new Handle(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2)
+                                , Handle::TopLeft, this);
+        addPointHandle->form = Handle::Rounded;
+        this->scene()->addItem(addPointHandle);
+
+        QGraphicsItem::hoverEnterEvent(event);
+
 }
 void Line::hoverMoveEvent(QGraphicsSceneHoverEvent *event){
-//    if(isSelected()){
-//        const QPointF point = closestPoint(event->pos());
-//        const double handleSize = this->handles.getHandleSize();
 
-//        addPointHandle->setBoundingRect(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2));
+        const QPointF point = closestPoint(event->pos());
+        const double handleSize = this->handles.getHandleSize();
 
-//        addPointHandle->update();
-//        this->scene()->update();
+        addPointHandle->setBoundingRect(point - QPointF(handleSize/2, handleSize/2), point + QPointF(handleSize/2, handleSize/2));
 
-//        QGraphicsItem::hoverMoveEvent(event);
-//    }
+        addPointHandle->update();
+        this->scene()->update();
+
+        QGraphicsItem::hoverMoveEvent(event);
+
 }
 
 void Line::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
-    if(isSelected()){
+
         this->scene()->removeItem(addPointHandle);
 
         this->scene()->update();
@@ -153,7 +153,28 @@ void Line::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
         //delete addPointHandle;
         //addPointHandle = nullptr;
         QGraphicsItem::hoverLeaveEvent(event);
+
+}
+
+QPointF Line::closestPoint(QPointF point) const{
+    QPainterPath path = this->shape();
+    qDebug() << path;
+
+
+
+    QPointF closestPoint;
+
+    for(int i = 0; i < path.elementCount(); ++i){
+
+        if(i != path.elementCount() - 1){
+            //QLineF line = QLineF(path.elementAt(i));
+            //path.tra
+            //QLineF perpendicLine = line;
+            //perpendicLine.setAngle(90 + line.angle());
+            //line.intersect(perpendicLine, &closestPoint);
+        }
     }
+    return closestPoint;
 }
 
 Ellipse::Ellipse(): DiagramItem (){

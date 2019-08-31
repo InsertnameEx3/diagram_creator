@@ -11,6 +11,7 @@
 #include <QGraphicsWidget>
 #include <QApplication>
 #include <cmath>
+#include <QGraphicsDropShadowEffect>
 
 DiagramItem::~DiagramItem(){
 
@@ -235,12 +236,19 @@ void DiagramItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
     hovered = true;
     DiagramScene::currentHoveredItem = this;
     //set shadow-y background around item
+    QGraphicsDropShadowEffect * effect = new QGraphicsDropShadowEffect();
+    effect->setOffset(8);
+    effect->setBlurRadius(10);
+
+    this->setGraphicsEffect(effect);
+
 }
 
 void DiagramItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
     hovered = false;
     DiagramScene::currentHoveredItem = nullptr;
     //remove shadow-y background around item
+    this->setGraphicsEffect(Q_NULLPTR);
 }
 
 
