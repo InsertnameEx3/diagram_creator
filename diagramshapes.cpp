@@ -157,24 +157,19 @@ void Line::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
 }
 
 QPointF Line::closestPoint(QPointF point) const{
-    QPainterPath path = this->shape();
-    qDebug() << path;
+
+    QLineF pathLine = QLineF(path.elementAt(0).x, path.elementAt(0).y, path.elementAt(1).x, path.elementAt(1).y);
+        QLineF perpendicLine(point,QPointF(point.x(),0.0));
+        perpendicLine.setAngle(90.0+pathLine.angle());
+        QPointF closestPoint;
+        pathLine.intersect(perpendicLine,&closestPoint);
+
+    //    for (int i = 0; i < path.elementCount(); ++i) {
 
 
+    //    }
+        return closestPoint;
 
-    QPointF closestPoint;
-
-    for(int i = 0; i < path.elementCount(); ++i){
-
-        if(i != path.elementCount() - 1){
-            //QLineF line = QLineF(path.elementAt(i));
-            //path.tra
-            //QLineF perpendicLine = line;
-            //perpendicLine.setAngle(90 + line.angle());
-            //line.intersect(perpendicLine, &closestPoint);
-        }
-    }
-    return closestPoint;
 }
 
 Ellipse::Ellipse(): DiagramItem (){
